@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-
+//hi :)
 //commit prueba
 int main(int argc, char *argv[])
 {
