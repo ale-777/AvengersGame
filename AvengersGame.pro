@@ -13,6 +13,8 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Humanos.h \
+    Mundo.h \
     mainwindow.h
 
 FORMS += \
@@ -22,3 +24,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    apellidos.txt \
+    creencias.txt \
+    nombres.txt \
+    paises.txt \
+    profesiones.txt
