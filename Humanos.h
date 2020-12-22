@@ -1,6 +1,6 @@
 #ifndef HUMANOS_H
 #define HUMANOS_H
-#include <Mundo.h>
+#include <Globals.h>
 #include <string>
 #include <QtCore>
 #include <bits/uniform_int_dist.h>
@@ -39,10 +39,10 @@ struct ListaHumano{
     }
 };
 struct NodoPais{
-  string pais;
+  QString pais;
   NodoPais * siguiente;
   NodoPais * anterior;
-  NodoPais(string _pais){
+  NodoPais(QString _pais){
       pais = _pais;
       siguiente= anterior = NULL;
   }
@@ -54,7 +54,7 @@ struct ListaPaises{
     ListaPaises(){
         primerNodo = ultimoNodo = NULL;
     }
-    void agregarPais(string nuevo){
+    void agregarPais(QString nuevo){
         if (primerNodo == NULL){
             primerNodo = ultimoNodo = new NodoPais(nuevo);
         }
@@ -66,7 +66,6 @@ struct ListaPaises{
 };
 struct Humano{
     int ID;
-    Mundo * planeta;
     QString nombre;
     QString apellido;
     QString genero;
@@ -92,69 +91,26 @@ struct Humano{
     QString paisOrigen;
     QString continente;
     ListaPaises paisesVisitados;
-    Humano(Mundo* _planeta){
-        planeta = _planeta;
+    Humano(){
         ID = generarID();
         nombre = generarNombre();
         apellido = generarApellido();
         genero = generarGenero();
         creencia = generarCreencia();
         profesion = generarProfresion();
+        generarFecha();
+        grupoEtario = calcularGrupo();
         vivo = true;
 
     }
-    void generarFecha(){
-        std::uniform_int_distribution<int> dist(1920, 2020);
-        anno = dist(* QRandomGenerator::global());
-        std::uniform_int_distribution<int> dist2(1, 12);
-        mes = dist2(* QRandomGenerator::global());
-        int max = 28;
-        if (mes == 2){
-            if((anno%4==0 && anno%100!=0) || anno%400==0){
-                max = 29;
-            }
-        }
-        std::uniform_int_distribution<int> dist3(1, max);
-        anno = dist3(* QRandomGenerator::global());
-    }
-    QString generarGenero(){
-        std::uniform_int_distribution<int> dist(0, 1);
-        int rand = dist(* QRandomGenerator::global());
-        if (rand == 1){
-            return "Hombre";
-        }
-        return "Mujer";
-    }
-    QString generarProfresion(){
-        std::uniform_int_distribution<int> dist(1, 50);
-        int rand = dist(* QRandomGenerator::global());
-        return planeta->profresiones[rand];
-    }
-    QString generarCreencia(){
-        std::uniform_int_distribution<int> dist(1, 10);
-        int rand = dist(* QRandomGenerator::global());
-        return planeta->creencias[rand];
-    }
-    QString generarNombre(){
-        std::uniform_int_distribution<int> dist(1, 1000);
-        int rand = dist(* QRandomGenerator::global());
-        return planeta->nombres[rand];
-    }
-    QString generarApellido(){
-        std::uniform_int_distribution<int> dist(1, 100);
-        int rand = dist(* QRandomGenerator::global());
-        return planeta->apellidos[rand];
-    }
-    int generarID(){
-        bool repetir = true;
-        std::uniform_int_distribution<int> dist(0, 9999999);
-        int rand;
-        while(repetir){
-            rand = dist(* QRandomGenerator::global());
-            if(planeta->verificarID(rand))
-                return rand;
-        }
-    }
+    void generarFecha();
+    QString generarGenero();
+    QString generarProfresion();
+    QString generarCreencia();
+    QString generarNombre();
+    QString generarApellido();
+    QString calcularGrupo();
+    int generarID();
 
 };
 #endif // HUMANOS_H
