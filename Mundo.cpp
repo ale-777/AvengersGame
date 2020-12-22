@@ -1,12 +1,13 @@
-#include "Mundo.h"
+#include "Globals.h"
+#include "Humanos.h"
 void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){
-        poblacionMundial->agregarHumano(new Humano());
+        poblacionMundial.agregarHumano(new Humano());
     }
 }
 bool Mundo::verificarID(int nuevo){
-    if(poblacionMundial->largo != 0){
-        NodoHumano * tmp = poblacionMundial->primerNodo;
+    if(poblacionMundial.largo != 0){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
         while(tmp != NULL){
             if(tmp->persona->ID == nuevo)
                 return false;
@@ -42,3 +43,8 @@ void Mundo::cargarArchivos(QString path,int arreglo){
           inputFile.close();
     }
 }
+void Mundo::iniciarMundo(){
+        for(int i=1; i<=5;i++){
+            cargarArchivos(files[i-1],i);
+        }
+    }

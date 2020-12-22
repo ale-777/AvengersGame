@@ -63,6 +63,14 @@ struct ListaPaises{
             ultimoNodo = ultimoNodo->siguiente;
         }
     }
+    bool VerificarPais(QString check){
+        NodoPais * tmp;
+        while(tmp != NULL){
+            if (tmp->pais == check)
+                return false;
+        }
+        return true;
+    }
 };
 struct Humano{
     int ID;
@@ -99,7 +107,7 @@ struct Humano{
         creencia = generarCreencia();
         profesion = generarProfresion();
         generarFecha();
-        grupoEtario = calcularGrupo();
+        calcularGrupo();
         vivo = true;
 
     }
@@ -109,8 +117,11 @@ struct Humano{
     QString generarCreencia();
     QString generarNombre();
     QString generarApellido();
-    QString calcularGrupo();
+    void calcularGrupo();
     int generarID();
+    QString generarPais();
+    int generarCantidadE();
+    void generarExperiencias();
 
 };
 #endif // HUMANOS_H

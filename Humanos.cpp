@@ -50,8 +50,9 @@ int Humano::generarID(){
         if(planeta.verificarID(rand))
             return rand;
     }
+    return 0;
 }
-QString Humano::calcularGrupo(){
+void Humano::calcularGrupo(){
     int edad = 2021-anno;
     if (edad<=1){
         grupoEtario = "Infantil";
@@ -79,5 +80,50 @@ QString Humano::calcularGrupo(){
     }
     else{
         grupoEtario = "Adulto Mayor";
+    }
+}
+QString Humano::generarPais(){
+    std::uniform_int_distribution<int> dist(1, 100);
+    int rand = dist(* QRandomGenerator::global());
+    return planeta.paises[rand];
+}
+int Humano::generarCantidadE(){
+    std::uniform_int_distribution<int> dist(0, 100);
+    int rango;
+    int rand = dist(* QRandomGenerator::global());
+    if (rand<=30){
+        std::uniform_int_distribution<int> dist2(0, 2);
+        rango = dist(* QRandomGenerator::global());
+    }
+    else if(rand<=55){
+        std::uniform_int_distribution<int> dist2(2, 10);
+        rango = dist(* QRandomGenerator::global());
+    }
+    else if(rand<=75){
+        std::uniform_int_distribution<int> dist2(10, 15);
+        rango = dist(* QRandomGenerator::global());
+    }
+    else if(rand<=90){
+        std::uniform_int_distribution<int> dist2(16, 25);
+        rango = dist(* QRandomGenerator::global());
+    }
+    else{
+        std::uniform_int_distribution<int> dist2(25, 100);
+        rango = dist(* QRandomGenerator::global());
+    }
+    return rango;
+}
+void Humano::generarExperiencias(){
+    int max = generarCantidadE();
+    bool repetir;
+    for(int i=0; i<max; i++){
+        repetir = true;
+        while(repetir){
+            QString pais = generarPais();
+            if(paisesVisitados.VerificarPais(pais)){
+                 paisesVisitados.agregarPais(pais);
+                 repetir = false;
+            }
+        }
     }
 }
