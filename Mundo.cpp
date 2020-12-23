@@ -1,9 +1,11 @@
 #include "Globals.h"
-#include "Humanos.h"
+
 void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){
+        qDebug()<<i;
         poblacionMundial.agregarHumano(new Humano());
     }
+
 }
 bool Mundo::verificarID(int nuevo){
     if(poblacionMundial.largo != 0){
@@ -11,40 +13,68 @@ bool Mundo::verificarID(int nuevo){
         while(tmp != NULL){
             if(tmp->persona->ID == nuevo)
                 return false;
+            tmp = tmp->siguiente;
         }
         return true;
     }
     return true;
 }
-void Mundo::agregarLinea(QString line,int arreglo){
+void Mundo::agregarLinea(QString line,int arreglo, int contLineas){
+
+    qDebug ()<<line;
+
     switch (arreglo){
         case 1:
-            nombres->append(line);
+            nombres[contLineas] = line;
+            break;
         case 2:
-            apellidos->append(line);
+            apellidos[contLineas] = line;
+            break;
         case 3:
-            creencias->append(line);
+            creencias[contLineas] = line;
+            break;
         case 4:
-            profresiones->append(line);
+            profresiones[contLineas] = line;
+            break;
         case 5:
-            paises->append(line);
+            paises[contLineas] = line;
+            break;
     }
 }
+
 void Mundo::cargarArchivos(QString path,int arreglo){
     int cont = 1;
+    int contLineas = 0;
     QFile inputFile(path+".txt");
     if (inputFile.open(QIODevice::ReadOnly)){
+
           QTextStream in(&inputFile);
           while (!in.atEnd()){
-             QString line = in.readLine(cont);
-             agregarLinea(line,arreglo);
+              qDebug()<<contLineas;
+             QString line = in.readLine();
+
+             agregarLinea(line,arreglo,contLineas);
              cont++;
+             contLineas++;
           }
           inputFile.close();
     }
 }
+
+
+
 void Mundo::iniciarMundo(){
-        for(int i=1; i<=5;i++){
-            cargarArchivos(files[i-1],i);
-        }
+
+    for(int i=1; i<=5;i++){
+         cargarArchivos(files[i-1],i);
     }
+}
+
+void Mundo::imprimirPoblacion(){
+    NodoHumano * tmp = poblacionMundial.primerNodo;
+
+    while(tmp != NULL){
+        tmp->persona->imprimirHumano();
+        tmp = tmp->siguiente;
+    }
+}

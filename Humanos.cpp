@@ -1,17 +1,20 @@
-#include "Humanos.h"
+#include "Globals.h"
 void Humano::generarFecha(){
     std::uniform_int_distribution<int> dist(1920, 2020);
     anno = dist(* QRandomGenerator::global());
     std::uniform_int_distribution<int> dist2(1, 12);
     mes = dist2(* QRandomGenerator::global());
-    int max = 28;
+    int max = 31;
     if (mes == 2){
         if((anno%4==0 && anno%100!=0) || anno%400==0){
             max = 29;
         }
+        else{
+            max = 28;
+        }
     }
     std::uniform_int_distribution<int> dist3(1, max);
-    anno = dist3(* QRandomGenerator::global());
+    dia = dist3(* QRandomGenerator::global());
 }
 QString Humano::generarGenero(){
     std::uniform_int_distribution<int> dist(0, 1);
@@ -46,6 +49,7 @@ int Humano::generarID(){
     std::uniform_int_distribution<int> dist(0, 9999999);
     int rand;
     while(repetir){
+
         rand = dist(* QRandomGenerator::global());
         if(planeta.verificarID(rand))
             return rand;
@@ -85,8 +89,10 @@ void Humano::calcularGrupo(){
 QString Humano::generarPais(){
     std::uniform_int_distribution<int> dist(1, 100);
     int rand = dist(* QRandomGenerator::global());
+    //if (planeta.paises[rand].l)
     return planeta.paises[rand];
 }
+
 int Humano::generarCantidadE(){
     std::uniform_int_distribution<int> dist(0, 100);
     int rango;
@@ -126,4 +132,8 @@ void Humano::generarExperiencias(){
             }
         }
     }
+}
+
+void Humano::imprimirHumano(){
+    qDebug() <<"Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
 }

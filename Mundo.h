@@ -21,8 +21,9 @@ struct Mundo{
     void iniciarMundo();
     void agregarPoblacion(int cantidad);
     bool verificarID(int nuevo);
-    void agregarLinea(QString line,int arreglo);
+    void agregarLinea(QString line,int arreglo, int contLineas);
     void cargarArchivos(QString path,int arreglo);
+    void imprimirPoblacion ();
 };
 
 #endif // MUNDO_H

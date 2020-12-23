@@ -1,6 +1,6 @@
 #ifndef HUMANOS_H
 #define HUMANOS_H
-#include <Globals.h>
+//#include <Globals.h>
 #include <string>
 #include <QtCore>
 #include <bits/uniform_int_dist.h>
@@ -9,6 +9,7 @@ using namespace std ;
 struct NodoHumano;
 struct ListaAmigos;
 struct Humano;
+
 struct NodoHumano{
   Humano * persona;
   NodoHumano * siguiente;
@@ -27,7 +28,10 @@ struct ListaHumano{
         primerNodo = ultimoNodo = NULL;
         largo = 0;
     }
+
+
     void agregarHumano(Humano * nuevo){
+        qDebug()<<"llega";
         if (primerNodo == NULL){
             primerNodo = ultimoNodo = new NodoHumano(nuevo);
         }
@@ -36,6 +40,7 @@ struct ListaHumano{
             ultimoNodo = ultimoNodo->siguiente;
         }
         largo ++;
+        qDebug()<<"llega2";
     }
 };
 struct NodoPais{
@@ -99,6 +104,9 @@ struct Humano{
     QString paisOrigen;
     QString continente;
     ListaPaises paisesVisitados;
+
+
+    //CONSTRUCTOR
     Humano(){
         ID = generarID();
         nombre = generarNombre();
@@ -109,6 +117,7 @@ struct Humano{
         generarFecha();
         calcularGrupo();
         vivo = true;
+        paisOrigen = generarPais();
 
     }
     void generarFecha();
@@ -122,6 +131,7 @@ struct Humano{
     QString generarPais();
     int generarCantidadE();
     void generarExperiencias();
+    void imprimirHumano();
 
 };
 #endif // HUMANOS_H
