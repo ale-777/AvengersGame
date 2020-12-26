@@ -9,16 +9,20 @@ void Mundo::agregarPoblacion(int cantidad){
 }
 bool Mundo::verificarID(int nuevo){
     if(poblacionMundial.largo != 0){
-        NodoHumano * tmp = poblacionMundial.primerNodo;
-        while(tmp != NULL){
-            if(tmp->persona->ID == nuevo)
-                return false;
-            tmp = tmp->siguiente;
+        if (poblacionMundial.primerNodo != NULL){
+            NodoHumano * tmp = poblacionMundial.primerNodo;
+            do{
+                if(tmp->persona->ID == nuevo)
+                    return false;
+                tmp = tmp->siguiente;
+
+            }while(tmp!=poblacionMundial.primerNodo);
         }
         return true;
     }
-    return true;
-}
+    return true;}
+
+
 void Mundo::agregarLinea(QString line,int arreglo, int contLineas){
 
     qDebug ()<<line;
@@ -71,28 +75,32 @@ void Mundo::iniciarMundo(){
 }
 
 void Mundo::imprimirPoblacion(){
-    NodoHumano * tmp = poblacionMundial.primerNodo;
-
-    while(tmp != NULL){
-        tmp->persona->imprimirHumano();
-        tmp = tmp->siguiente;
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            tmp->persona->imprimirHumano();
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
     }
 }
 
 void Mundo::sumarPecados(){
-    NodoHumano * tmp = poblacionMundial.primerNodo;
-
-    while(tmp != NULL){
-        tmp->persona->asignarPecados();
-        tmp = tmp->siguiente;
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            tmp->persona->asignarPecados();
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
     }
 }
 
 void Mundo::sumarBuenasAcciones(){
-    NodoHumano * tmp = poblacionMundial.primerNodo;
-
-    while(tmp != NULL){
-        tmp->persona->asignarBuenasAcciones();
-        tmp = tmp->siguiente;
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            tmp->persona->asignarBuenasAcciones();
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
     }
+
 }

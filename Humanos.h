@@ -21,22 +21,27 @@ struct NodoHumano{
 };
 struct ListaHumano{
     NodoHumano * primerNodo;
-    NodoHumano * ultimoNodo;
+
     int largo;
     ListaHumano(){
-        primerNodo = ultimoNodo = NULL;
+        primerNodo = NULL;
         largo = 0;
     }
 
 
     void agregarHumano(Humano * nuevo){
-        qDebug()<<"llega";
         if (primerNodo == NULL){
-            primerNodo = ultimoNodo = new NodoHumano(nuevo);
+            primerNodo = new NodoHumano(nuevo);
+            primerNodo->siguiente= primerNodo;
+            primerNodo->anterior = primerNodo;
+
         }
         else{
-            ultimoNodo->siguiente = new NodoHumano(nuevo);
-            ultimoNodo = ultimoNodo->siguiente;
+            NodoHumano * nuevoHumano = new NodoHumano(nuevo);
+            nuevoHumano->siguiente = primerNodo;
+            nuevoHumano->anterior = primerNodo->anterior;
+            primerNodo->anterior->siguiente = nuevoHumano;
+            primerNodo->anterior = nuevoHumano;
         }
         largo ++;
         qDebug()<<"llega2";

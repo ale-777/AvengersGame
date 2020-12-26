@@ -19,3 +19,8 @@ void MainWindow::on_generarHumanos_clicked()
 {
     planeta.agregarPoblacion(ui->numeroHumanos->value());
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    planeta.imprimirPoblacion();
+}
