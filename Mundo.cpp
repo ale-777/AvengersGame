@@ -78,3 +78,21 @@ void Mundo::imprimirPoblacion(){
         tmp = tmp->siguiente;
     }
 }
+
+void Mundo::sumarPecados(){
+    NodoHumano * tmp = poblacionMundial.primerNodo;
+
+    while(tmp != NULL){
+        tmp->persona->asignarPecados();
+        tmp = tmp->siguiente;
+    }
+}
+
+void Mundo::sumarBuenasAcciones(){
+    NodoHumano * tmp = poblacionMundial.primerNodo;
+
+    while(tmp != NULL){
+        tmp->persona->asignarBuenasAcciones();
+        tmp = tmp->siguiente;
+    }
+}

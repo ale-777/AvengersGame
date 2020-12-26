@@ -89,7 +89,6 @@ void Humano::calcularGrupo(){
 QString Humano::generarPais(){
     std::uniform_int_distribution<int> dist(1, 100);
     int rand = dist(* QRandomGenerator::global());
-    //if (planeta.paises[rand].l)
     return planeta.paises[rand];
 }
 
@@ -136,4 +135,58 @@ void Humano::generarExperiencias(){
 
 void Humano::imprimirHumano(){
     qDebug() <<"Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
+    qDebug() <<"Pecados: "<<"Lujuria: "<<pecados[0]<<"Gula: "<<pecados[1]<<"Avaricia: "<<pecados[2]<<"Pereza: "<<pecados[3]<<"Ira: "<<pecados[4]<<"Envidia: "<<pecados[5]<<"Soberbia: "<<pecados[6]<<Qt::endl;
+    qDebug() <<"Buenas Acciones: "<<"Castidad: "<<buenasAcciones[0]<<"Ayuno: "<<buenasAcciones[1]<<"Donacion: "<<buenasAcciones[2]<<"Diligencia: "<<buenasAcciones[3]<<"Calma: "<<buenasAcciones[4]<<"Solidaridad: "<<buenasAcciones[5]<<"Humildad: "<<buenasAcciones[6]<<Qt::endl;
 }
+
+
+void Humano::asignarPecados(){
+    std::uniform_int_distribution<int> dist(0, 100);
+    int lujuria = dist(* QRandomGenerator::global());
+    pecados[0] = pecados[0]+lujuria;
+
+    int gula = dist(* QRandomGenerator::global());
+    pecados[1] = pecados[1]+gula;
+
+    int avaricia = dist(* QRandomGenerator::global());
+    pecados[2] = pecados[2]+avaricia;
+
+    int pereza = dist(* QRandomGenerator::global());
+    pecados[3] = pecados[3]+pereza;
+
+    int ira = dist(* QRandomGenerator::global());
+    pecados[4] = pecados[4]+ira;
+
+    int envidia = dist(* QRandomGenerator::global());
+    pecados[5] = pecados[5]+envidia;
+
+    int soberbia = dist(* QRandomGenerator::global());
+    pecados[6] = pecados[6]+soberbia;
+
+}
+
+void Humano::asignarBuenasAcciones(){
+    std::uniform_int_distribution<int> dist(0, 100);
+    int castidad = dist(* QRandomGenerator::global());
+    buenasAcciones[0] = buenasAcciones[0]+castidad;
+
+    int ayuno = dist(* QRandomGenerator::global());
+    buenasAcciones[1] = buenasAcciones[1]+ayuno;
+
+    int donacion = dist(* QRandomGenerator::global());
+    buenasAcciones[2] = buenasAcciones[2]+donacion;
+
+    int diligencia = dist(* QRandomGenerator::global());
+    buenasAcciones[3] = buenasAcciones[3]+diligencia;
+
+    int calma = dist(* QRandomGenerator::global());
+    buenasAcciones[4] = buenasAcciones[4]+calma;
+
+    int solidaridad = dist(* QRandomGenerator::global());
+    buenasAcciones[5] = buenasAcciones[5]+solidaridad;
+
+    int Humildad = dist(* QRandomGenerator::global());
+    buenasAcciones[6] = buenasAcciones[6]+Humildad;
+
+}
+

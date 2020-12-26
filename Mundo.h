@@ -24,6 +24,8 @@ struct Mundo{
     void agregarLinea(QString line,int arreglo, int contLineas);
     void cargarArchivos(QString path,int arreglo);
     void imprimirPoblacion ();
+    void sumarPecados();
+    void sumarBuenasAcciones();
 };
 
 #endif // MUNDO_H

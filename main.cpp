@@ -20,9 +20,13 @@ int main(int argc, char *argv[])
     }
     Humano primer = Humano();
     primer.imprimirHumano();*/
-
     planeta.agregarPoblacion(20);
     planeta.imprimirPoblacion();
+    planeta.sumarPecados();
+    planeta.sumarBuenasAcciones();
+    planeta.imprimirPoblacion();
+
+
 
 
 

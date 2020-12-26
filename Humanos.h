@@ -1,6 +1,5 @@
 #ifndef HUMANOS_H
 #define HUMANOS_H
-//#include <Globals.h>
 #include <string>
 #include <QtCore>
 #include <bits/uniform_int_dist.h>
@@ -68,6 +67,8 @@ struct ListaPaises{
             ultimoNodo = ultimoNodo->siguiente;
         }
     }
+
+    //VERIFICAR
     bool VerificarPais(QString check){
         NodoPais * tmp;
         while(tmp != NULL){
@@ -91,8 +92,8 @@ struct Humano{
     int anno;
     QString grupoEtario;
     // Etica
-    int pecados[7]; // Lujuria,Gula,Avaricia,Pereza,Ira,Envidia,Soberbia
-    int buenasAcciones[7];//Castidad, Ayuno,Donación,Calma,Solidaridad,Humildad
+    int pecados[7] = {0,0,0,0,0,0,0}; // Lujuria,Gula,Avaricia,Pereza,Ira,Envidia,Soberbia
+    int buenasAcciones[7] = {0,0,0,0,0,0,0};;//Castidad, Ayuno,Donación,Calma,Solidaridad,Humildad
 
     //Personas
     ListaHumano amigos;
@@ -132,6 +133,8 @@ struct Humano{
     int generarCantidadE();
     void generarExperiencias();
     void imprimirHumano();
+    void asignarPecados();
+    void asignarBuenasAcciones();
 
 };
 #endif // HUMANOS_H
