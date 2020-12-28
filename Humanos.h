@@ -120,9 +120,9 @@ struct Humano{
     Humano(int _index){
         index = _index;
         ID = generarID();
+        genero = generarGenero();
         nombre = generarNombre();
         apellido = generarApellido();
-        genero = generarGenero();
         creencia = generarCreencia();
         profesion = generarProfresion();
         generarFecha();

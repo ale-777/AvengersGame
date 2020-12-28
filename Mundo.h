@@ -11,12 +11,13 @@ struct Mundo;
 
 struct Mundo{
     //ListaHumano * poblacionMundial;
-    QString nombres[1000];
+    QString nombresHombre[1000];
+    QString nombresMujer[1000];
     QString apellidos[100];
     QString creencias[10];
     QString paises[100];
     QString profresiones[50];
-    QString files[5]={"nombres","apellidos","creencias","profesiones","paises"};
+    QString files[6]={"nombresHombres","nombresMujeres","apellidos","creencias","profesiones","paises"};
     Mundo(){}
     void iniciarMundo();
     void agregarPoblacion(int cantidad);

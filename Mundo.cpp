@@ -25,18 +25,21 @@ bool Mundo::verificarID(int nuevo){
 void Mundo::agregarLinea(QString line,int arreglo, int contLineas){
     switch (arreglo){
         case 1:
-            nombres[contLineas] = line;
+            nombresHombre[contLineas] = line;
             break;
         case 2:
-            apellidos[contLineas] = line;
+            nombresMujer[contLineas] = line;
             break;
         case 3:
-            creencias[contLineas] = line;
+            apellidos[contLineas] = line;
             break;
         case 4:
-            profresiones[contLineas] = line;
+            creencias[contLineas] = line;
             break;
         case 5:
+            profresiones[contLineas] = line;
+            break;
+        case 6:
             paises[contLineas] = line;
             break;
     }
@@ -64,7 +67,7 @@ void Mundo::cargarArchivos(QString path,int arreglo){
 
 void Mundo::iniciarMundo(){
 
-    for(int i=1; i<=5;i++){
+    for(int i=1; i<=6;i++){
          cargarArchivos(files[i-1],i);
     }
 }

@@ -37,7 +37,10 @@ QString Humano::generarCreencia(){
 QString Humano::generarNombre(){
     std::uniform_int_distribution<int> dist(1, 1000);
     int rand = dist(* QRandomGenerator::global());
-    return planeta.nombres[rand];
+    if (genero == "Hombre")
+        return planeta.nombresHombre[rand];
+    else
+        return planeta.nombresMujer[rand];
 }
 QString Humano::generarApellido(){
     std::uniform_int_distribution<int> dist(1, 100);
