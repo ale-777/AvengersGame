@@ -26,6 +26,7 @@ struct Mundo{
     void imprimirPoblacion ();
     void sumarPecados();
     void sumarBuenasAcciones();
+    void crearLazos();
 };
 
 #endif // MUNDO_H

@@ -13,11 +13,13 @@ int main(int argc, char *argv[])
     return a.exec();*/
 
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(5);
+    planeta.agregarPoblacion(10000);
+    qDebug()<<poblacionMundial.largo;
     planeta.imprimirPoblacion();
+    /*
     planeta.sumarPecados();
     planeta.sumarBuenasAcciones();
-    planeta.imprimirPoblacion();
+    planeta.imprimirPoblacion();*/
 
     return 0;
 }

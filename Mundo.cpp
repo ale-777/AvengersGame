@@ -2,8 +2,7 @@
 
 void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){
-        qDebug()<<i;
-        poblacionMundial.agregarHumano(new Humano());
+        poblacionMundial.agregarHumano(new Humano(i));
     }
 
 }
@@ -24,9 +23,6 @@ bool Mundo::verificarID(int nuevo){
 
 
 void Mundo::agregarLinea(QString line,int arreglo, int contLineas){
-
-    qDebug ()<<line;
-
     switch (arreglo){
         case 1:
             nombres[contLineas] = line;
@@ -54,7 +50,6 @@ void Mundo::cargarArchivos(QString path,int arreglo){
 
           QTextStream in(&inputFile);
           while (!in.atEnd()){
-              qDebug()<<contLineas;
              QString line = in.readLine();
 
              agregarLinea(line,arreglo,contLineas);

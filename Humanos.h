@@ -42,9 +42,9 @@ struct ListaHumano{
             nuevoHumano->anterior = primerNodo->anterior;
             primerNodo->anterior->siguiente = nuevoHumano;
             primerNodo->anterior = nuevoHumano;
+            primerNodo = nuevoHumano;
         }
         largo ++;
-        qDebug()<<"llega2";
     }
 };
 struct NodoPais{
@@ -75,7 +75,7 @@ struct ListaPaises{
 
     //VERIFICAR
     bool VerificarPais(QString check){
-        NodoPais * tmp;
+        NodoPais * tmp = primerNodo;
         while(tmp != NULL){
             if (tmp->pais == check)
                 return false;
@@ -84,6 +84,7 @@ struct ListaPaises{
     }
 };
 struct Humano{
+    int index;
     int ID;
     QString nombre;
     QString apellido;
@@ -114,6 +115,10 @@ struct Humano{
 
     //CONSTRUCTOR
     Humano(){
+
+    }
+    Humano(int _index){
+        index = _index;
         ID = generarID();
         nombre = generarNombre();
         apellido = generarApellido();
