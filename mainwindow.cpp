@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "Globals.h"
+#include "displayhumanos.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,5 +23,6 @@ void MainWindow::on_generarHumanos_clicked()
 
 void MainWindow::on_pushButton_clicked()
 {
-    planeta.imprimirPoblacion();
+    displayHumanos *ventana = new displayHumanos();
+    ventana->show();
 }

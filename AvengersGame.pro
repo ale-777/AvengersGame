@@ -12,17 +12,23 @@ SOURCES += \
     Globals.cpp \
     Humanos.cpp \
     Mundo.cpp \
+    displayhumanos.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    ventanaconsultas.cpp
 
 HEADERS += \
     Globals.h \
     Humanos.h \
     Mundo.h \
-    mainwindow.h
+    displayhumanos.h \
+    mainwindow.h \
+    ventanaconsultas.h
 
 FORMS += \
-    mainwindow.ui
+    displayhumanos.ui \
+    mainwindow.ui \
+    ventanaconsultas.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

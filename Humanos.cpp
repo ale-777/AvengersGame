@@ -136,11 +136,13 @@ void Humano::generarExperiencias(){
     }
 }
 
-void Humano::imprimirHumano(){
-    qDebug() <<"index"<<index;
-    qDebug() <<"Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
+QString Humano::imprimirHumano(){
+    QString humano = "index" + QString::number(index) + "\n" + "ID: "+ID +" Nombre: " + nombre +" "+ apellido + " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n";
+    /*qDebug() <<"ID"<<ID<<" Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
     qDebug() <<"Pecados: "<<"Lujuria: "<<pecados[0]<<"Gula: "<<pecados[1]<<"Avaricia: "<<pecados[2]<<"Pereza: "<<pecados[3]<<"Ira: "<<pecados[4]<<"Envidia: "<<pecados[5]<<"Soberbia: "<<pecados[6]<<Qt::endl;
     qDebug() <<"Buenas Acciones: "<<"Castidad: "<<buenasAcciones[0]<<"Ayuno: "<<buenasAcciones[1]<<"Donacion: "<<buenasAcciones[2]<<"Diligencia: "<<buenasAcciones[3]<<"Calma: "<<buenasAcciones[4]<<"Solidaridad: "<<buenasAcciones[5]<<"Humildad: "<<buenasAcciones[6]<<Qt::endl;
+*/
+    return humano;
 }
 
 
@@ -195,3 +197,55 @@ void Humano::asignarBuenasAcciones(){
 
 }
 
+Humano* Humano::consultaID(int id){
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            if (tmp->persona->ID == id){
+                return tmp->persona;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
+    }
+    return NULL;
+}
+
+bool Humano::encontrarAmigosComun(NodoHumano * nodoHumano,NodoHumano * tmpHumano){
+    if (nodoHumano->persona->amigos.primerNodo != NULL && tmpHumano->persona->amigos.primerNodo != NULL ){
+        NodoHumano * tmpBuscando = nodoHumano->persona->amigos.primerNodo;
+        NodoHumano * tmpBuscar = tmpHumano->persona->amigos.primerNodo;
+    do{
+       do {
+           if(tmpBuscando == tmpBuscar)
+              return true;
+            tmpBuscar = tmpBuscar->siguiente;
+            }
+       while(tmpBuscar != tmpHumano->persona->amigos.primerNodo);
+       tmpBuscando = tmpBuscando->siguiente;
+       tmpBuscar = tmpHumano->persona->amigos.primerNodo;
+    }
+    while(tmpBuscando != nodoHumano->persona->amigos.primerNodo);
+
+    }
+    return false;
+}
+void Humano::crearAmigos(NodoHumano * nodoHumano){
+    int cantAmigos,prob1;
+    std::uniform_int_distribution<int> dist(0, 50);
+    cantAmigos = dist(* QRandomGenerator::global());
+
+    std::uniform_int_distribution<int> dist2(0, 100);
+    NodoHumano * tmp = nodoHumano->siguiente;
+    for(int i=0; i<cantAmigos; i++){
+        prob1 = dist2(* QRandomGenerator::global());
+        if(tmp->persona->paisOrigen == nodoHumano->persona->paisOrigen)
+            nodoHumano->persona->amigos.agregarHumano(tmp->persona);
+        else if (prob1 < 40)
+            nodoHumano->persona->amigos.agregarHumano(tmp->persona);
+        else{
+            if (encontrarAmigosComun(nodoHumano, tmp) && prob1 < 70)
+               nodoHumano->persona->amigos.agregarHumano(tmp->persona);
+        }
+        tmp = tmp->siguiente;
+    }
+}

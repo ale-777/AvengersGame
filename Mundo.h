@@ -24,7 +24,7 @@ struct Mundo{
     bool verificarID(int nuevo);
     void agregarLinea(QString line,int arreglo, int contLineas);
     void cargarArchivos(QString path,int arreglo);
-    void imprimirPoblacion ();
+    QString imprimirPoblacion ();
     void sumarPecados();
     void sumarBuenasAcciones();
     void crearLazos();

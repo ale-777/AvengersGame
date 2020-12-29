@@ -70,16 +70,19 @@ void Mundo::iniciarMundo(){
     for(int i=1; i<=6;i++){
          cargarArchivos(files[i-1],i);
     }
+    crearLazos();
 }
 
-void Mundo::imprimirPoblacion(){
+QString Mundo::imprimirPoblacion(){
+    QString info = "";
     if (poblacionMundial.primerNodo != NULL){
         NodoHumano * tmp = poblacionMundial.primerNodo;
         do{
-            tmp->persona->imprimirHumano();
+            info += tmp->persona->imprimirHumano();
             tmp = tmp->siguiente;
         }while(tmp!=poblacionMundial.primerNodo);
     }
+    return info;
 }
 
 void Mundo::sumarPecados(){
@@ -101,4 +104,14 @@ void Mundo::sumarBuenasAcciones(){
         }while(tmp!=poblacionMundial.primerNodo);
     }
 
+}
+
+void Mundo::crearLazos(){
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            tmp->persona->crearAmigos(tmp);
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
+    }
 }

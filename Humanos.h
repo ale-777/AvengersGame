@@ -142,9 +142,12 @@ struct Humano{
     QString generarPais();
     int generarCantidadE();
     void generarExperiencias();
-    void imprimirHumano();
+    QString imprimirHumano();
     void asignarPecados();
     void asignarBuenasAcciones();
+    Humano* consultaID (int id);
+    void crearAmigos(NodoHumano *);
+    bool encontrarAmigosComun(NodoHumano *,NodoHumano *);
 
 };
 #endif // HUMANOS_H
