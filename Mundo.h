@@ -7,6 +7,7 @@
 #include <QString>
 using namespace std ;
 
+struct Humano;
 struct Mundo;
 
 struct Mundo{
@@ -28,6 +29,7 @@ struct Mundo{
     void sumarPecados();
     void sumarBuenasAcciones();
     void crearLazos();
+    Humano* consultaID(int id);
 };
 
 #endif // MUNDO_H

@@ -6,4 +6,5 @@
 #include "Humanos.h"
 extern struct Mundo planeta;
 extern struct ListaHumano poblacionMundial;
+
 #endif // GLOBALS_H

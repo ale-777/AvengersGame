@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "Globals.h"
 #include "displayhumanos.h"
+#include "ventanaconsultas.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,5 +25,11 @@ void MainWindow::on_generarHumanos_clicked()
 void MainWindow::on_pushButton_clicked()
 {
     displayHumanos *ventana = new displayHumanos();
+    ventana->show();
+}
+
+void MainWindow::on_btn_consultas_clicked()
+{
+    ventanaConsultas *ventana = new ventanaConsultas();
     ventana->show();
 }

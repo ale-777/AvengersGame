@@ -4,6 +4,7 @@ void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){
         poblacionMundial.agregarHumano(new Humano(i));
     }
+    crearLazos();
 
 }
 bool Mundo::verificarID(int nuevo){
@@ -70,7 +71,7 @@ void Mundo::iniciarMundo(){
     for(int i=1; i<=6;i++){
          cargarArchivos(files[i-1],i);
     }
-    crearLazos();
+
 }
 
 QString Mundo::imprimirPoblacion(){
@@ -110,8 +111,24 @@ void Mundo::crearLazos(){
     if (poblacionMundial.primerNodo != NULL){
         NodoHumano * tmp = poblacionMundial.primerNodo;
         do{
-            tmp->persona->crearAmigos(tmp);
+            if (tmp->persona->amigos.largo == 0){
+                tmp->persona->crearAmigos(tmp);
+            }
             tmp = tmp->siguiente;
         }while(tmp!=poblacionMundial.primerNodo);
     }
+}
+
+
+Humano* Mundo::consultaID(int id){
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            if (tmp->persona->ID == id){
+                return tmp->persona;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
+    }
+    return NULL;
 }

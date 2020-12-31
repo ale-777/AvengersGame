@@ -15,6 +15,9 @@ public:
     explicit ventanaConsultas(QWidget *parent = nullptr);
     ~ventanaConsultas();
 
+private slots:
+    void on_btn_consultaID_clicked();
+
 private:
     Ui::ventanaConsultas *ui;
 };
