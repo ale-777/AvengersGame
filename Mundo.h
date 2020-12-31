@@ -36,18 +36,5 @@ struct Mundo{
     int redondearArbol(float);
     Humano* consultaID(int id);
 };
-struct NodoArbol{
-   NodoHumano * humano;
-   NodoArbol * izquierdo;
-   NodoArbol * derecho;
-};
-struct Arbol{
-   NodoArbol * raiz;
-   Arbol(){
-       raiz = NULL;
-   }
-   void agregarNodo(NodoHumano * nuevo){
 
-   }
-};
 #endif // MUNDO_H

@@ -94,6 +94,7 @@ struct NodoDeporte{
   }
 
 };
+
 struct ListaDeportes{
     int frecuencia;
     NodoDeporte * primerNodo;
@@ -119,13 +120,24 @@ struct ListaDeportes{
     bool VerificarDeporte(QString check){
         NodoDeporte * tmp = primerNodo;
         while(tmp != NULL){
-            if (tmp->deporte == check)
+            if (tmp->deporte == check){
                 qDebug()<<tmp->deporte<<"es igual a"<<check<<Qt::endl;
                 return false;
+            }
             tmp = tmp->siguiente;
         }
         qDebug()<<"Real hasta la muerte"<<Qt::endl;
         return true;
+    }
+
+    QString imprimirDeporte(){
+        NodoDeporte * tmp = primerNodo;
+        QString deportes = "";
+        while(tmp != NULL){
+            deportes += tmp->deporte + "\n";
+            tmp = tmp->siguiente;
+        }
+        return deportes;
     }
 };
 struct Humano{
@@ -208,6 +220,7 @@ struct Humano{
     bool posiblePadre(NodoHumano *,NodoHumano *);
     bool alreadyIn(NodoHumano * padre,NodoHumano * hijo);
     void generarDeportes();
+    bool alreadyAmigo(NodoHumano *);
 
 };
 #endif // HUMANOS_H

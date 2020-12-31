@@ -137,13 +137,17 @@ void Humano::generarExperiencias(){
 }
 
 QString Humano::imprimirHumano(){
-    QString humano = "index" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido + " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n" + " Amigos: \n";
-    QString amigos = imprimirAmigos();
+    QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido +
+            " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n";
+    QString amigos = "Amigos: \n" + imprimirAmigos();
+    QString deporte = "Deportes: \n" + deportes.imprimirDeporte();
+    QString pecado = "Pecados: \n Lujuria: " + QString::number(pecados[0])  + " Gula: " + QString::number(pecados[1])  + " Avaricia: "+ QString::number(pecados[2])+" Pereza: " + QString::number(pecados[3])+" Ira: "+QString::number(pecados[4])+" Envidia: "+QString::number(pecados[5])+" Soberbia: "+QString::number(pecados[6])+"\n";
+    QString acciones = "Buenas Acciones: \n Castidad: " + QString::number(buenasAcciones[0]) + " Ayuno: "+ QString::number(buenasAcciones[1])+" Donacion: "+ QString::number(buenasAcciones[2])+" Diligencia: "+QString::number(buenasAcciones[3])+" Calma: "+QString::number(buenasAcciones[4])+" Solidaridad: "+QString::number(buenasAcciones[5])+" Humildad: "+QString::number(buenasAcciones[6])+"\n";
     /*qDebug() <<"ID"<<ID<<" Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
     qDebug() <<"Pecados: "<<"Lujuria: "<<pecados[0]<<"Gula: "<<pecados[1]<<"Avaricia: "<<pecados[2]<<"Pereza: "<<pecados[3]<<"Ira: "<<pecados[4]<<"Envidia: "<<pecados[5]<<"Soberbia: "<<pecados[6]<<Qt::endl;
     qDebug() <<"Buenas Acciones: "<<"Castidad: "<<buenasAcciones[0]<<"Ayuno: "<<buenasAcciones[1]<<"Donacion: "<<buenasAcciones[2]<<"Diligencia: "<<buenasAcciones[3]<<"Calma: "<<buenasAcciones[4]<<"Solidaridad: "<<buenasAcciones[5]<<"Humildad: "<<buenasAcciones[6]<<Qt::endl;
 */
-    return humano + amigos;
+    return humano + amigos + deporte + pecado + acciones;
 }
 
 
@@ -198,7 +202,18 @@ void Humano::asignarBuenasAcciones(){
 
 }
 
-
+bool Humano::alreadyAmigo(NodoHumano * evaluar){
+    if (amigos.primerNodo != NULL){
+        NodoHumano * tmp = amigos.primerNodo;
+        do{
+            if (tmp->persona == evaluar->persona){
+                return true;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=amigos.primerNodo);
+    }
+    return false;
+}
 
 bool Humano::encontrarAmigosComun(NodoHumano * nodoHumano,NodoHumano * tmpHumano){
     if (nodoHumano->persona->amigos.primerNodo != NULL && tmpHumano->persona->amigos.primerNodo != NULL ){
@@ -220,26 +235,34 @@ bool Humano::encontrarAmigosComun(NodoHumano * nodoHumano,NodoHumano * tmpHumano
     return false;
 }
 void Humano::crearAmigos(NodoHumano * nodoHumano){
-
     int cantAmigos,prob1;
+
     std::uniform_int_distribution<int> dist(0, 50);
     cantAmigos = dist(* QRandomGenerator::global());
 
     std::uniform_int_distribution<int> dist2(0, 100);
+
     NodoHumano * tmp = nodoHumano->siguiente;
     for(int i=0; i<cantAmigos; i++){
         prob1 = dist2(* QRandomGenerator::global());
-        if(tmp->persona->paisOrigen == nodoHumano->persona->paisOrigen)
-            nodoHumano->persona->amigos.agregarHumano(tmp->persona);
-        else if (prob1 < 40)
-            nodoHumano->persona->amigos.agregarHumano(tmp->persona);
-        else{
-            if (encontrarAmigosComun(nodoHumano, tmp) && prob1 < 70)
-               nodoHumano->persona->amigos.agregarHumano(tmp->persona);
-        }
-        tmp = tmp->siguiente;
+
+      if (!alreadyAmigo(nodoHumano)){
+          if(tmp->persona->paisOrigen == nodoHumano->persona->paisOrigen)
+              nodoHumano->persona->amigos.agregarHumano(tmp->persona);
+          else if (prob1 < 40)
+              nodoHumano->persona->amigos.agregarHumano(tmp->persona);
+          else{
+              if (encontrarAmigosComun(nodoHumano, tmp) && prob1 < 70)
+                 nodoHumano->persona->amigos.agregarHumano(tmp->persona);
+          }
+         }
+
+       tmp = tmp->siguiente;
+       if (tmp->persona == this){
+           i = cantAmigos;}
     }
 }
+
 
 QString Humano::imprimirAmigos(){
     QString info = "";
@@ -247,8 +270,7 @@ QString Humano::imprimirAmigos(){
     if (amigos.primerNodo != NULL){
         NodoHumano * tmp = amigos.primerNodo;
         do{
-            qDebug()<<"entra";
-            info += QString::number(tmp->persona->ID)+"\n";
+            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido+"\n";
             tmp = tmp->siguiente;
         }while(tmp!=amigos.primerNodo);
     }
@@ -357,9 +379,8 @@ void Humano::generarDeportes(){
         qDebug()<<"Largo:"<<deportes.largo<<Qt::endl;
         pos = dist2(* QRandomGenerator::global());
         qDebug()<<pos<<Qt::endl;
-        if(deportes.VerificarDeporte(planeta.deportes[pos]))
-                deportes.agregarDeportes(planeta.deportes[pos]);
-
+        if(deportes.VerificarDeporte(planeta.deportes[pos])){
+                deportes.agregarDeportes(planeta.deportes[pos]);}
     }
 
 }

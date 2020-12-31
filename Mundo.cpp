@@ -10,7 +10,7 @@ int Mundo::redondearArbol(float cant){
 }
 void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){
-        poblacionMundial.agregarHumano(new Humano(i));
+        poblacionMundial.agregarHumano(new Humano(poblacionMundial.largo));
     }
     cantidadArbol = redondearArbol(poblacionMundial.largo*0.01);
     crearLazos();
