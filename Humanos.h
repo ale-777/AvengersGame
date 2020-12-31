@@ -79,7 +79,52 @@ struct ListaPaises{
         while(tmp != NULL){
             if (tmp->pais == check)
                 return false;
+           tmp = tmp->siguiente;
         }
+        return true;
+    }
+};
+struct NodoDeporte{
+  QString deporte;
+  NodoDeporte * siguiente;
+  NodoDeporte * anterior;
+  NodoDeporte(QString _deporte){
+      deporte = _deporte;
+      siguiente= anterior = NULL;
+  }
+
+};
+struct ListaDeportes{
+    int frecuencia;
+    NodoDeporte * primerNodo;
+    NodoDeporte * ultimoNodo;
+    int largo = 0;
+    ListaDeportes(){
+        primerNodo = ultimoNodo = NULL;
+    }
+    void agregarDeportes(QString nuevo){
+        qDebug()<<"Agrega"<<Qt::endl;
+        if (primerNodo == NULL){
+            primerNodo = ultimoNodo = new NodoDeporte(nuevo);
+        }
+        else{
+            ultimoNodo->siguiente = new NodoDeporte(nuevo);
+            ultimoNodo = ultimoNodo->siguiente;
+        }
+        qDebug()<<"Sale"<<Qt::endl;
+        largo++;
+    }
+
+    //VERIFICAR
+    bool VerificarDeporte(QString check){
+        NodoDeporte * tmp = primerNodo;
+        while(tmp != NULL){
+            if (tmp->deporte == check)
+                qDebug()<<tmp->deporte<<"es igual a"<<check<<Qt::endl;
+                return false;
+            tmp = tmp->siguiente;
+        }
+        qDebug()<<"Real hasta la muerte"<<Qt::endl;
         return true;
     }
 };
@@ -104,9 +149,14 @@ struct Humano{
     //Personas
     ListaHumano amigos;
     int estadoMarital;
+    int edad;
+    Humano * Padre;
+    Humano * Madre;
     Humano * Pareja;
+    int cantHijos;
     ListaHumano hijos;
-
+    // Salud
+    ListaDeportes deportes;
     //Paises
     QString paisOrigen;
     QString continente;
@@ -129,6 +179,9 @@ struct Humano{
         calcularGrupo();
         vivo = true;
         paisOrigen = generarPais();
+        //generarExperiencias();
+        generarCantHijos();
+        generarDeportes();
 
     }
     void generarFecha();
@@ -146,9 +199,15 @@ struct Humano{
     QString imprimirAmigos();
     void asignarPecados();
     void asignarBuenasAcciones();
-
+    void generarCantHijos();
     void crearAmigos(NodoHumano *);
     bool encontrarAmigosComun(NodoHumano *,NodoHumano *);
+    void crearHijos(NodoHumano *);
+    void crearHijosAux(NodoHumano *,NodoHumano *);
+    bool encontrarParentesco(NodoHumano *,NodoHumano *);
+    bool posiblePadre(NodoHumano *,NodoHumano *);
+    bool alreadyIn(NodoHumano * padre,NodoHumano * hijo);
+    void generarDeportes();
 
 };
 #endif // HUMANOS_H

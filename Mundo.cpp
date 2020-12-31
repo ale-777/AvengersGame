@@ -1,9 +1,18 @@
 #include "Globals.h"
-
+int Mundo::redondearArbol(float cant){
+   int res = 0;
+   int pot = 1;
+   while (res < cant){
+       res = (pow(2,pot))-1;
+       pot++;
+   }
+   return res;
+}
 void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){
         poblacionMundial.agregarHumano(new Humano(i));
     }
+    cantidadArbol = redondearArbol(poblacionMundial.largo*0.01);
     crearLazos();
 
 }
@@ -43,6 +52,10 @@ void Mundo::agregarLinea(QString line,int arreglo, int contLineas){
         case 6:
             paises[contLineas] = line;
             break;
+        case 7:
+            qDebug()<<line<<Qt::endl;
+            deportes[contLineas] = line;
+            break;
     }
 }
 
@@ -68,7 +81,7 @@ void Mundo::cargarArchivos(QString path,int arreglo){
 
 void Mundo::iniciarMundo(){
 
-    for(int i=1; i<=6;i++){
+    for(int i=1; i<=7;i++){
          cargarArchivos(files[i-1],i);
     }
 
@@ -111,15 +124,12 @@ void Mundo::crearLazos(){
     if (poblacionMundial.primerNodo != NULL){
         NodoHumano * tmp = poblacionMundial.primerNodo;
         do{
-            if (tmp->persona->amigos.largo == 0){
+            if (tmp->persona->amigos.largo == 0)
                 tmp->persona->crearAmigos(tmp);
-            }
             tmp = tmp->siguiente;
         }while(tmp!=poblacionMundial.primerNodo);
     }
 }
-
-
 Humano* Mundo::consultaID(int id){
     if (poblacionMundial.primerNodo != NULL){
         NodoHumano * tmp = poblacionMundial.primerNodo;

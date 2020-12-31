@@ -8,8 +8,10 @@
 using namespace std ;
 
 struct Humano;
+struct NodoHumano;
 struct Mundo;
-
+struct Arbol;
+struct NodoArbol;
 struct Mundo{
     //ListaHumano * poblacionMundial;
     QString nombresHombre[1000];
@@ -18,7 +20,9 @@ struct Mundo{
     QString creencias[10];
     QString paises[100];
     QString profresiones[50];
-    QString files[6]={"nombresHombres","nombresMujeres","apellidos","creencias","profesiones","paises"};
+    QString deportes[38];
+    QString files[7]={"nombresHombres","nombresMujeres","apellidos","creencias","profesiones","paises","deportes"};
+    int cantidadArbol = 0;
     Mundo(){}
     void iniciarMundo();
     void agregarPoblacion(int cantidad);
@@ -29,7 +33,21 @@ struct Mundo{
     void sumarPecados();
     void sumarBuenasAcciones();
     void crearLazos();
+    int redondearArbol(float);
     Humano* consultaID(int id);
 };
+struct NodoArbol{
+   NodoHumano * humano;
+   NodoArbol * izquierdo;
+   NodoArbol * derecho;
+};
+struct Arbol{
+   NodoArbol * raiz;
+   Arbol(){
+       raiz = NULL;
+   }
+   void agregarNodo(NodoHumano * nuevo){
 
+   }
+};
 #endif // MUNDO_H
