@@ -8,8 +8,15 @@ int main(int argc, char *argv[])
 {
 
     planeta.iniciarMundo();
-   // planeta.agregarPoblacion(10000);
+    planeta.agregarPoblacion(1000);
+    /*
     qDebug()<<poblacionMundial.largo;
+    qDebug()<<planeta.redondearArbol(100);
+    poblacionMundial.nodosArbol(79);*/
+
+    arbolMundial.crearArbol();
+
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

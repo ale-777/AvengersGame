@@ -4,7 +4,7 @@
 #include <fstream>
 using namespace std;
 struct NodoHumano;
-
+struct ListaHumano;
 struct NodoArbol{
    NodoHumano * humano;
    NodoArbol * izquierdo;
@@ -20,5 +20,7 @@ struct Arbol{
        raiz = NULL;
    }
    NodoArbol* agregarNodo(NodoArbol * nodo,NodoHumano * nuevo);
+   void crearArbol();
+   void llenarArbol(ListaHumano *);
 };
 #endif // ARBOL_H

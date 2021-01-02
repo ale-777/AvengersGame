@@ -42,10 +42,83 @@ struct ListaHumano{
             nuevoHumano->anterior = primerNodo->anterior;
             primerNodo->anterior->siguiente = nuevoHumano;
             primerNodo->anterior = nuevoHumano;
-            primerNodo = nuevoHumano;
+
         }
         largo ++;
     }
+
+    void agregarAlInicio(Humano * nuevo){
+        if (primerNodo == NULL){
+            primerNodo = new NodoHumano(nuevo);
+            primerNodo->siguiente= primerNodo;
+            primerNodo->anterior = primerNodo;
+
+        }
+        else{
+            NodoHumano * nuevoHumano = new NodoHumano(nuevo);
+            nuevoHumano->siguiente = primerNodo;
+            nuevoHumano->anterior = primerNodo->anterior;
+            primerNodo->anterior->siguiente = nuevoHumano;
+            primerNodo->anterior = nuevoHumano;
+            primerNodo = nuevoHumano;
+
+        }
+        largo ++;
+    }
+
+    NodoHumano * centroLista (){
+        NodoHumano * tmp = primerNodo;
+        if (largo == 1){
+            return tmp;
+        }
+        for (int i=0; i<largo/2; i++){
+               tmp = tmp->siguiente;
+            }
+        return tmp;
+    }
+
+    ListaHumano * primerMitadOrden (){
+        ListaHumano * newList = new ListaHumano();
+        NodoHumano * tmp = primerNodo;
+        while (tmp != centroLista()){
+            newList->agregarHumano(tmp->persona);
+            tmp = tmp->siguiente;
+        }
+        return newList;
+    }
+
+    ListaHumano * segundaMitad (){
+        ListaHumano * newList = new ListaHumano();
+        NodoHumano * tmp = centroLista()->siguiente;
+        do{
+            newList->agregarHumano(tmp->persona);
+            tmp = tmp->siguiente;
+
+        }while(tmp!=primerNodo);
+        return newList;
+    }
+
+    ListaHumano *nodosArbol (int secuencia){
+        ListaHumano * newList = new ListaHumano();
+
+        if (primerNodo != NULL){
+                NodoHumano * tmp = primerNodo;
+                int cont = secuencia-1;
+                do{
+                    cont ++;
+                    if (cont == secuencia){
+                        newList->agregarHumano(tmp->persona);
+                        cont = 0;
+                    }
+                    tmp = tmp->siguiente;
+                }while(tmp!=primerNodo);
+            }
+        qDebug()<<"Largo de nodos "<<newList->largo;
+        return newList;
+    }
+
+    void mostrarLista ();
+
 };
 struct NodoPais{
   QString pais;
@@ -104,7 +177,6 @@ struct ListaDeportes{
         primerNodo = ultimoNodo = NULL;
     }
     void agregarDeportes(QString nuevo){
-        qDebug()<<"Agrega"<<Qt::endl;
         if (primerNodo == NULL){
             primerNodo = ultimoNodo = new NodoDeporte(nuevo);
         }
@@ -112,7 +184,6 @@ struct ListaDeportes{
             ultimoNodo->siguiente = new NodoDeporte(nuevo);
             ultimoNodo = ultimoNodo->siguiente;
         }
-        qDebug()<<"Sale"<<Qt::endl;
         largo++;
     }
 
@@ -121,12 +192,10 @@ struct ListaDeportes{
         NodoDeporte * tmp = primerNodo;
         while(tmp != NULL){
             if (tmp->deporte == check){
-                qDebug()<<tmp->deporte<<"es igual a"<<check<<Qt::endl;
                 return false;
             }
             tmp = tmp->siguiente;
         }
-        qDebug()<<"Real hasta la muerte"<<Qt::endl;
         return true;
     }
 
@@ -221,6 +290,7 @@ struct Humano{
     bool alreadyIn(NodoHumano * padre,NodoHumano * hijo);
     void generarDeportes();
     bool alreadyAmigo(NodoHumano *);
+    void imprimirPruebas();
 
 };
 #endif // HUMANOS_H

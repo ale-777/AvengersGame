@@ -150,7 +150,9 @@ QString Humano::imprimirHumano(){
     return humano + amigos + deporte + pecado + acciones;
 }
 
-
+void Humano::imprimirPruebas(){
+    qDebug() <<"Index "<<index<<"  ID "<<ID<<Qt::endl;
+}
 
 void Humano::asignarPecados(){
     std::uniform_int_distribution<int> dist(0, 100);
@@ -376,11 +378,20 @@ void Humano::generarDeportes(){
     cant = dist(* QRandomGenerator::global());
     std::uniform_int_distribution<int> dist2(0, 38);
     while(deportes.largo < cant){
-        qDebug()<<"Largo:"<<deportes.largo<<Qt::endl;
         pos = dist2(* QRandomGenerator::global());
-        qDebug()<<pos<<Qt::endl;
         if(deportes.VerificarDeporte(planeta.deportes[pos])){
                 deportes.agregarDeportes(planeta.deportes[pos]);}
     }
 
 }
+
+void ListaHumano::mostrarLista(){
+    if (primerNodo != NULL){
+            NodoHumano * tmp = primerNodo;
+            do{
+                tmp->persona->imprimirPruebas();
+                tmp = tmp->siguiente;
+            }while(tmp!=primerNodo);
+    }
+}
+

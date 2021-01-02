@@ -16,6 +16,7 @@ SOURCES += \
     displayhumanos.cpp \
     main.cpp \
     mainwindow.cpp \
+    treeview.cpp \
     ventanaconsultas.cpp
 
 HEADERS += \
@@ -25,11 +26,13 @@ HEADERS += \
     arbol.h \
     displayhumanos.h \
     mainwindow.h \
+    treeview.h \
     ventanaconsultas.h
 
 FORMS += \
     displayhumanos.ui \
     mainwindow.ui \
+    treeview.ui \
     ventanaconsultas.ui
 
 # Default rules for deployment.

@@ -1,11 +1,13 @@
 #include "Globals.h"
+
 int Mundo::redondearArbol(float cant){
    int res = 0;
    int pot = 1;
    while (res < cant){
-       res = (pow(2,pot))-1;
        pot++;
+       res = (pow(2,pot))-1;    
    }
+   qDebug()<<"La portencia de 2 es "<<pot;
    return res;
 }
 void Mundo::agregarPoblacion(int cantidad){
@@ -14,6 +16,7 @@ void Mundo::agregarPoblacion(int cantidad){
     }
     cantidadArbol = redondearArbol(poblacionMundial.largo*0.01);
     crearLazos();
+    qDebug()<<poblacionMundial.centroLista()->persona->imprimirHumano();
 
 }
 bool Mundo::verificarID(int nuevo){
@@ -53,7 +56,6 @@ void Mundo::agregarLinea(QString line,int arreglo, int contLineas){
             paises[contLineas] = line;
             break;
         case 7:
-            qDebug()<<line<<Qt::endl;
             deportes[contLineas] = line;
             break;
     }
