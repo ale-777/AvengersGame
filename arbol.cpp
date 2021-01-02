@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include <iomanip>
 #include <cmath>
+//:)
 NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
      if (nodo == NULL){
          return new NodoArbol(nuevo);
