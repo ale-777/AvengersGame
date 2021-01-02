@@ -3,7 +3,9 @@
 #include <cmath>
 //:)
 NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
+    qDebug()<<nuevo->persona->ID;
      if (nodo == NULL){
+         //nodo = new NodoArbol(nuevo);
          return new NodoArbol(nuevo);
      }
      else if(nodo->humano->persona->index > nuevo->persona->index)
@@ -13,6 +15,9 @@ NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
      return nodo;
 }
 
+void Arbol::insertar(NodoHumano * dato){
+    raiz = agregarNodo (raiz , dato);
+}
 
 void Arbol::crearArbol(){
     int cantNodos = planeta.redondearArbol((poblacionMundial.largo)*0.01);
@@ -44,13 +49,46 @@ void Arbol::crearArbol(){
 }
 
 void Arbol::llenarArbol(ListaHumano *lista){
-    qDebug()<<"agrega: ";
+    //qDebug()<<"agrega: ";
     lista->centroLista()->persona->imprimirPruebas();
 
-    agregarNodo(raiz, lista->centroLista());
+    insertar(lista->centroLista());
     if (lista->largo > 1){
         llenarArbol(lista->primerMitadOrden());
         llenarArbol(lista->segundaMitad());
     }
 
+}
+
+QString Arbol::print2DUtil(QString resultado, NodoArbol *root, int space)  {
+
+    if (root == NULL){
+        return resultado;}
+
+    // Increase distance between levels
+    space += COUNT;
+
+    // Process right child first
+    resultado = print2DUtil(resultado, root->derecho, space);
+
+    // Print current node after space
+    // count
+
+    qDebug()<<Qt::endl;
+    resultado += "\n";
+    for (int i = COUNT; i < space; i++)
+        resultado += " ";
+    resultado += QString::number(root->humano->persona->ID)+"\n";
+
+    // Process left child
+    resultado = print2DUtil(resultado, root->izquierdo, space);
+
+    return resultado;
+}
+
+// Wrapper over print2DUtil()
+QString Arbol::print2D(NodoArbol *root)  {
+    // Pass initial space count as 0
+    QString result = " ";
+    return print2DUtil(result, root, 0);
 }

@@ -7,8 +7,19 @@ int Mundo::redondearArbol(float cant){
        pot++;
        res = (pow(2,pot))-1;    
    }
-   qDebug()<<"La portencia de 2 es "<<pot;
+   qDebug()<<"La potencia de 2 es "<<pot;
    return res;
+}
+
+int Mundo::cantNiveles(float cant){
+   int res = 0;
+   int pot = 1;
+   while (res < cant){
+       pot++;
+       res = (pow(2,pot))-1;
+   }
+
+   return pot;
 }
 void Mundo::agregarPoblacion(int cantidad){
     for (int i=0; i<cantidad; i++){

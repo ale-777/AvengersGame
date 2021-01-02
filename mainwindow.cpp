@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "displayhumanos.h"
 #include "ventanaconsultas.h"
+#include "verarbol.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -32,4 +33,11 @@ void MainWindow::on_btn_consultas_clicked()
 {
     ventanaConsultas *ventana = new ventanaConsultas();
     ventana->show();
+}
+
+void MainWindow::on_imprimirArbol_clicked()
+{
+    verArbol *ventana = new verArbol;
+    ventana->show();
+
 }

@@ -34,6 +34,7 @@ struct Mundo{
     void sumarBuenasAcciones();
     void crearLazos();
     int redondearArbol(float);
+    int cantNiveles(float cant);
     Humano* consultaID(int id);
 };
 

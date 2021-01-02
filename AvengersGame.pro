@@ -16,8 +16,8 @@ SOURCES += \
     displayhumanos.cpp \
     main.cpp \
     mainwindow.cpp \
-    treeview.cpp \
-    ventanaconsultas.cpp
+    ventanaconsultas.cpp \
+    verarbol.cpp
 
 HEADERS += \
     Globals.h \
@@ -26,14 +26,14 @@ HEADERS += \
     arbol.h \
     displayhumanos.h \
     mainwindow.h \
-    treeview.h \
-    ventanaconsultas.h
+    ventanaconsultas.h \
+    verarbol.h
 
 FORMS += \
     displayhumanos.ui \
     mainwindow.ui \
-    treeview.ui \
-    ventanaconsultas.ui
+    ventanaconsultas.ui \
+    verarbol.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

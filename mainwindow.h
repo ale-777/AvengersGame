@@ -22,6 +22,8 @@ private slots:
 
     void on_btn_consultas_clicked();
 
+    void on_imprimirArbol_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

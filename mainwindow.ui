@@ -82,7 +82,7 @@
    <widget class="QPushButton" name="btn_consultas">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>410</x>
       <y>250</y>
       <width>75</width>
       <height>23</height>
@@ -90,6 +90,19 @@
     </property>
     <property name="text">
      <string>Consultas</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="imprimirArbol">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>220</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Imprimir Arbol</string>
     </property>
    </widget>
   </widget>
