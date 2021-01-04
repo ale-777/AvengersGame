@@ -143,15 +143,17 @@ QString Humano::imprimirHumano(){
     QString deporte = "Deportes: \n" + deportes.imprimirDeporte();
     QString pecado = "Pecados: \n Lujuria: " + QString::number(pecados[0])  + " Gula: " + QString::number(pecados[1])  + " Avaricia: "+ QString::number(pecados[2])+" Pereza: " + QString::number(pecados[3])+" Ira: "+QString::number(pecados[4])+" Envidia: "+QString::number(pecados[5])+" Soberbia: "+QString::number(pecados[6])+"\n";
     QString acciones = "Buenas Acciones: \n Castidad: " + QString::number(buenasAcciones[0]) + " Ayuno: "+ QString::number(buenasAcciones[1])+" Donacion: "+ QString::number(buenasAcciones[2])+" Diligencia: "+QString::number(buenasAcciones[3])+" Calma: "+QString::number(buenasAcciones[4])+" Solidaridad: "+QString::number(buenasAcciones[5])+" Humildad: "+QString::number(buenasAcciones[6])+"\n";
+    QString vida = "Vivo: "+QString::number(vivo)+"\n";
+    QString listaSucesos = sucesos.mostrarLista();
     /*qDebug() <<"ID"<<ID<<" Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
     qDebug() <<"Pecados: "<<"Lujuria: "<<pecados[0]<<"Gula: "<<pecados[1]<<"Avaricia: "<<pecados[2]<<"Pereza: "<<pecados[3]<<"Ira: "<<pecados[4]<<"Envidia: "<<pecados[5]<<"Soberbia: "<<pecados[6]<<Qt::endl;
     qDebug() <<"Buenas Acciones: "<<"Castidad: "<<buenasAcciones[0]<<"Ayuno: "<<buenasAcciones[1]<<"Donacion: "<<buenasAcciones[2]<<"Diligencia: "<<buenasAcciones[3]<<"Calma: "<<buenasAcciones[4]<<"Solidaridad: "<<buenasAcciones[5]<<"Humildad: "<<buenasAcciones[6]<<Qt::endl;
 */
-    return humano + amigos + deporte + pecado + acciones;
+    return humano +vida + amigos + deporte + pecado + acciones + listaSucesos;
 }
 
 void Humano::imprimirPruebas(){
-    qDebug() <<"Index "<<index<<"  ID "<<ID<<Qt::endl;
+    qDebug() <<"Index "<<index<<"  ID "<<ID<<"Vivo: "<<vivo<<" Cant Pecados: "<<cantPecados()<<Qt::endl;
 }
 
 void Humano::asignarPecados(){
@@ -395,3 +397,59 @@ void ListaHumano::mostrarLista(){
     }
 }
 
+void ListaHumano::agregarPorPecados(Humano * humano){
+    int cantPecados = humano->cantPecados();
+    NodoHumano * nuevo = new NodoHumano(humano);
+    if (primerNodo != NULL){
+            largo ++;
+            NodoHumano * tmp = primerNodo;
+            do{
+                if (tmp->persona->cantPecados() <= cantPecados){
+                    if (tmp == primerNodo){
+                        primerNodo = nuevo;
+                    }
+                    tmp->anterior->siguiente = nuevo;
+                    nuevo->anterior = tmp->anterior;
+                    tmp->anterior = nuevo;
+                    nuevo->siguiente = tmp;
+
+                    break;
+                }
+                tmp = tmp->siguiente;
+                if (tmp == primerNodo){
+                    tmp->anterior->siguiente = nuevo;
+                    nuevo->anterior = tmp->anterior;
+                    tmp->anterior = nuevo;
+                    nuevo->siguiente = primerNodo;
+                }
+            }while(tmp!=primerNodo);
+
+
+    }
+    else{
+        primerNodo = nuevo;
+        primerNodo->siguiente= primerNodo;
+        primerNodo->anterior = primerNodo;
+        largo ++;
+    }
+
+
+}
+
+int Humano::cantPecados(){
+    int cant = 0;
+    for (int i = 0; i<7; i++){
+        cant += pecados[i];
+    }
+    return cant;
+}
+
+void ListaHumano::matarCincoHp(QString villano){
+    int cant = largo*0.05;
+    NodoHumano *tmp = primerNodo;
+    for (int i=1; i<=cant; i++){
+        tmp->persona->vivo = false;
+        tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
+        tmp = tmp->siguiente;
+    }
+}

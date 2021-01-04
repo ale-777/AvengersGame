@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
 
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(500);
+    planeta.agregarPoblacion(10);
     /*
     qDebug()<<poblacionMundial.largo;
     qDebug()<<planeta.redondearArbol(100);
@@ -16,8 +16,9 @@ int main(int argc, char *argv[])
 
     arbolMundial.crearArbol();
 
-    qDebug() << arbolMundial.print2D(arbolMundial.raiz);
-
+    //qDebug() << arbolMundial.print2D(arbolMundial.raiz);
+    qDebug() <<"aqui";
+    //arbolMundial.print_tree_structure(arbolMundial.raiz,0);
 
     QApplication a(argc, argv);
     MainWindow w;

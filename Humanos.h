@@ -118,6 +118,8 @@ struct ListaHumano{
     }
 
     void mostrarLista ();
+    void agregarPorPecados(Humano * );
+    void matarCincoHp(QString villano);
 
 };
 struct NodoPais{
@@ -209,6 +211,49 @@ struct ListaDeportes{
         return deportes;
     }
 };
+
+
+struct NodoSuceso{
+  QString suceso;
+  NodoSuceso * siguiente;
+  NodoSuceso * anterior;
+  NodoSuceso(QString _suceso){
+      suceso = _suceso;
+      siguiente = anterior = NULL;
+  }
+
+};
+
+struct ListaSucesos{
+    NodoSuceso * primerNodo;
+    NodoSuceso * ultimoNodo;
+    int largo = 0;
+    ListaSucesos(){
+        primerNodo = ultimoNodo = NULL;
+    }
+    void agregarSucesos(QString nuevo){
+        if (primerNodo == NULL){
+            primerNodo = ultimoNodo = new NodoSuceso(nuevo);
+        }
+        else{
+            ultimoNodo->siguiente = new NodoSuceso(nuevo);
+            ultimoNodo = ultimoNodo->siguiente;
+        }
+        largo++;
+    }
+
+    QString mostrarLista(){
+        QString sucesos = "Sucesos: \n";
+        if (primerNodo != NULL){
+                NodoSuceso * tmp = primerNodo;
+                do{
+                    sucesos += tmp->suceso + "\n";
+                    tmp = tmp->siguiente;
+                }while(tmp!=NULL);
+        }
+        return sucesos;
+    }
+ };
 struct Humano{
     int index;
     int ID;
@@ -238,6 +283,8 @@ struct Humano{
     ListaHumano hijos;
     // Salud
     ListaDeportes deportes;
+    //sucesos
+    ListaSucesos sucesos;
     //Paises
     QString paisOrigen;
     QString continente;
@@ -291,6 +338,7 @@ struct Humano{
     void generarDeportes();
     bool alreadyAmigo(NodoHumano *);
     void imprimirPruebas();
+    int cantPecados();
 
 };
 #endif // HUMANOS_H

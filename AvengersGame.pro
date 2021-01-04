@@ -12,6 +12,7 @@ SOURCES += \
     Globals.cpp \
     Humanos.cpp \
     Mundo.cpp \
+    aniquilacion.cpp \
     arbol.cpp \
     displayhumanos.cpp \
     main.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     Globals.h \
     Humanos.h \
     Mundo.h \
+    aniquilacion.h \
     arbol.h \
     displayhumanos.h \
     mainwindow.h \

@@ -5,6 +5,7 @@
 #include <Mundo.h>
 #include "Humanos.h"
 #include "arbol.h"
+#include "aniquilacion.h"
 extern struct Mundo planeta;
 extern struct ListaHumano poblacionMundial;
 extern struct Arbol arbolMundial;

@@ -41,3 +41,13 @@ void MainWindow::on_imprimirArbol_clicked()
     ventana->show();
 
 }
+
+void MainWindow::on_corvusGlaive_clicked()
+{
+    Corvus();
+}
+
+void MainWindow::on_sumarPecados_clicked()
+{
+    planeta.sumarPecados();
+}

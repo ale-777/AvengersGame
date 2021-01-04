@@ -24,6 +24,10 @@ private slots:
 
     void on_imprimirArbol_clicked();
 
+    void on_corvusGlaive_clicked();
+
+    void on_sumarPecados_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

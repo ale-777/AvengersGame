@@ -77,7 +77,7 @@ QString Arbol::print2DUtil(QString resultado, NodoArbol *root, int space)  {
     qDebug()<<Qt::endl;
     resultado += "\n";
     for (int i = COUNT; i < space; i++)
-        resultado += " ";
+        resultado += "   ";
     resultado += QString::number(root->humano->persona->ID)+"\n";
 
     // Process left child
@@ -91,4 +91,16 @@ QString Arbol::print2D(NodoArbol *root)  {
     // Pass initial space count as 0
     QString result = " ";
     return print2DUtil(result, root, 0);
+}
+
+void Arbol::print_tree_structure(NodoArbol *bt, int spaces)
+{
+  if(bt != NULL)
+  {
+    print_tree_structure(bt->derecho, spaces + 5);
+    for(int i = 0; i < spaces; i++)
+        cout << ' ';
+    cout << "   " << bt->humano->persona->ID << endl;
+    print_tree_structure(bt->izquierdo, spaces + 5);
+  }
 }

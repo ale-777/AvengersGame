@@ -31,6 +31,7 @@ struct Arbol{
    QString obternerNivel(int nivel);
    QString print2DUtil(QString resultado, NodoArbol *root, int space);
    QString print2D(NodoArbol *root);
+   void print_tree_structure(NodoArbol *bt, int spaces);
 
 };
 #endif // ARBOL_H
