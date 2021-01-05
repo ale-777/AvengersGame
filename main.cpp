@@ -7,14 +7,16 @@
 int main(int argc, char *argv[])
 {
 
+
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(10);
+    planeta.agregarPoblacion(500);
+    arbolMundial.crearArbol();
+
     /*
     qDebug()<<poblacionMundial.largo;
     qDebug()<<planeta.redondearArbol(100);
     poblacionMundial.nodosArbol(79);*/
 
-    arbolMundial.crearArbol();
 
     //qDebug() << arbolMundial.print2D(arbolMundial.raiz);
     qDebug() <<"aqui";

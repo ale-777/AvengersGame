@@ -19,7 +19,9 @@ void Arbol::insertar(NodoHumano * dato){
     raiz = agregarNodo (raiz , dato);
 }
 
+
 void Arbol::crearArbol(){
+    arbolMundial = Arbol();
     int cantNodos = planeta.redondearArbol((poblacionMundial.largo)*0.01);
     qDebug()<<"Cant nodos "<<cantNodos;
     double secuencia = ceil((poblacionMundial.largo * 1.0) / (cantNodos * 1.0));

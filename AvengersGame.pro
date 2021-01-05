@@ -17,6 +17,7 @@ SOURCES += \
     displayhumanos.cpp \
     main.cpp \
     mainwindow.cpp \
+    ventanaaniquilacion.cpp \
     ventanaconsultas.cpp \
     verarbol.cpp
 
@@ -28,12 +29,14 @@ HEADERS += \
     arbol.h \
     displayhumanos.h \
     mainwindow.h \
+    ventanaaniquilacion.h \
     ventanaconsultas.h \
     verarbol.h
 
 FORMS += \
     displayhumanos.ui \
     mainwindow.ui \
+    ventanaaniquilacion.ui \
     ventanaconsultas.ui \
     verarbol.ui
 

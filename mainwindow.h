@@ -28,6 +28,8 @@ private slots:
 
     void on_sumarPecados_clicked();
 
+    void on_btn_aniquilacion_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -29,6 +29,9 @@ void Mundo::agregarPoblacion(int cantidad){
     crearLazos();
     qDebug()<<poblacionMundial.centroLista()->persona->imprimirHumano();
 
+    arbolMundial.crearArbol();
+
+
 }
 bool Mundo::verificarID(int nuevo){
     if(poblacionMundial.largo != 0){
@@ -154,4 +157,22 @@ Humano* Mundo::consultaID(int id){
         }while(tmp!=poblacionMundial.primerNodo);
     }
     return NULL;
+}
+
+QString Mundo::horaFecha(){
+    QDate algo = QDate::currentDate();
+    int dias = algo.day();
+    int mes = algo.month();
+    int anno = algo.year();
+    QString fecha = QString::number(anno)+"_"+QString::number(mes)+"_"+QString::number(dias);
+
+
+    QDateTime tiempo = QDateTime::currentDateTime();
+    QTime hora = tiempo.time();
+    QString hora2 = hora.toString();
+
+
+
+    QString nombre = fecha+" "+hora2;
+    return nombre;
 }

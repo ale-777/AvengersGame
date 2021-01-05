@@ -4,7 +4,7 @@
 #include "displayhumanos.h"
 #include "ventanaconsultas.h"
 #include "verarbol.h"
-
+#include "ventanaaniquilacion.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -44,10 +44,16 @@ void MainWindow::on_imprimirArbol_clicked()
 
 void MainWindow::on_corvusGlaive_clicked()
 {
-    Corvus();
+    //Corvus();
 }
 
 void MainWindow::on_sumarPecados_clicked()
 {
     planeta.sumarPecados();
+}
+
+void MainWindow::on_btn_aniquilacion_clicked()
+{
+    ventanaAniquilacion *ventana = new ventanaAniquilacion();
+    ventana->show();
 }

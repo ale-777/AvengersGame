@@ -280,6 +280,20 @@ QString Humano::imprimirAmigos(){
     }
     return info;
 }
+
+QString Humano::imprimirAmigosOtro(){
+    QString info = " Amigos [";
+
+    if (amigos.primerNodo != NULL){
+        NodoHumano * tmp = amigos.primerNodo;
+        do{
+            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido+",";
+            tmp = tmp->siguiente;
+        }while(tmp!=amigos.primerNodo);
+    }
+    return info+"]";
+}
+
 bool Humano::alreadyIn(NodoHumano * padre,NodoHumano * hijo){
     if(padre->persona->Madre != NULL && padre->persona->Padre != NULL){
         return(padre->persona->Madre != hijo->persona && padre->persona->Madre->Madre != hijo->persona &&
@@ -444,12 +458,23 @@ int Humano::cantPecados(){
     return cant;
 }
 
-void ListaHumano::matarCincoHp(QString villano){
+QString ListaHumano::matarCincoHp(QString villano){
     int cant = largo*0.05;
+    QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n";
     NodoHumano *tmp = primerNodo;
     for (int i=1; i<=cant; i++){
         tmp->persona->vivo = false;
+        info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantPecados())+ " pecados.\n";
         tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
+        aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
         tmp = tmp->siguiente;
+
     }
+    return info;
+}
+
+QString Humano::formato (QString informacion){
+    QString fecha = planeta.horaFecha();
+    QString info = "Humano "+QString::number(ID) + " "+nombre+" "+apellido+" "+paisOrigen+imprimirAmigosOtro()+informacion;
+    return fecha + "  "+info+"\n";
 }

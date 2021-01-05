@@ -119,7 +119,7 @@ struct ListaHumano{
 
     void mostrarLista ();
     void agregarPorPecados(Humano * );
-    void matarCincoHp(QString villano);
+    QString matarCincoHp(QString villano);
 
 };
 struct NodoPais{
@@ -325,6 +325,7 @@ struct Humano{
     void generarExperiencias();
     QString imprimirHumano();
     QString imprimirAmigos();
+    QString imprimirAmigosOtro();
     void asignarPecados();
     void asignarBuenasAcciones();
     void generarCantHijos();
@@ -339,6 +340,7 @@ struct Humano{
     bool alreadyAmigo(NodoHumano *);
     void imprimirPruebas();
     int cantPecados();
+    QString formato (QString informacion);
 
 };
 #endif // HUMANOS_H
