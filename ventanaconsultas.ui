@@ -64,7 +64,7 @@
     <rect>
      <x>210</x>
      <y>60</y>
-     <width>75</width>
+     <width>101</width>
      <height>23</height>
     </rect>
    </property>
@@ -80,6 +80,104 @@
      <width>371</width>
      <height>271</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_deporte">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>110</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>Atletismo</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Badminton</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Baloncesto</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Balonmano</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Beisbol</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Boxeo</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Gimnasia</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Ciclismo</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Judo</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Karate</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Esgrima</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Esqui</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Futbol</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Voleibol</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Waterpolo</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>110</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Consultar Deporte</string>
    </property>
   </widget>
  </widget>

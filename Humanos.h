@@ -125,6 +125,9 @@ struct ListaHumano{
     void agregarPorBuenasAcciones(Humano * );
     QString matarCincoHp(QString villano);
     QString killCincuentaPorciento(QString villano, QString deporte);
+    ListaHumano * listaPorDeporte (QString deporte);
+    QString imprimirLista();
+
 
 };
 struct NodoPais{

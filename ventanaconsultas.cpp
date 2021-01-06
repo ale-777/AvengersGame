@@ -24,3 +24,9 @@ void ventanaConsultas::on_btn_consultaID_clicked()
     }
 
 }
+
+void ventanaConsultas::on_pushButton_clicked()
+{
+    QString deporte = ui->comboBox_deporte->currentText();
+    ui->tect_info->setText(poblacionMundial.listaPorDeporte(deporte)->imprimirLista());
+}

@@ -618,10 +618,37 @@ void Humano::killAmigos(){
 
         }while(tmp!=amigos.primerNodo);
     }
+ }
 
+ListaHumano * ListaHumano::listaPorDeporte(QString deporte){
+    ListaHumano * personas = new ListaHumano();
+    if (primerNodo != NULL){
+            NodoHumano * tmp = primerNodo;
+            do{
+                if (tmp->persona->deportes.largo != 0){
+                    if (!tmp->persona->deportes.VerificarDeporte(deporte)){
+                        personas->agregarHumano(tmp->persona);
+                    }
+                }
 
-
-
-
-
+                tmp = tmp->siguiente;
+            }while(tmp!=primerNodo);
+    }
+    return personas;
 }
+
+
+QString ListaHumano::imprimirLista(){
+    QString info = "";
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            info += "ID" + QString::number(tmp->persona->ID) + " Nombre: " + tmp->persona->nombre + " "+ tmp->persona->apellido + "\n" + tmp->persona->deportes.imprimirDeporte() + "\n";
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return info;
+}
+
+
+
