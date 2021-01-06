@@ -8,8 +8,10 @@ NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
          //nodo = new NodoArbol(nuevo);
          return new NodoArbol(nuevo);
      }
-     else if(nodo->humano->persona->index > nuevo->persona->index)
+     else if(nodo->humano->persona->index > nuevo->persona->index){
          nodo->izquierdo = agregarNodo(nodo->izquierdo, nuevo);
+     }
+
      else
          nodo->derecho = agregarNodo(nodo->derecho, nuevo);
      return nodo;
@@ -107,3 +109,16 @@ void Arbol::print_tree_structure(NodoArbol *bt, int spaces)
     print_tree_structure(bt->izquierdo, spaces + 5);
   }
 }
+
+NodoArbol * Arbol::buscar (int dato, NodoArbol * arbol){
+        if (arbol == NULL)
+            return NULL;
+
+        else if (arbol->humano->persona->index == dato)
+            return arbol;
+
+        else if (dato > arbol->humano->persona->index)
+            return buscar(dato,arbol->derecho);
+
+        return buscar(dato, arbol->izquierdo);
+    }

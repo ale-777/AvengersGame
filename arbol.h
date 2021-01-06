@@ -33,5 +33,7 @@ struct Arbol{
    QString print2D(NodoArbol *root);
    void print_tree_structure(NodoArbol *bt, int spaces);
 
+   NodoArbol * buscar (int dato, NodoArbol * arbol);
+
 };
 #endif // ARBOL_H

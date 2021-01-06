@@ -37,8 +37,8 @@ void ventanaAniquilacion::on_btn_black_clicked()
 
 void ventanaAniquilacion::on_btn_nebula_clicked()
 {
-    aniquiladores.Nebula();
-    ui->textBrowser->setText("algo");
-    qDebug()<<"wuuu";
+    int id = ui->spinBox->value();
+    ui->textBrowser->setText(aniquiladores.Nebula(id));
+
 
 }

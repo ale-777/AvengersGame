@@ -10,9 +10,13 @@ struct ListaHumano;
 
 struct TeamAniquileishon{
     QString bitacora;
+    QString infoTemporalNebula;
+    int contTemporalNebula;
 
     TeamAniquileishon(){
         bitacora="";
+        infoTemporalNebula = "";
+        contTemporalNebula = 0;
 
     }
 
@@ -20,7 +24,7 @@ struct TeamAniquileishon{
     QString Corvus ();
     QString Midnight ();
     QString Black (int rutina, QString deporte);
-    QString Nebula ();
+    QString Nebula (int id);
 };
 
 

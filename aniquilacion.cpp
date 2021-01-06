@@ -107,16 +107,36 @@ QString TeamAniquileishon::Black(int rutina, QString deporte){
     personas->mostrarLista();
     qDebug()<<personas->largo;
 
-    info += personas->killCincuentaPorciento("Black");
+    info += personas->killCincuentaPorciento("Black", deporte);
 
     generarArchivo();
 
     return info;
 }
 
-QString TeamAniquileishon::Nebula(){
-    if (poblacionMundial.primerNodo != NULL){
-        poblacionMundial.primerNodo->persona->killAmigos();
+QString TeamAniquileishon::Nebula(int id){
+    infoTemporalNebula = " ";
+    contTemporalNebula = 0;
+    if (planeta.consultaID(id) != NULL){
+
+        if (arbolMundial.buscar(planeta.consultaID(id)->index, arbolMundial.raiz) != NULL){
+            if (planeta.consultaID(id)->vivo){
+                QString info = " Aniquilando a los amigos recursivamente de :"+QString::number(planeta.consultaID(id)->ID)+" "+planeta.consultaID(id)->nombre+" "+planeta.consultaID(id)->apellido+"\n";
+                arbolMundial.buscar(planeta.consultaID(id)->index, arbolMundial.raiz)->humano->persona->killAmigos();
+                generarArchivo();
+                return "Algoritmo Nebula!\nEl total de elminados fue: " +QString::number(contTemporalNebula)+ info + infoTemporalNebula;
+
+            }
+            else{
+                return "El humano seleccionado esta muerto";
+            }
+
+        }
+        else {
+            return "El ID seleccionado no pertenece al arbol";
+        }
     }
-    return "";
+    return "El ID no existe";
+
+
 }

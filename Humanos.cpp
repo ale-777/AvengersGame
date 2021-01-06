@@ -543,7 +543,7 @@ QString ListaHumano::matarCincoHp(QString villano){
     return info;
 }
 
-QString ListaHumano::killCincuentaPorciento(QString villano){
+QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
     int cant = largo*0.5;
     QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n";
 
@@ -558,8 +558,16 @@ QString ListaHumano::killCincuentaPorciento(QString villano){
             listaCorvus.agregarHumano(tmp->persona);
         }
         qDebug ()<<"sale";
-        tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
-        aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
+
+        if (villano == "Black"){
+            tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano+" Por practicar "+deporte +QString::number(tmp->persona->cantDeporte)+ " veces");
+            aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano+" Por practicar "+deporte +QString::number(tmp->persona->cantDeporte)+ " veces");
+        }
+        else{
+            tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
+            aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
+        }
+
 
         tmp = tmp->siguiente;
 
@@ -590,25 +598,30 @@ bool Humano::allFriendsDead(){
 
 
 void Humano::killAmigos(){
-    qDebug()<<"matando a "<<ID;
+    qDebug()<<ID;
+    if (amigos.primerNodo != NULL){
 
-    //esta vivo
-    if (vivo) {
-        vivo = false;//lo mata
-        if (amigos.primerNodo != NULL){
-            qDebug()<<"entra";
-            NodoHumano * tmp = amigos.primerNodo;
-            qDebug()<<"sale";
-            do{
-                qDebug()<<tmp->persona->ID;
+        NodoHumano * tmp = amigos.primerNodo;
+
+        do{
+            if (tmp->persona->vivo){
+                aniquiladores.infoTemporalNebula += "Eliminado por Nebula " + QString::number(tmp->persona->ID) + " por ser amigo de " + QString::number(ID) + "\n";
+                tmp->persona->sucesos.agregarSucesos("Eliminado por Nebula por ser amigo de " + QString::number(ID));
+                aniquiladores.bitacora += tmp->persona->formato("Eliminado por Nebula por ser amigo de "+  QString::number(ID));
+                tmp->persona->vivo = false;
+                aniquiladores.contTemporalNebula ++;
+                listaNebula.agregarHumano(tmp->persona);
                 tmp->persona->killAmigos();
+            }
 
-                tmp = tmp->siguiente;
+            tmp = tmp->siguiente;
 
-            }while(tmp!=amigos.primerNodo);
-        }
-
+        }while(tmp!=amigos.primerNodo);
     }
+
+
+
+
 
 
 }
