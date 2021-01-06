@@ -30,6 +30,8 @@ private slots:
 
     void on_btn_aniquilacion_clicked();
 
+    void on_sumarBuenasAcciones_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -2,20 +2,23 @@
 #include "Globals.h"
 
 #include <QApplication>
-//hi :)
-//commit prueba
+
+
 int main(int argc, char *argv[])
 {
-
-
     planeta.iniciarMundo();
     planeta.agregarPoblacion(500);
-    arbolMundial.crearArbol();
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
+
 
     /*
+
     qDebug()<<poblacionMundial.largo;
     qDebug()<<planeta.redondearArbol(100);
-    poblacionMundial.nodosArbol(79);*/
+    poblacionMundial.nodosArbol(79);
 
 
     //qDebug() << arbolMundial.print2D(arbolMundial.raiz);
@@ -26,7 +29,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     return a.exec();
-    /*
+
     planeta.iniciarMundo();
     planeta.agregarPoblacion(10000);
     qDebug()<<poblacionMundial.largo;
@@ -38,3 +41,4 @@ int main(int argc, char *argv[])
 
     return 0;*/
 }
+

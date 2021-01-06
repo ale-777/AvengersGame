@@ -3,7 +3,7 @@
 #include <cmath>
 //:)
 NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
-    qDebug()<<nuevo->persona->ID;
+    //qDebug()<<nuevo->persona->ID;
      if (nodo == NULL){
          //nodo = new NodoArbol(nuevo);
          return new NodoArbol(nuevo);
@@ -33,6 +33,7 @@ void Arbol::crearArbol(){
     ListaHumano *primerMitad = listaNodos->primerMitadOrden();
     ListaHumano *segundaMitad = listaNodos->segundaMitad();
 
+    /*
     qDebug()<<"Lista nodos: ";
     listaNodos->mostrarLista();
 
@@ -44,7 +45,7 @@ void Arbol::crearArbol(){
     primerMitad->mostrarLista();
 
     qDebug()<<"Lista segunda mitad: ";
-    segundaMitad->mostrarLista();
+    segundaMitad->mostrarLista();*/
 
     llenarArbol(listaNodos);
 
@@ -52,7 +53,7 @@ void Arbol::crearArbol(){
 
 void Arbol::llenarArbol(ListaHumano *lista){
     //qDebug()<<"agrega: ";
-    lista->centroLista()->persona->imprimirPruebas();
+    //lista->centroLista()->persona->imprimirPruebas();
 
     insertar(lista->centroLista());
     if (lista->largo > 1){

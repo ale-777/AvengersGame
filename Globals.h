@@ -12,5 +12,8 @@ extern struct Mundo planeta;
 extern struct ListaHumano poblacionMundial;
 extern struct Arbol arbolMundial;
 extern struct TeamAniquileishon aniquiladores;
+extern struct ListaHumano listaCorvus;
+extern struct ListaHumano listaMidnight;
+extern struct ListaHumano listaBlack;
 
 #endif // GLOBALS_H

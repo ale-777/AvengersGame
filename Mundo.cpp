@@ -7,7 +7,7 @@ int Mundo::redondearArbol(float cant){
        pot++;
        res = (pow(2,pot))-1;    
    }
-   qDebug()<<"La potencia de 2 es "<<pot;
+   //qDebug()<<"La potencia de 2 es "<<pot;
    return res;
 }
 
@@ -27,7 +27,7 @@ void Mundo::agregarPoblacion(int cantidad){
     }
     cantidadArbol = redondearArbol(poblacionMundial.largo*0.01);
     crearLazos();
-    qDebug()<<poblacionMundial.centroLista()->persona->imprimirHumano();
+    //qDebug()<<poblacionMundial.centroLista()->persona->imprimirHumano();
 
     arbolMundial.crearArbol();
 

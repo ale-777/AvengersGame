@@ -27,6 +27,8 @@ void TeamAniquileishon::generarArchivo (){
     file.close();
 }
 
+
+
 QString TeamAniquileishon::Corvus (){
     QString info = "Algoritmo Corvus!\n";
     ListaHumano *heapPecados = new ListaHumano();
@@ -53,4 +55,68 @@ QString TeamAniquileishon::Corvus (){
     generarArchivo();
 
     return info;
+}
+
+QString TeamAniquileishon::Midnight(){
+    QString info = "Algoritmo Midnight!\n";
+    ListaHumano *heapBuenasAcciones = new ListaHumano();
+
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            if (tmp->persona->vivo)
+                heapBuenasAcciones->agregarPorBuenasAcciones(tmp->persona);
+
+            tmp = tmp->siguiente;
+
+        }while(tmp!=poblacionMundial.primerNodo);
+    }
+    info += "Se esta evaluando la cantidad de buenas Acciones de: "+QString::number(heapBuenasAcciones->largo) + " personas (Todos los humanos vivos)\n";
+    qDebug()<<"antes:";
+    heapBuenasAcciones->mostrarLista();
+    qDebug()<<heapBuenasAcciones->largo;
+
+    info += heapBuenasAcciones->matarCincoHp("Midnight");
+    generarArchivo();
+
+    return info;
+}
+QString TeamAniquileishon::Black(int rutina, QString deporte){
+    QString info = "Algoritmo Black Dwarf!\n";
+    ListaHumano *personas = new ListaHumano();
+
+    if (poblacionMundial.primerNodo != NULL){
+            NodoHumano * tmp = poblacionMundial.primerNodo;
+            do{
+                if (tmp->persona->vivo && tmp->persona->cantDeporte>rutina){
+                    if (tmp->persona->deportes.largo != 0){
+                        if (!tmp->persona->deportes.VerificarDeporte(deporte)){
+                            personas->agregarHumano(tmp->persona);
+                        }
+                    }
+
+
+                }
+
+                tmp = tmp->siguiente;
+
+            }while(tmp!=poblacionMundial.primerNodo);
+        }
+
+    info += "Se estan evaluando: "+QString::number(personas->largo) + " personas (Todos los humanos vivos que practican "+deporte+ " mas de "+QString::number(rutina) +" veces)\n";
+    personas->mostrarLista();
+    qDebug()<<personas->largo;
+
+    info += personas->killCincuentaPorciento("Black");
+
+    generarArchivo();
+
+    return info;
+}
+
+QString TeamAniquileishon::Nebula(){
+    if (poblacionMundial.primerNodo != NULL){
+        poblacionMundial.primerNodo->persona->killAmigos();
+    }
+    return "";
 }

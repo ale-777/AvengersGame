@@ -57,3 +57,8 @@ void MainWindow::on_btn_aniquilacion_clicked()
     ventanaAniquilacion *ventana = new ventanaAniquilacion();
     ventana->show();
 }
+
+void MainWindow::on_sumarBuenasAcciones_clicked()
+{
+    planeta.sumarBuenasAcciones();
+}

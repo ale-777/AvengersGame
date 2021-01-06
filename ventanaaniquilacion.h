@@ -18,6 +18,12 @@ public:
 private slots:
     void on_btn_corvus_clicked();
 
+    void on_btn_midnight_clicked();
+
+    void on_btn_black_clicked();
+
+    void on_btn_nebula_clicked();
+
 private:
     Ui::ventanaAniquilacion *ui;
 };

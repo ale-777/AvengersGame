@@ -1,3 +1,4 @@
+//Editado
 #ifndef ANIQUILACION_H
 #define ANIQUILACION_H
 #include <iostream>
@@ -9,16 +10,17 @@ struct ListaHumano;
 
 struct TeamAniquileishon{
     QString bitacora;
-    int corvus;
-    ListaHumano * listaCorvus;
 
     TeamAniquileishon(){
         bitacora="";
-        corvus = 0;
+
     }
 
     void generarArchivo ();
     QString Corvus ();
+    QString Midnight ();
+    QString Black (int rutina, QString deporte);
+    QString Nebula ();
 };
 
 

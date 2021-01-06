@@ -140,7 +140,7 @@ QString Humano::imprimirHumano(){
     QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido +
             " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n";
     QString amigos = "Amigos: \n" + imprimirAmigos();
-    QString deporte = "Deportes: \n" + deportes.imprimirDeporte();
+    QString deporte = "Deporte por semana: "+QString::number(cantDeporte)+"\n" + deportes.imprimirDeporte();
     QString pecado = "Pecados: \n Lujuria: " + QString::number(pecados[0])  + " Gula: " + QString::number(pecados[1])  + " Avaricia: "+ QString::number(pecados[2])+" Pereza: " + QString::number(pecados[3])+" Ira: "+QString::number(pecados[4])+" Envidia: "+QString::number(pecados[5])+" Soberbia: "+QString::number(pecados[6])+"\n";
     QString acciones = "Buenas Acciones: \n Castidad: " + QString::number(buenasAcciones[0]) + " Ayuno: "+ QString::number(buenasAcciones[1])+" Donacion: "+ QString::number(buenasAcciones[2])+" Diligencia: "+QString::number(buenasAcciones[3])+" Calma: "+QString::number(buenasAcciones[4])+" Solidaridad: "+QString::number(buenasAcciones[5])+" Humildad: "+QString::number(buenasAcciones[6])+"\n";
     QString vida = "Vivo: "+QString::number(vivo)+"\n";
@@ -153,7 +153,7 @@ QString Humano::imprimirHumano(){
 }
 
 void Humano::imprimirPruebas(){
-    qDebug() <<"Index "<<index<<"  ID "<<ID<<"Vivo: "<<vivo<<" Cant Pecados: "<<cantPecados()<<Qt::endl;
+    qDebug() <<"Index "<<index<<"  ID "<<ID<<"Vivo: "<<vivo<<" Cant Pecados: "<<cantPecados()<<" CantBuenas: "<<cantBuenasAcciones()<<Qt::endl;
 }
 
 void Humano::asignarPecados(){
@@ -388,16 +388,30 @@ void Humano::generarCantHijos(){
     else cantHijos = 0;
 }
 void Humano::generarDeportes(){
-    int cant;
-    int  pos;
-    std::uniform_int_distribution<int> dist(0, 6);
-    cant = dist(* QRandomGenerator::global());
-    std::uniform_int_distribution<int> dist2(0, 38);
-    while(deportes.largo < cant){
-        pos = dist2(* QRandomGenerator::global());
-        if(deportes.VerificarDeporte(planeta.deportes[pos])){
-                deportes.agregarDeportes(planeta.deportes[pos]);}
+    int cant = 0;
+    int  pos = 0;
+    int cantXSemana = 0;
+
+
+    //posicion en el archivo
+    std::uniform_int_distribution<int> dist2(0, 14);
+
+    //veces por semana
+    std::uniform_int_distribution<int> dist3(0, 7);
+    cantXSemana = dist3(* QRandomGenerator::global());
+    cantDeporte = cantXSemana;
+
+    if (cantDeporte != 0){
+        std::uniform_int_distribution<int> dist(1, cantDeporte);
+        cant = dist(* QRandomGenerator::global());
+        while(deportes.largo < cant){
+            pos = dist2(* QRandomGenerator::global());
+            if(deportes.VerificarDeporte(planeta.deportes[pos])){
+                    deportes.agregarDeportes(planeta.deportes[pos]);}
+        }
     }
+
+
 
 }
 
@@ -450,10 +464,58 @@ void ListaHumano::agregarPorPecados(Humano * humano){
 
 }
 
+void ListaHumano::agregarPorBuenasAcciones(Humano * humano){
+    int cantAcciones = humano->cantBuenasAcciones();
+    NodoHumano * nuevo = new NodoHumano(humano);
+
+    if (primerNodo != NULL){
+            largo ++;
+            NodoHumano * tmp = primerNodo;
+            do{
+                if (tmp->persona->cantBuenasAcciones() >= cantAcciones){
+                    if (tmp == primerNodo){
+                        primerNodo = nuevo;
+                    }
+                    tmp->anterior->siguiente = nuevo;
+                    nuevo->anterior = tmp->anterior;
+                    tmp->anterior = nuevo;
+                    nuevo->siguiente = tmp;
+
+                    break;
+                }
+                tmp = tmp->siguiente;
+
+                if (tmp == primerNodo){
+                    tmp->anterior->siguiente = nuevo;
+                    nuevo->anterior = tmp->anterior;
+                    tmp->anterior = nuevo;
+                    nuevo->siguiente = primerNodo;
+                }
+            }while(tmp!=primerNodo);
+
+
+    }
+    else{
+        primerNodo = nuevo;
+        primerNodo->siguiente= primerNodo;
+        primerNodo->anterior = primerNodo;
+        largo ++;
+    }
+
+}
+
 int Humano::cantPecados(){
     int cant = 0;
     for (int i = 0; i<7; i++){
         cant += pecados[i];
+    }
+    return cant;
+}
+
+int Humano::cantBuenasAcciones(){
+    int cant = 0;
+    for (int i = 0; i<7; i++){
+        cant += buenasAcciones[i];
     }
     return cant;
 }
@@ -464,9 +526,41 @@ QString ListaHumano::matarCincoHp(QString villano){
     NodoHumano *tmp = primerNodo;
     for (int i=1; i<=cant; i++){
         tmp->persona->vivo = false;
-        info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantPecados())+ " pecados.\n";
+        if (villano == "Corvus"){
+            info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantPecados())+ " pecados.\n";
+            listaCorvus.agregarHumano(tmp->persona);
+        }
+        else if (villano == "Midnight"){
+            info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantBuenasAcciones())+ " buenas Acciones.\n";
+            listaMidnight.agregarHumano(tmp->persona);
+        }
+
         tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
         aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
+        tmp = tmp->siguiente;
+
+    }
+    return info;
+}
+
+QString ListaHumano::killCincuentaPorciento(QString villano){
+    int cant = largo*0.5;
+    QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n";
+
+    NodoHumano *tmp = primerNodo;
+    for (int i=1; i<=cant; i++){
+        qDebug ()<<"entra";
+        tmp->persona->vivo = false;
+
+        if (villano == "Black"){
+            qDebug ()<<"llega";
+            info += "Humano de ID "+QString::number(tmp->persona->ID) + " Practica el deporte: "+QString::number(tmp->persona->cantDeporte)+ " veces\n";
+            listaCorvus.agregarHumano(tmp->persona);
+        }
+        qDebug ()<<"sale";
+        tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
+        aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
+
         tmp = tmp->siguiente;
 
     }
@@ -477,4 +571,44 @@ QString Humano::formato (QString informacion){
     QString fecha = planeta.horaFecha();
     QString info = "Humano "+QString::number(ID) + " "+nombre+" "+apellido+" "+paisOrigen+imprimirAmigosOtro()+informacion;
     return fecha + "  "+info+"\n";
+}
+
+
+//todos los amigos de una persona estan muertos
+bool Humano::allFriendsDead(){
+    if (amigos.primerNodo != NULL){
+        NodoHumano * tmp = amigos.primerNodo;
+        do{
+            if (tmp->persona->vivo){
+                return false;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=amigos.primerNodo);
+    }
+    return true;
+}
+
+
+void Humano::killAmigos(){
+    qDebug()<<"matando a "<<ID;
+
+    //esta vivo
+    if (vivo) {
+        vivo = false;//lo mata
+        if (amigos.primerNodo != NULL){
+            qDebug()<<"entra";
+            NodoHumano * tmp = amigos.primerNodo;
+            qDebug()<<"sale";
+            do{
+                qDebug()<<tmp->persona->ID;
+                tmp->persona->killAmigos();
+
+                tmp = tmp->siguiente;
+
+            }while(tmp!=amigos.primerNodo);
+        }
+
+    }
+
+
 }

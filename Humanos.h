@@ -46,7 +46,10 @@ struct ListaHumano{
         }
         largo ++;
     }
-
+    void init(){
+        primerNodo = NULL;
+        largo = 0;
+    }
     void agregarAlInicio(Humano * nuevo){
         if (primerNodo == NULL){
             primerNodo = new NodoHumano(nuevo);
@@ -113,13 +116,15 @@ struct ListaHumano{
                     tmp = tmp->siguiente;
                 }while(tmp!=primerNodo);
             }
-        qDebug()<<"Largo de nodos "<<newList->largo;
+       // qDebug()<<"Largo de nodos "<<newList->largo;
         return newList;
     }
 
     void mostrarLista ();
     void agregarPorPecados(Humano * );
+    void agregarPorBuenasAcciones(Humano * );
     QString matarCincoHp(QString villano);
+    QString killCincuentaPorciento(QString villano);
 
 };
 struct NodoPais{
@@ -282,6 +287,7 @@ struct Humano{
     int cantHijos;
     ListaHumano hijos;
     // Salud
+    int cantDeporte;
     ListaDeportes deportes;
     //sucesos
     ListaSucesos sucesos;
@@ -340,7 +346,10 @@ struct Humano{
     bool alreadyAmigo(NodoHumano *);
     void imprimirPruebas();
     int cantPecados();
+    int cantBuenasAcciones();
     QString formato (QString informacion);
+    bool allFriendsDead();
+    void killAmigos();
 
 };
 #endif // HUMANOS_H
