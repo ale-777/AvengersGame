@@ -42,3 +42,7 @@ void ventanaAniquilacion::on_btn_nebula_clicked()
 
 
 }
+
+void ventanaAniquilacion::on_pushButton_clicked()
+{
+}

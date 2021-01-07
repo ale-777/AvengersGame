@@ -24,6 +24,8 @@ private slots:
 
     void on_btn_nebula_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::ventanaAniquilacion *ui;
 };

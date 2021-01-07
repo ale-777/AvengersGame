@@ -142,6 +142,7 @@ struct NodoPais{
 
 };
 struct ListaPaises{
+    int largo = 0;
     NodoPais * primerNodo;
     NodoPais * ultimoNodo;
     ListaPaises(){
@@ -155,6 +156,7 @@ struct ListaPaises{
             ultimoNodo->siguiente = new NodoPais(nuevo);
             ultimoNodo = ultimoNodo->siguiente;
         }
+        largo++;
     }
 
     //VERIFICAR
@@ -320,7 +322,7 @@ struct Humano{
         calcularGrupo();
         vivo = true;
         paisOrigen = generarPais();
-        //generarExperiencias();
+        generarExperiencias();
         generarCantHijos();
         generarDeportes();
 

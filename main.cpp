@@ -7,8 +7,7 @@
 int main(int argc, char *argv[])
 {
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(100);
-
+    planeta.agregarPoblacion(10000);
 
     QApplication a(argc, argv);
     MainWindow w;

@@ -7,7 +7,7 @@
 #include <QtCore>
 using namespace std;
 struct ListaHumano;
-
+struct Hashmap;
 struct TeamAniquileishon{
     QString bitacora;
     QString infoTemporalNebula;
@@ -24,6 +24,8 @@ struct TeamAniquileishon{
     QString Midnight ();
     QString Black (int rutina, QString deporte);
     QString Nebula (int id);
+    QString generarHashMap ();
+
 };
 
 
