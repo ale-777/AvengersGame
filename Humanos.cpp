@@ -15,6 +15,7 @@ void Humano::generarFecha(){
     }
     std::uniform_int_distribution<int> dist3(1, max);
     dia = dist3(* QRandomGenerator::global());
+    edad = 2021-anno;
 }
 QString Humano::generarGenero(){
     std::uniform_int_distribution<int> dist(0, 1);
@@ -60,7 +61,6 @@ int Humano::generarID(){
     return 0;
 }
 void Humano::calcularGrupo(){
-    int edad = 2021-anno;
     if (edad<=1){
         grupoEtario = "Infantil";
     }
@@ -137,7 +137,7 @@ void Humano::generarExperiencias(){
 }
 
 QString Humano::imprimirHumano(){
-    QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido +
+    QString humano = "\nindex" + QString::number(index) +" CantHijos" + QString::number(cantHijos) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido +
             " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n";
     QString amigos = "Amigos: \n" + imprimirAmigos();
     QString deporte = "Deporte por semana: "+QString::number(cantDeporte)+"\n" + deportes.imprimirDeporte();
@@ -281,15 +281,15 @@ void Humano::crearHijos(NodoHumano * nodoHumano){
             NodoHumano * tmp = nodoHumano->siguiente;
             do{
                 if(nodoHumano->persona->paisOrigen == tmp->persona->paisOrigen){
-                    if (posiblePadre(nodoHumano, tmp))
+                    //if (posiblePadre(nodoHumano, tmp))
                         crearHijosAux(nodoHumano, tmp);
                }
                 else if(tmp->persona->Padre != NULL && tmp->persona->paisOrigen == tmp->persona->Padre->paisOrigen ){
-               //     if (posiblePadre(nodoHumano, tmp))
+                    //if (posiblePadre(nodoHumano, tmp))
                         crearHijosAux(nodoHumano, tmp);
                 }
                 else if(tmp->persona->Madre != NULL && tmp->persona->paisOrigen == tmp->persona->Madre->paisOrigen ){
-                //   if (posiblePadre(nodoHumano, tmp))
+                      //if (posiblePadre(nodoHumano, tmp))
                         crearHijosAux(nodoHumano, tmp);
                 }
                 tmp = tmp->siguiente;
@@ -741,11 +741,11 @@ void Humano::imprimirFamilia(QString array[]){
     QString padre,madre,humano,hijo;
     int cont = 3;
     if (Padre != NULL){
-        padre =Padre->nombre +" " + Padre->apellido+"-"+Padre->ID;
+        padre =Padre->nombre +" " + Padre->apellido+"-"+QString::number(Padre->ID);
         array[0] = padre;
     }
     if (Madre != NULL){
-        madre = Madre->nombre +" "+ Madre->apellido+"-"+Madre->ID;
+        madre = Madre->nombre +" "+ Madre->apellido+"-"+QString::number(Madre->ID);
         array[1] = madre;
     }
     humano = nombre + " "+ apellido;

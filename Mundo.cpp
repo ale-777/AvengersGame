@@ -141,6 +141,7 @@ void Mundo::crearLazos(){
         do{
             if (tmp->persona->amigos.largo == 0)
                 tmp->persona->crearAmigos(tmp);
+            tmp->persona->crearHijos(tmp);
             tmp = tmp->siguiente;
         }while(tmp!=poblacionMundial.primerNodo);
     }

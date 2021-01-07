@@ -22,6 +22,8 @@ private slots:
 
     void on_btn_consultaAmigos_clicked();
 
+    void on_btnConsultaFam_clicked();
+
 private:
     Ui::ventanaConsultas *ui;
 };
