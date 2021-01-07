@@ -30,3 +30,14 @@ void ventanaConsultas::on_pushButton_clicked()
     QString deporte = ui->comboBox_deporte->currentText();
     ui->tect_info->setText(poblacionMundial.listaPorDeporte(deporte)->imprimirLista());
 }
+
+void ventanaConsultas::on_btn_consultaAmigos_clicked()
+{
+    if (planeta.consultaID(ui->spin_id->value()) != NULL){
+        planeta.consultaID(ui->spin_id->value())->cadenaAmigosAux();
+        ui->tect_info->setText(temporal.info);
+    }
+    else{
+        ui->tect_info->setText("No existe el humano");
+    }
+}

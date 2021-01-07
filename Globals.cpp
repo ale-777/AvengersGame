@@ -7,3 +7,4 @@ struct ListaHumano listaCorvus;
 struct ListaHumano listaMidnight;
 struct ListaHumano listaBlack;
 struct ListaHumano listaNebula;
+struct Temporal temporal;

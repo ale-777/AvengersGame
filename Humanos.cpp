@@ -206,6 +206,133 @@ void Humano::asignarBuenasAcciones(){
 
 }
 
+bool Humano::alreadyIn(NodoHumano * padre,NodoHumano * hijo){
+    if(padre->persona->Madre != NULL && padre->persona->Padre != NULL){
+        return(padre->persona->Madre != hijo->persona && padre->persona->Madre->Madre != hijo->persona &&
+               padre->persona->Madre->Padre != hijo->persona && padre->persona->Padre != hijo->persona &&
+               padre->persona->Padre->Madre != hijo->persona && padre->persona->Padre->Padre != hijo->persona);
+        }
+    else if(padre->persona->Padre != NULL){
+        return (padre->persona->Padre != hijo->persona && padre->persona->Padre->Madre != hijo->persona &&
+        padre->persona->Padre->Padre != hijo->persona);
+    }
+    else if(padre->persona->Madre != NULL){
+        return (padre->persona->Madre != hijo->persona && padre->persona->Madre->Madre != hijo->persona &&
+        padre->persona->Madre->Padre != hijo->persona);
+    }
+    return true;
+}
+bool Humano::encontrarParentesco(NodoHumano * padre,NodoHumano * hijo){
+   QString generoPadre = hijo->persona->genero;
+   QString generoHijo = hijo->persona->genero;
+   if (generoPadre == "Mujer" && hijo->persona->Madre == NULL){
+           if(alreadyIn(padre,hijo)){
+                hijo->persona->Madre = padre->persona;
+                return false;
+           }
+   }
+   else if(generoPadre == "Hombre" && hijo->persona->Padre == NULL){
+            if(alreadyIn(padre,hijo)){
+                hijo->persona->Padre = padre->persona;
+                return false;
+            }
+   }
+   return true;
+}
+void Humano::crearHijosAux(NodoHumano * nodoHumano, NodoHumano * hijo){
+    QString grupoEtarioPadre = nodoHumano->persona->grupoEtario;
+    QString grupoEtarioHijo = hijo->persona->grupoEtario;
+    if (grupoEtarioPadre == "Joven"){
+        if(grupoEtarioHijo == "Infantil" || grupoEtarioHijo == "Pre-escolar")
+            if(!encontrarParentesco(nodoHumano,hijo))
+                nodoHumano->persona->hijos->agregarHumano(hijo->persona);
+    }
+    else if (grupoEtarioPadre == "Adulto Joven"){
+        if(grupoEtarioHijo == "Infantil" || grupoEtarioHijo == "Pre-escolar" ||
+           grupoEtarioHijo == "Escolar" || grupoEtarioHijo == "Pubertad")
+            if(!encontrarParentesco(nodoHumano,hijo))
+                nodoHumano->persona->hijos->agregarHumano(hijo->persona);
+    }
+    else if (grupoEtarioPadre == "Adulto Maduro"){
+        if(grupoEtarioHijo == "Adolescencia" || grupoEtarioHijo == "Joven" ||
+           grupoEtarioHijo == "Adulto Joven")
+            if(!encontrarParentesco(nodoHumano,hijo))
+                nodoHumano->persona->hijos->agregarHumano(hijo->persona);
+    }
+    else
+        if(grupoEtarioHijo == "Adulto Joven" || grupoEtarioHijo == "Adulto Maduro")
+            if(!encontrarParentesco(nodoHumano,hijo))
+                nodoHumano->persona->hijos->agregarHumano(hijo->persona);
+}
+bool Humano::posiblePadre(NodoHumano * nodoHumano, NodoHumano * hijo){
+    if (nodoHumano->persona->genero == "Hombre"){
+        if (nodoHumano->persona->apellido == hijo->persona->apellido || hijo->persona->Madre != NULL)
+            return true;
+    }
+    else{
+        if (nodoHumano->persona->apellido == hijo->persona->apellido || hijo->persona->Padre != NULL)
+            return true;
+    }
+    return false;
+}
+void Humano::crearHijos(NodoHumano * nodoHumano){
+    if (nodoHumano->persona->edad >= 24){
+        if (nodoHumano->persona->hijos->largo < nodoHumano->persona->cantHijos){
+            NodoHumano * tmp = nodoHumano->siguiente;
+            do{
+                if(nodoHumano->persona->paisOrigen == tmp->persona->paisOrigen){
+                    if (posiblePadre(nodoHumano, tmp))
+                        crearHijosAux(nodoHumano, tmp);
+               }
+                else if(tmp->persona->Padre != NULL && tmp->persona->paisOrigen == tmp->persona->Padre->paisOrigen ){
+               //     if (posiblePadre(nodoHumano, tmp))
+                        crearHijosAux(nodoHumano, tmp);
+                }
+                else if(tmp->persona->Madre != NULL && tmp->persona->paisOrigen == tmp->persona->Madre->paisOrigen ){
+                //   if (posiblePadre(nodoHumano, tmp))
+                        crearHijosAux(nodoHumano, tmp);
+                }
+                tmp = tmp->siguiente;
+              }while(tmp != nodoHumano && nodoHumano->persona->hijos->largo < nodoHumano->persona->cantHijos);
+        }
+    }
+}
+
+void Humano::generarEstadoMarital(){
+    std::uniform_int_distribution<int> dist(0, 100);
+    int status = dist(* QRandomGenerator::global());
+    if (edad >= 24){
+        if (status<10){
+            estadoMarital = "Soltero";
+        }
+        else if (status<80){
+            estadoMarital = "Casado";
+        }
+        else{
+            estadoMarital = "Divorciado";
+        }
+    }
+    else{
+        estadoMarital = "Soltero";
+    }
+}
+
+void Humano::generarPareja(NodoHumano * nodoHumano){
+    if (nodoHumano->persona->estadoMarital == "Casado"){
+       NodoHumano * tmp = nodoHumano->siguiente;
+       do{
+           if(tmp->persona->estadoMarital == "Casado" && tmp->persona->Pareja == NULL){
+                if(alreadyIn(nodoHumano,tmp) && tmp->persona->Madre != nodoHumano->persona
+                        && tmp->persona->Padre != nodoHumano->persona){
+                    nodoHumano->persona->Pareja = tmp->persona;
+                    tmp->persona->Pareja = nodoHumano->persona;
+                    return;
+                }
+            }
+            tmp = tmp->siguiente;
+             }while(tmp != nodoHumano);
+       }
+}
 bool Humano::alreadyAmigo(NodoHumano * evaluar){
     if (amigos.primerNodo != NULL){
         NodoHumano * tmp = amigos.primerNodo;
@@ -294,92 +421,7 @@ QString Humano::imprimirAmigosOtro(){
     return info+"]";
 }
 
-bool Humano::alreadyIn(NodoHumano * padre,NodoHumano * hijo){
-    if(padre->persona->Madre != NULL && padre->persona->Padre != NULL){
-        return(padre->persona->Madre != hijo->persona && padre->persona->Madre->Madre != hijo->persona &&
-               padre->persona->Madre->Padre != hijo->persona && padre->persona->Padre != hijo->persona &&
-               padre->persona->Padre->Madre != hijo->persona && padre->persona->Padre->Padre != hijo->persona);
-        }
-    else if(padre->persona->Padre != NULL){
-        return (padre->persona->Padre != hijo->persona && padre->persona->Padre->Madre != hijo->persona &&
-        padre->persona->Padre->Padre != hijo->persona);
-    }
-    else if(padre->persona->Madre != NULL){
-        return (padre->persona->Madre != hijo->persona && padre->persona->Madre->Madre != hijo->persona &&
-        padre->persona->Madre->Padre != hijo->persona);
-    }
-    return true;
-}
-bool Humano::encontrarParentesco(NodoHumano * padre,NodoHumano * hijo){
-   QString generoPadre = hijo->persona->genero;
-   QString generoHijo = hijo->persona->genero;
-   if (generoPadre == "Mujer" && hijo->persona->Madre == NULL){
-           if(alreadyIn(padre,hijo)){
-                hijo->persona->Madre = padre->persona;
-                return true;
-           }
-   }
-   else if(generoPadre == "Hombre" && hijo->persona->Padre == NULL){
-            if(alreadyIn(padre,hijo)){
-                hijo->persona->Padre = padre->persona;
-                return true;
-            }
-   }
-   return false;
-}
-void Humano::crearHijosAux(NodoHumano * nodoHumano, NodoHumano * hijo){
-    QString grupoEtarioPadre = nodoHumano->persona->grupoEtario;
-    QString grupoEtarioHijo = hijo->persona->grupoEtario;
-    if (grupoEtarioPadre == "Joven"){
-        if(grupoEtarioHijo == "Infantil" || grupoEtarioHijo == "Pre-escolar")
-            if(!encontrarParentesco(nodoHumano,hijo))
-                nodoHumano->persona->hijos.agregarHumano(hijo->persona);
-    }
-    else if (grupoEtarioPadre == "Adulto Joven"){
-        if(grupoEtarioHijo == "Infantil" || grupoEtarioHijo == "Pre-escolar" ||
-           grupoEtarioHijo == "Escolar" || grupoEtarioHijo == "Pubertad")
-            if(!encontrarParentesco(nodoHumano,hijo))
-                nodoHumano->persona->hijos.agregarHumano(hijo->persona);
-    }
-    else if (grupoEtarioPadre == "Adulto Maduro"){
-        if(grupoEtarioHijo == "Adolescencia" || grupoEtarioHijo == "Joven" ||
-           grupoEtarioHijo == "Adulto Joven")
-            if(!encontrarParentesco(nodoHumano,hijo))
-                nodoHumano->persona->hijos.agregarHumano(hijo->persona);
-    }
-    else
-        if(grupoEtarioHijo == "Adulto Joven" || grupoEtarioHijo == "Adulto Maduro")
-            if(!encontrarParentesco(nodoHumano,hijo))
-                nodoHumano->persona->hijos.agregarHumano(hijo->persona);
-}
-bool Humano::posiblePadre(NodoHumano * nodoHumano, NodoHumano * hijo){
-    if (nodoHumano->persona->genero == "Hombre"){
-        if (nodoHumano->persona->apellido == hijo->persona->apellido)
-            return true;
-        else if (hijo->persona->Madre != NULL)
-            return true;
-    }
-    else{
-        if (hijo->persona->Padre != NULL)
-            return true;
-        else if (nodoHumano->persona->apellido == hijo->persona->apellido)
-            return true;
-    }
-    return false;
-}
-void Humano::crearHijos(NodoHumano * nodoHumano){
-    if (nodoHumano->persona->edad >= 24)
-        if (nodoHumano->persona->amigos.largo < nodoHumano->persona->cantHijos){
-            NodoHumano * tmp = nodoHumano->siguiente;
-            do{
-                if(nodoHumano->persona->paisOrigen == tmp->persona->paisOrigen){
-                    if (posiblePadre(nodoHumano, tmp))
-                        crearHijosAux(nodoHumano, tmp);
-                }
-                tmp = tmp->siguiente;
-              }while(tmp != nodoHumano && nodoHumano->persona->hijos.largo < cantHijos);
-        }
-}
+
 void Humano::generarCantHijos(){
     if (edad >= 24){
         std::uniform_int_distribution<int> dist(0, 4);
@@ -650,5 +692,75 @@ QString ListaHumano::imprimirLista(){
     return info;
 }
 
+void Humano::cadenaAmigos(ListaHumano * evaluados){
+    evaluados->agregarHumano(this);
+    if (amigos.primerNodo != NULL){
+
+        NodoHumano * tmp = amigos.primerNodo;
+
+        do{
+
+            if (!evaluados->esta(tmp->persona)){
+                temporal.info += QString::number(tmp->persona->ID) + " amigo de: "+ QString::number(ID) +"\n";
+                tmp->persona->cadenaAmigos(evaluados);
+            }
+
+            tmp = tmp->siguiente;
+
+        }while(tmp!=amigos.primerNodo);
+    }
+
+}
+void Humano::cadenaAmigosAux(){
+    ListaHumano * lista = new ListaHumano();
+    temporal.info = "Amigos directos: \n";
+    temporal.info += imprimirAmigos();
+    temporal.info += "\nCadena de amigos completa: \n";
+    cadenaAmigos(lista);
+}
+
+bool ListaHumano::esta(Humano * humano){
+    if (primerNodo != NULL){
+
+        NodoHumano * tmp = primerNodo;
+
+        do{
+            if (tmp->persona == humano){
+                qDebug() << "entra"<<humano->ID;
+                return true;
+            }
+            tmp = tmp->siguiente;
+
+        }while(tmp!=primerNodo);
+    }
+    return false;
+}
 
 
+void Humano::imprimirFamilia(QString array[]){
+    QString padre,madre,humano,hijo;
+    int cont = 3;
+    if (Padre != NULL){
+        padre =Padre->nombre +" " + Padre->apellido+"-"+Padre->ID;
+        array[0] = padre;
+    }
+    if (Madre != NULL){
+        madre = Madre->nombre +" "+ Madre->apellido+"-"+Madre->ID;
+        array[1] = madre;
+    }
+    humano = nombre + " "+ apellido;
+    array[2] = humano;
+    if(hijos->primerNodo != NULL){
+        NodoHumano * tmp = hijos->primerNodo;
+        do{
+        hijo = tmp->persona->nombre +" "+ tmp->persona->apellido+"-"+QString::number(tmp->persona->ID);
+        qDebug()<<"Hijo   : "+hijo;
+        array[cont] = hijo;
+        cont++;
+        tmp = tmp->siguiente;
+        }
+        while (tmp != hijos->primerNodo);
+    }
+
+
+}

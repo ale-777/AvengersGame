@@ -127,6 +127,7 @@ struct ListaHumano{
     QString killCincuentaPorciento(QString villano, QString deporte);
     ListaHumano * listaPorDeporte (QString deporte);
     QString imprimirLista();
+    bool esta(Humano * humano);
 
 
 };
@@ -282,13 +283,13 @@ struct Humano{
 
     //Personas
     ListaHumano amigos;
-    int estadoMarital;
+    QString estadoMarital;
     int edad;
-    Humano * Padre;
-    Humano * Madre;
-    Humano * Pareja;
+    Humano * Padre = NULL;
+    Humano * Madre = NULL;
+    Humano * Pareja = NULL;
     int cantHijos;
-    ListaHumano hijos;
+    ListaHumano * hijos = new ListaHumano();
     // Salud
     int cantDeporte;
     ListaDeportes deportes;
@@ -298,6 +299,9 @@ struct Humano{
     QString paisOrigen;
     QString continente;
     ListaPaises paisesVisitados;
+
+    QString cadenaDeAmigos;
+
 
 
     //CONSTRUCTOR
@@ -319,6 +323,7 @@ struct Humano{
         //generarExperiencias();
         generarCantHijos();
         generarDeportes();
+
 
     }
     void generarFecha();
@@ -353,6 +358,20 @@ struct Humano{
     QString formato (QString informacion);
     bool allFriendsDead();
     void killAmigos();
+    void cadenaAmigos(ListaHumano *);
+    void cadenaAmigosAux();
+
+    void imprimirFamilia(QString array[]);
+    void generarEstadoMarital();
+    void generarPareja(NodoHumano *);
 
 };
+struct Temporal{
+    QString info;
+
+    Temporal(){
+        info = "";
+    }
+};
+
 #endif // HUMANOS_H

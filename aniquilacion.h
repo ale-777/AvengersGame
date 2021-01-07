@@ -17,7 +17,6 @@ struct TeamAniquileishon{
         bitacora="";
         infoTemporalNebula = "";
         contTemporalNebula = 0;
-
     }
 
     void generarArchivo ();

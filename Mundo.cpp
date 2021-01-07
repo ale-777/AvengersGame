@@ -18,7 +18,6 @@ int Mundo::cantNiveles(float cant){
        pot++;
        res = (pow(2,pot))-1;
    }
-
    return pot;
 }
 void Mundo::agregarPoblacion(int cantidad){
