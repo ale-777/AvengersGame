@@ -130,6 +130,9 @@ struct ListaHumano{
     bool esta(Humano * humano);
     QString matarThanos(int,QString);
 
+    //para thor
+    QString salvarAmigosDeFamilia(int nivel);
+
 
 };
 struct NodoPais{
@@ -305,6 +308,8 @@ struct Humano{
 
     QString cadenaDeAmigos;
 
+    bool salvado;
+    bool aniquilado;
 
 
     //CONSTRUCTOR
@@ -326,6 +331,8 @@ struct Humano{
         generarExperiencias();
         generarCantHijos();
         generarDeportes();
+        salvado = false;
+        aniquilado = false;
 
 
     }
@@ -367,6 +374,10 @@ struct Humano{
     void imprimirFamilia(QString array[]);
     void generarEstadoMarital();
     void generarPareja(NodoHumano *);
+
+    //para thor
+    QString salvarAmigosDirectos(Humano *, int);
+    QString salvarAmigosDeFamiliaresDirectos (int nivel);
 
 };
 struct Temporal{

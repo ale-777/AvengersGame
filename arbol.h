@@ -34,6 +34,8 @@ struct Arbol{
    void print_tree_structure(NodoArbol *bt, int spaces);
 
    NodoArbol * buscar (int dato, NodoArbol * arbol);
+   void returnNivel (NodoArbol * arbol, int nivel);
+
 
 };
 #endif // ARBOL_H

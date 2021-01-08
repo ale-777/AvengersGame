@@ -568,6 +568,8 @@ QString ListaHumano::matarCincoHp(QString villano){
     NodoHumano *tmp = primerNodo;
     for (int i=1; i<=cant; i++){
         tmp->persona->vivo = false;
+        tmp->persona->salvado = false;
+        tmp->persona->aniquilado = true;
         if (villano == "Corvus"){
             info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantPecados())+ " pecados.\n";
             listaCorvus.agregarHumano(tmp->persona);
@@ -593,6 +595,8 @@ QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
     for (int i=1; i<=cant; i++){
         qDebug ()<<"entra";
         tmp->persona->vivo = false;
+        tmp->persona->salvado = false;
+        tmp->persona->aniquilado = true;
 
         if (villano == "Black"){
             qDebug ()<<"llega";
@@ -639,6 +643,7 @@ bool Humano::allFriendsDead(){
 }
 
 
+//MATA A LOS AMIGOS DE LOS AMIGOS RECURSIVAMENTE (NEBULA)-------------------------------------------------------------------------------
 void Humano::killAmigos(){
     qDebug()<<ID;
     if (amigos.primerNodo != NULL){
@@ -651,6 +656,8 @@ void Humano::killAmigos(){
                 tmp->persona->sucesos.agregarSucesos("Eliminado por Nebula por ser amigo de " + QString::number(ID));
                 aniquiladores.bitacora += tmp->persona->formato("Eliminado por Nebula por ser amigo de "+  QString::number(ID));
                 tmp->persona->vivo = false;
+                tmp->persona->salvado = false;
+                tmp->persona->aniquilado = true;
                 aniquiladores.contTemporalNebula ++;
                 listaNebula.agregarHumano(tmp->persona);
                 tmp->persona->killAmigos();
@@ -661,7 +668,7 @@ void Humano::killAmigos(){
         }while(tmp!=amigos.primerNodo);
     }
  }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------
 ListaHumano * ListaHumano::listaPorDeporte(QString deporte){
     ListaHumano * personas = new ListaHumano();
     if (primerNodo != NULL){
@@ -770,11 +777,71 @@ QString ListaHumano::matarThanos(int nivel,QString param){
     NodoHumano * tmp =primerNodo;
     do{
         tmp->persona->vivo = false;
+        tmp->persona->salvado = false;
+        tmp->persona->aniquilado = true;
         tmp->persona->sucesos.agregarSucesos("Aniquilado por Thanos por pertenecer por ser de "+param+": "+QString::number(nivel));
         aniquiladores.bitacora += tmp->persona->formato("Eliminado por Thanos por ser de "+param+": "+QString::number(nivel) + "\n");
         aniquiladores.contThanos ++;
         info += tmp->persona->formato("Eliminado por Thanos por ser de "+param+": "+QString::number(nivel) + "\n");
         tmp = tmp->siguiente;
     }while (tmp !=primerNodo);
+    return info;
+}
+
+
+//ALGORITMOS PARA THOR--------------------------
+QString Humano::salvarAmigosDirectos(Humano *familiar, int nivel){
+    QString info = " ";
+    if (amigos.primerNodo != NULL){
+        NodoHumano * tmp = amigos.primerNodo;
+        do{
+            if (!tmp->persona->vivo){
+                tmp->persona->vivo = true;
+                tmp->persona->salvado = true;
+                tmp->persona->aniquilado = false;
+                tmp->persona->sucesos.agregarSucesos("Salvado por Thor por ser amigo de: "+QString::number(ID)+" que es familiar de "
+                                                     +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel));
+                avengers.bitacora += tmp->persona->formato("Salvado por Thor por ser amigo de: "+QString::number(ID)+" que es familiar de "
+                                                           +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel)+"\n");
+                info += "ID: "+ QString::number(tmp->persona->ID)+ "Salvado por por ser amigo de: "+QString::number(ID)+" que es familiar de "
+                        +QString::number(familiar->ID)+"\n";
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=amigos.primerNodo);
+    }
+    return info;
+}
+
+QString Humano::salvarAmigosDeFamiliaresDirectos (int nivel){
+    QString info = " ";
+    if (Padre != NULL){
+        info += Padre->salvarAmigosDirectos(this, nivel);
+    }
+    if (Madre != NULL){
+        info += Padre->salvarAmigosDirectos(this, nivel);
+    }
+    if (Pareja != NULL){
+        info += Pareja->salvarAmigosDirectos(this, nivel);
+    }
+    //a los hijos
+    if (hijos->primerNodo != NULL){
+        NodoHumano * tmp = amigos.primerNodo;
+        do{
+            info += tmp->persona->salvarAmigosDirectos(this, nivel);
+            tmp = tmp->siguiente;
+
+        }while(tmp!=amigos.primerNodo);
+    }
+    return info;
+}
+QString ListaHumano::salvarAmigosDeFamilia(int nivel){
+    QString info = " ";
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            info += tmp->persona->salvarAmigosDeFamiliaresDirectos(nivel);
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
     return info;
 }

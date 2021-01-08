@@ -32,6 +32,8 @@ private slots:
 
     void on_sumarBuenasAcciones_clicked();
 
+    void on_btn_salvacion_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

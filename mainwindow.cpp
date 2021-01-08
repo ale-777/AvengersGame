@@ -5,6 +5,7 @@
 #include "ventanaconsultas.h"
 #include "verarbol.h"
 #include "ventanaaniquilacion.h"
+#include "ventanasalvacion.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -61,4 +62,10 @@ void MainWindow::on_btn_aniquilacion_clicked()
 void MainWindow::on_sumarBuenasAcciones_clicked()
 {
     planeta.sumarBuenasAcciones();
+}
+
+void MainWindow::on_btn_salvacion_clicked()
+{
+    ventanaSalvacion *ventana = new ventanaSalvacion();
+    ventana->show();
 }

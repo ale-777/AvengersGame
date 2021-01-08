@@ -14,11 +14,13 @@ SOURCES += \
     Mundo.cpp \
     aniquilacion.cpp \
     arbol.cpp \
+    avengers.cpp \
     displayhumanos.cpp \
     main.cpp \
     mainwindow.cpp \
     ventanaaniquilacion.cpp \
     ventanaconsultas.cpp \
+    ventanasalvacion.cpp \
     verarbol.cpp
 
 HEADERS += \
@@ -27,10 +29,12 @@ HEADERS += \
     Mundo.h \
     aniquilacion.h \
     arbol.h \
+    avengers.h \
     displayhumanos.h \
     mainwindow.h \
     ventanaaniquilacion.h \
     ventanaconsultas.h \
+    ventanasalvacion.h \
     verarbol.h
 
 FORMS += \
@@ -38,6 +42,7 @@ FORMS += \
     mainwindow.ui \
     ventanaaniquilacion.ui \
     ventanaconsultas.ui \
+    ventanasalvacion.ui \
     verarbol.ui
 
 # Default rules for deployment.

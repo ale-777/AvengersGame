@@ -122,3 +122,14 @@ NodoArbol * Arbol::buscar (int dato, NodoArbol * arbol){
 
         return buscar(dato, arbol->izquierdo);
     }
+
+void Arbol::returnNivel(NodoArbol *arbol, int nivel){
+    if (arbol != NULL){
+        if (nivel == 0){
+            nivelXArbol.agregarHumano(arbol->humano->persona);
+        }
+        returnNivel(arbol->derecho, nivel-1);
+        returnNivel(arbol->izquierdo, nivel-1);
+    }
+
+}

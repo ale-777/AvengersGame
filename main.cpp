@@ -7,7 +7,11 @@
 int main(int argc, char *argv[])
 {
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(10000);
+    planeta.agregarPoblacion(500);
+
+    arbolMundial.returnNivel(arbolMundial.raiz, 2);
+    qDebug()<<nivelXArbol.largo;
+    qDebug()<<nivelXArbol.imprimirLista();
 
     QApplication a(argc, argv);
     MainWindow w;

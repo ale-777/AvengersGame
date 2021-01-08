@@ -14,7 +14,7 @@ struct TeamAniquileishon{
     int contThanos;
 
     TeamAniquileishon(){
-        bitacora="";
+        bitacora=" ";
         infoTemporalNebula = "";
         contTemporalNebula = 0;
         contThanos = 0;
