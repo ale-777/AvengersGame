@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(500);
+    planeta.agregarPoblacion(1000);
 
     arbolMundial.returnNivel(arbolMundial.raiz, 2);
     qDebug()<<nivelXArbol.largo;

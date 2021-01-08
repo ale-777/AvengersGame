@@ -135,10 +135,16 @@ void Humano::generarExperiencias(){
         }
     }
 }
+QString Humano::imprimirPareja(){
+    if (Pareja != NULL){
+        return "Pareja: "+QString::number(Pareja->ID)+" "+Pareja->nombre+"\n";}
+    return "Pareja no tiene";
+}
 
 QString Humano::imprimirHumano(){
     QString humano = "\nindex" + QString::number(index) +" CantHijos" + QString::number(cantHijos) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido +
             " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n";
+    QString pareja= imprimirPareja();
     QString amigos = "Amigos: \n" + imprimirAmigos();
     QString deporte = "Deporte por semana: "+QString::number(cantDeporte)+"\n" + deportes.imprimirDeporte();
     QString pecado = "Pecados: \n Lujuria: " + QString::number(pecados[0])  + " Gula: " + QString::number(pecados[1])  + " Avaricia: "+ QString::number(pecados[2])+" Pereza: " + QString::number(pecados[3])+" Ira: "+QString::number(pecados[4])+" Envidia: "+QString::number(pecados[5])+" Soberbia: "+QString::number(pecados[6])+"\n";
@@ -149,7 +155,7 @@ QString Humano::imprimirHumano(){
     qDebug() <<"Pecados: "<<"Lujuria: "<<pecados[0]<<"Gula: "<<pecados[1]<<"Avaricia: "<<pecados[2]<<"Pereza: "<<pecados[3]<<"Ira: "<<pecados[4]<<"Envidia: "<<pecados[5]<<"Soberbia: "<<pecados[6]<<Qt::endl;
     qDebug() <<"Buenas Acciones: "<<"Castidad: "<<buenasAcciones[0]<<"Ayuno: "<<buenasAcciones[1]<<"Donacion: "<<buenasAcciones[2]<<"Diligencia: "<<buenasAcciones[3]<<"Calma: "<<buenasAcciones[4]<<"Solidaridad: "<<buenasAcciones[5]<<"Humildad: "<<buenasAcciones[6]<<Qt::endl;
 */
-    return humano +vida + amigos + deporte + pecado + acciones + listaSucesos;
+    return humano +pareja+vida + amigos + deporte + pecado + acciones + listaSucesos;
 }
 
 void Humano::imprimirPruebas(){
@@ -593,17 +599,15 @@ QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
 
     NodoHumano *tmp = primerNodo;
     for (int i=1; i<=cant; i++){
-        qDebug ()<<"entra";
         tmp->persona->vivo = false;
         tmp->persona->salvado = false;
         tmp->persona->aniquilado = true;
 
         if (villano == "Black"){
-            qDebug ()<<"llega";
             info += "Humano de ID "+QString::number(tmp->persona->ID) + " Practica el deporte: "+QString::number(tmp->persona->cantDeporte)+ " veces\n";
             listaCorvus.agregarHumano(tmp->persona);
         }
-        qDebug ()<<"sale";
+
 
         if (villano == "Black"){
             tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano+" Por practicar "+deporte +QString::number(tmp->persona->cantDeporte)+ " veces");
@@ -815,22 +819,26 @@ QString Humano::salvarAmigosDirectos(Humano *familiar, int nivel){
 QString Humano::salvarAmigosDeFamiliaresDirectos (int nivel){
     QString info = " ";
     if (Padre != NULL){
+        qDebug()<<ID<< "Entra a padre";
         info += Padre->salvarAmigosDirectos(this, nivel);
     }
     if (Madre != NULL){
-        info += Padre->salvarAmigosDirectos(this, nivel);
+        qDebug()<<ID<< "Entra a madre";
+        info += Madre->salvarAmigosDirectos(this, nivel);
     }
     if (Pareja != NULL){
+        qDebug()<<ID<< "Entra a pareja";
         info += Pareja->salvarAmigosDirectos(this, nivel);
     }
     //a los hijos
     if (hijos->primerNodo != NULL){
-        NodoHumano * tmp = amigos.primerNodo;
+        NodoHumano * tmp = hijos->primerNodo;
         do{
+            qDebug()<<ID<< "Entra a hijos";
             info += tmp->persona->salvarAmigosDirectos(this, nivel);
             tmp = tmp->siguiente;
 
-        }while(tmp!=amigos.primerNodo);
+        }while(tmp!=hijos->primerNodo);
     }
     return info;
 }

@@ -370,6 +370,7 @@ struct Humano{
     void killAmigos();
     void cadenaAmigos(ListaHumano *);
     void cadenaAmigosAux();
+    QString imprimirPareja();
 
     void imprimirFamilia(QString array[]);
     void generarEstadoMarital();
