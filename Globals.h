@@ -12,6 +12,7 @@ extern struct Mundo planeta;
 extern struct ListaHumano poblacionMundial;
 extern struct Arbol arbolMundial;
 extern struct TeamAniquileishon aniquiladores;
+extern struct Hashmap HashmapGlobal[101];
 
 extern struct ListaHumano listaCorvus;
 extern struct ListaHumano listaMidnight;

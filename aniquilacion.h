@@ -7,16 +7,17 @@
 #include <QtCore>
 using namespace std;
 struct ListaHumano;
-struct Hashmap;
 struct TeamAniquileishon{
     QString bitacora;
     QString infoTemporalNebula;
     int contTemporalNebula;
+    int contThanos;
 
     TeamAniquileishon(){
         bitacora="";
         infoTemporalNebula = "";
         contTemporalNebula = 0;
+        contThanos = 0;
     }
 
     void generarArchivo ();
@@ -24,7 +25,7 @@ struct TeamAniquileishon{
     QString Midnight ();
     QString Black (int rutina, QString deporte);
     QString Nebula (int id);
-    QString generarHashMap ();
+    QString Thanos (bool opcion,int parametro);
 
 };
 

@@ -128,6 +128,7 @@ struct ListaHumano{
     ListaHumano * listaPorDeporte (QString deporte);
     QString imprimirLista();
     bool esta(Humano * humano);
+    QString matarThanos(int,QString);
 
 
 };
@@ -373,6 +374,60 @@ struct Temporal{
 
     Temporal(){
         info = "";
+    }
+};
+struct Hashmap{
+    int largo = 0;
+    ListaHumano nivel[10];
+    int calcularValor(Humano *persona){
+        int total = 0;
+        int promP = 0;
+        int promB = 0;
+        total += 100-persona->edad*2;
+        for (int i = 0; i<7; i++){
+            promP += persona->pecados[i];
+            promB += persona->buenasAcciones[i];
+        }
+        total += ((promB/7)-(promP/7));
+        total += persona->cantDeporte*10;
+        total += persona->amigos.largo*5;
+        total += persona->hijos->largo*10;
+        total += persona->paisesVisitados.largo;
+        return total;
+    }
+    void agregarANivel(Humano *agregado){
+        int valor = calcularValor(agregado);
+        if (valor < 0){
+           nivel[0].agregarHumano(agregado);
+        }
+        else if(valor < 50){
+            nivel[1].agregarHumano(agregado);
+        }
+        else if(valor < 75){
+            nivel[2].agregarHumano(agregado);
+        }
+        else if(valor < 100){
+            nivel[3].agregarHumano(agregado);
+        }
+        else if(valor < 125){
+            nivel[4].agregarHumano(agregado);
+        }
+        else if(valor < 150){
+            nivel[5].agregarHumano(agregado);
+        }
+        else if(valor < 175){
+            nivel[6].agregarHumano(agregado);
+        }
+        else if(valor < 200){
+            nivel[7].agregarHumano(agregado);
+        }
+        else if(valor < 225){
+            nivel[8].agregarHumano(agregado);
+        }
+        else{
+            nivel[9].agregarHumano(agregado);
+        }
+        largo++;
     }
 };
 

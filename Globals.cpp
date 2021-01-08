@@ -8,3 +8,4 @@ struct ListaHumano listaMidnight;
 struct ListaHumano listaBlack;
 struct ListaHumano listaNebula;
 struct Temporal temporal;
+struct Hashmap HashmapGlobal[101];
