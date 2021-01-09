@@ -777,20 +777,42 @@ void Humano::imprimirFamilia(QString array[]){
 
 
 }
+QString Humano::formatoThanos(int nivel,QString param){
+    QString paraSuceso;
+    QString paraBitacora;
+    QString paraInfo;
+    if (param == "nivel"){
+        paraSuceso = "Aniquilado por Thanos por ser de nivel: "+QString::number(nivel);
+        paraBitacora = formato("Eliminado por Thanos por ser de nivel: "+QString::number(nivel));
+        paraInfo = QString::number(ID)+"\t"+nombre+" "+apellido+"\tNacido en: "+QString::number(anno)+"\nEliminado por Thanos por ser de nivel:"+QString::number(nivel)+"\n\n";
+    }
+    else if (param == "año"){
+        paraSuceso = "Aniquilado por Thanos por ser del año: "+QString::number(anno);
+        paraBitacora = formato("Eliminado por Thanos por ser del año: "+QString::number(anno));
+        paraInfo = QString::number(ID)+"\t"+nombre+" "+apellido+"\tNacido en: "+QString::number(anno)+"\nEliminado por Thanos por ser del año:"+QString::number(anno)+"\n\n";
+    }
+    else if (param == "ambos"){
+        paraSuceso = "Aniquilado por Thanos por ser del año: "+QString::number(anno)+" y del nivel: "+QString::number(nivel);
+        paraBitacora = formato("Eliminado por Thanos por ser del año: "+QString::number(anno))+" y del nivel: "+QString::number(nivel);
+        paraInfo = QString::number(ID)+"\t"+nombre+" "+apellido+"\tNacido en: "+QString::number(anno)+"\nEliminado por Thanos por ser del año:"+QString::number(anno)+" y del nivel: "+QString::number(nivel)+"\n\n";
+    }
+
+    sucesos.agregarSucesos(paraSuceso);
+    aniquiladores.bitacora += paraBitacora;
+    return paraInfo;
+}
 QString ListaHumano::matarThanos(int nivel,QString param){
     QString info = "";
     QString suceso;
     if (primerNodo != NULL){
         NodoHumano * tmp =primerNodo;
         do{
-            qDebug()<<largo;
+            info+= tmp->persona->formatoThanos(nivel,param);
             tmp->persona->vivo = false;
             tmp->persona->salvado = false;
             tmp->persona->aniquilado = true;
-            tmp->persona->sucesos.agregarSucesos("Aniquilado por Thanos por pertenecer por ser de "+param+": "+QString::number(nivel));
-            aniquiladores.bitacora += tmp->persona->formato("Eliminado por Thanos por ser de "+param+": "+QString::number(nivel) + "\n");
+            listaThanos.agregarHumano(tmp->persona);
             aniquiladores.contThanos ++;
-            info += tmp->persona->formato("Eliminado por Thanos por ser de "+param+": "+QString::number(nivel) + "\n");
             tmp = tmp->siguiente;
         }while (tmp !=primerNodo);
     }

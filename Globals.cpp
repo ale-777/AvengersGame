@@ -11,7 +11,7 @@ struct ListaHumano listaNebula;
 
 struct ListaHumano listaThor;
 struct ListaHumano listaIronMan;
-
+struct ListaHumano ListaThanos;
 struct Temporal temporal;
 struct Hashmap HashmapGlobal[101];
 

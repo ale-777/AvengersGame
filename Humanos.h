@@ -378,6 +378,7 @@ struct Humano{
     void imprimirFamilia(QString array[]);
     void generarEstadoMarital();
     void generarPareja(NodoHumano *);
+    QString formatoThanos(int, QString);
 
     //para thor
     QString salvarAmigosDirectos(Humano *, int);

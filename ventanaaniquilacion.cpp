@@ -59,5 +59,5 @@ void ventanaAniquilacion::on_pushButton_3_clicked()
 {
     int anno = ui->spinAnno->value();
     int nivel = ui->spinNivel->value();
-    ui->textBrowser->setText(aniquiladores.Thanos(1,nivel,anno));
+    ui->textBrowser->setText(aniquiladores.Thanos(2,nivel,anno));
 }

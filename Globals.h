@@ -21,6 +21,7 @@ extern struct ListaHumano listaCorvus;
 extern struct ListaHumano listaMidnight;
 extern struct ListaHumano listaBlack;
 extern struct ListaHumano listaNebula;
+extern struct ListaHumano listaThanos;
 extern struct Temporal temporal;
 
 //PARA THOR
