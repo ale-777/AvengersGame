@@ -139,10 +139,15 @@ QString TeamAniquileishon::Nebula(int id){
 
 
 }
+QString matarPorAmbos(int nivel,int anno){
+    QString info = "";
+    info += HashmapGlobal[2020-anno].nivel[nivel].matarThanos(anno,"año");
+    return info;
+}
 QString matarPorAnno(int anno){
     QString info = "";
     for(int i = 0; i<=9;i++){
-         info += HashmapGlobal[anno].nivel[i].matarThanos(anno,"año");
+         info += HashmapGlobal[2020-anno].nivel[i].matarThanos(anno,"año");
 
     }
     return info;
@@ -157,7 +162,9 @@ QString matarPorNivel(int pNivel){
 QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
   QString info = "Algoritmo Thanos!\n";
   NodoHumano * tmp = poblacionMundial.primerNodo;
-  qDebug()<<"Llega";
+  for (int i = 0; i<=100;i++){
+      HashmapGlobal[i] = Hashmap();
+  }
   do{
       //qDebug()<<2020-tmp->persona->anno;
       if(tmp->persona->vivo)
@@ -165,12 +172,13 @@ QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
       //qDebug()<<2020-tmp->persona->anno;
       tmp = tmp->siguiente;
   }while(tmp!=poblacionMundial.primerNodo);
+
   if(opcion == 0)
       info += matarPorNivel(nivel);
   else if (opcion == 1)
       info += matarPorAnno(anno);
   else
-      qDebug()<<"else";
+      matarPorAmbos(nivel,anno);
   generarArchivo();
   return info;
 }

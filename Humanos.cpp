@@ -778,11 +778,12 @@ void Humano::imprimirFamilia(QString array[]){
 
 }
 QString ListaHumano::matarThanos(int nivel,QString param){
-    QString info = 0;
+    QString info = "";
     QString suceso;
     if (primerNodo != NULL){
         NodoHumano * tmp =primerNodo;
         do{
+            qDebug()<<largo;
             tmp->persona->vivo = false;
             tmp->persona->salvado = false;
             tmp->persona->aniquilado = true;
@@ -793,7 +794,6 @@ QString ListaHumano::matarThanos(int nivel,QString param){
             tmp = tmp->siguiente;
         }while (tmp !=primerNodo);
     }
-
     return info;
 }
 

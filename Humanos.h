@@ -397,8 +397,14 @@ struct Temporal{
     }
 };
 struct Hashmap{
-    int largo = 0;
+    int largo;
     ListaHumano nivel[10];
+    Hashmap(){
+        largo = 0;
+        for(int i = 0;i<=9; i++){
+            nivel[i].init();
+        }
+    }
     int calcularValor(Humano *persona){
         int total = 0;
         int promP = 0;
