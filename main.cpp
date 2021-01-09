@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "Globals.h"
+#include <iomanip>
+#include <cmath>
 
 #include <QApplication>
 
@@ -7,11 +9,7 @@
 int main(int argc, char *argv[])
 {
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(1000);
-
-    arbolMundial.returnNivel(arbolMundial.raiz, 2);
-    qDebug()<<nivelXArbol.largo;
-    qDebug()<<nivelXArbol.imprimirLista();
+    planeta.agregarPoblacion(800);
 
     QApplication a(argc, argv);
     MainWindow w;

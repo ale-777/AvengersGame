@@ -19,3 +19,8 @@ void ventanaSalvacion::on_btn_thor_clicked()
     int nivel = ui->nivelArbol->value();
     ui->textBrowser->setText(avengers.Thor(nivel));
 }
+
+void ventanaSalvacion::on_btn_ironMan_clicked()
+{
+    ui->textBrowser->setText(avengers.IronMan());
+}

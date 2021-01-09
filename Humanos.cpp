@@ -1,4 +1,6 @@
 #include "Globals.h"
+#include <iomanip>
+#include <cmath>
 void Humano::generarFecha(){
     std::uniform_int_distribution<int> dist(1920, 2020);
     anno = dist(* QRandomGenerator::global());
@@ -806,9 +808,10 @@ QString Humano::salvarAmigosDirectos(Humano *familiar, int nivel){
                 tmp->persona->sucesos.agregarSucesos("Salvado por Thor por ser amigo de: "+QString::number(ID)+" que es familiar de "
                                                      +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel));
                 avengers.bitacora += tmp->persona->formato("Salvado por Thor por ser amigo de: "+QString::number(ID)+" que es familiar de "
-                                                           +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel)+"\n");
+                                                           +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel));
                 info += "ID: "+ QString::number(tmp->persona->ID)+ "Salvado por por ser amigo de: "+QString::number(ID)+" que es familiar de "
                         +QString::number(familiar->ID)+"\n";
+                listaThor.agregarHumano(tmp->persona);
             }
             tmp = tmp->siguiente;
         }while(tmp!=amigos.primerNodo);
@@ -853,3 +856,149 @@ QString ListaHumano::salvarAmigosDeFamilia(int nivel){
     }
     return info;
 }
+//----------------------------------------------------------------------------------------------------
+
+//IRON MAN
+ListaHumano * ListaHumano::seleccionarAleatoriamente(int cant){
+    ListaHumano *seleccionados = new ListaHumano();
+    std::uniform_int_distribution<int> dist(0, 1);
+
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            double rand = dist(* QRandomGenerator::global());
+            if (rand == 1 && !seleccionados->esta(tmp->persona)){
+                seleccionados->agregarHumano(tmp->persona);
+            }
+
+            tmp = tmp->siguiente;
+        }while(seleccionados->largo < cant);
+    }
+    return seleccionados;
+}
+QString Humano::informacionParaIronMan(){
+    QString info = "ID "+QString::number(ID)+" Nombre: "+ nombre + " " + apellido+"\n";
+    if (Padre != NULL){
+        info += "\tPadre: "+QString::number(Padre->ID) +" " + Padre->nombre + " " + Padre->apellido+"\n";
+    }
+    if (Madre != NULL){
+        info += "\tMadre: "+QString::number(Madre->ID) + " " +Madre->nombre + " " + Madre->apellido+"\n";
+    }
+    if (Pareja != NULL){
+        info += "\tPareja: "+QString::number(Pareja->ID) + " " +Pareja->nombre + " " + Pareja->apellido+"\n";
+    }
+    if(hijos->primerNodo != NULL){
+        info += "\tHijos: \n";
+        NodoHumano * tmp = hijos->primerNodo;
+        do{
+            info += "\t"+QString::number(tmp->persona->ID) +" " + tmp->persona->nombre +" "+ tmp->persona->apellido+"\n";
+            tmp = tmp->siguiente;
+        }
+        while (tmp != hijos->primerNodo);
+    }
+    return info;
+}
+
+QString ListaHumano::detonarBombas(){
+    //genera random entre 40-60%
+    std::uniform_int_distribution<int> dist(40, 60);
+    double rand = dist(* QRandomGenerator::global());
+    //cantidad de nodos que van a explotar
+    int cantExplosiones = round(largo*(rand/100));
+
+    QString info = "Explotan el "+QString::number(rand)+"% de las bombas\nLa cantidad de nodos son: "+QString::number(cantExplosiones)+"\n";
+
+    ListaHumano *seleccionados = seleccionarAleatoriamente(cantExplosiones);
+    info += "---------------------------------------------------------------------------------------------\n";
+    info += "Los nodos seleccionados son:\n\n";
+
+
+    if (seleccionados->primerNodo != NULL){
+        NodoHumano * tmp = seleccionados->primerNodo;
+        do{
+            info += tmp->persona->informacionParaIronMan()+"\n";
+            tmp = tmp->siguiente;
+        }while(tmp!=seleccionados->primerNodo);
+    }
+    info += "---------------------------------------------------------------------------------------------\n";
+    info += "Salvados: "+QString::number(avengers.contTemporalIronMan)+"\n";
+    if (seleccionados->primerNodo != NULL){
+        NodoHumano * tmp = seleccionados->primerNodo;
+        do{
+            tmp->persona->salvarFamilia(tmp->persona,tmp->persona);
+            tmp = tmp->siguiente;
+        }while(tmp!=seleccionados->primerNodo);
+    }
+    info += avengers.infoTemporalIronMan;
+    return info;
+
+}
+
+void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
+    qDebug()<<ID;
+    if (Padre != NULL){
+        if (!Padre->vivo){
+            avengers.contTemporalIronMan ++;
+            Padre->vivo = true;
+            Padre->salvado = true;
+            Padre->aniquilado = false;
+            Padre->salvarFamilia(inicial, Padre);
+            Padre->sucesos.agregarSucesos("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.infoTemporalIronMan += QString::number(Padre->ID)+" Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+            listaIronMan.agregarHumano(Padre);
+            avengers.bitacora += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacoraIronman += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+        }
+    }
+    if (Madre != NULL){
+        if (!Madre->vivo){
+            avengers.contTemporalIronMan ++;
+            Madre->vivo = true;
+            Madre->salvado = true;
+            Madre->aniquilado = false;
+            Madre->salvarFamilia(inicial, Madre);
+            Madre->sucesos.agregarSucesos("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.infoTemporalIronMan += QString::number(Madre->ID)+" Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+            listaIronMan.agregarHumano(Madre);
+            avengers.bitacora += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacoraIronman += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+        }
+    }
+    if (Pareja != NULL){
+        if (!Pareja->vivo){
+            avengers.contTemporalIronMan ++;
+            Pareja->vivo = true;
+            Pareja->salvado = true;
+            Pareja->aniquilado = false;
+            Pareja->salvarFamilia(inicial, Pareja);
+            Pareja->sucesos.agregarSucesos("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.infoTemporalIronMan += QString::number(Pareja->ID)+" Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+            listaIronMan.agregarHumano(Pareja);
+            avengers.bitacora += Pareja->formato("Salvado por IronMan al ser Pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacoraIronman += Pareja->formato("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+
+        }
+    }
+    if (hijos->primerNodo != NULL){
+        NodoHumano * tmp = hijos->primerNodo;
+
+        do{
+            if (!tmp->persona->vivo){
+                avengers.contTemporalIronMan ++;
+                tmp->persona->vivo = true;
+                tmp->persona->salvado = true;
+                tmp->persona->aniquilado = false;
+                tmp->persona->salvarFamilia(inicial, tmp->persona);
+                tmp->persona->sucesos.agregarSucesos("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+                avengers.infoTemporalIronMan += QString::number(tmp->persona->ID)+" Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+                listaIronMan.agregarHumano(tmp->persona);
+                avengers.bitacora += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+                avengers.bitacoraIronman += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+
+            }
+
+            tmp = tmp->siguiente;
+
+        }while(tmp!=hijos->primerNodo);
+    }
+ }

@@ -36,6 +36,7 @@ struct Arbol{
    NodoArbol * buscar (int dato, NodoArbol * arbol);
    void returnNivel (NodoArbol * arbol, int nivel);
 
+   void preOrden(NodoArbol* nodo);
 
 };
 #endif // ARBOL_H

@@ -132,6 +132,9 @@ struct ListaHumano{
 
     //para thor
     QString salvarAmigosDeFamilia(int nivel);
+    //para iron man
+    ListaHumano * seleccionarAleatoriamente(int cant);
+    QString detonarBombas();
 
 
 };
@@ -379,6 +382,11 @@ struct Humano{
     //para thor
     QString salvarAmigosDirectos(Humano *, int);
     QString salvarAmigosDeFamiliaresDirectos (int nivel);
+
+
+    //iron man
+    QString informacionParaIronMan();
+    void salvarFamilia(Humano * inicial,Humano * relacion);
 
 };
 struct Temporal{

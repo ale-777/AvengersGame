@@ -27,12 +27,22 @@ void Avengers::generarArchivo (){
     file.close();
 }
 
-
+//THOR
 QString Avengers::Thor(int nivel){
     QString info = "Algoritmo Thor\n";
     nivelXArbol.init();
     arbolMundial.returnNivel(arbolMundial.raiz, nivel);
     info += nivelXArbol.salvarAmigosDeFamilia(nivel);
+    generarArchivo();
+    return info;
+}
+
+//IRON MAN
+QString Avengers::IronMan (){
+    QString info = "Algoritmo Ironman\n";
+    arbolPreOrden.init(); //reinicia la lista
+    arbolMundial.preOrden(arbolMundial.raiz); //llena de nuevo la lista preorden
+    info += arbolPreOrden.detonarBombas();
     generarArchivo();
     return info;
 }

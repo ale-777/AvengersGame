@@ -21,6 +21,16 @@ void Arbol::insertar(NodoHumano * dato){
     raiz = agregarNodo (raiz , dato);
 }
 
+void Arbol::preOrden(NodoArbol* nodo)
+{
+   if (nodo != NULL)
+   {
+     arbolPreOrden.agregarHumano(nodo->humano->persona); //convierte el arbol a una lista de humanos
+     preOrden(nodo->izquierdo);
+     preOrden(nodo->derecho);
+   }
+}
+
 
 void Arbol::crearArbol(){
     arbolMundial = Arbol();
@@ -31,31 +41,12 @@ void Arbol::crearArbol(){
 
     //hacer la lista con los nodos
     ListaHumano *listaNodos = poblacionMundial.nodosArbol(secuencia);
-    NodoHumano *raizPrincipal = listaNodos->centroLista();
-    ListaHumano *primerMitad = listaNodos->primerMitadOrden();
-    ListaHumano *segundaMitad = listaNodos->segundaMitad();
-
-    /*
-    qDebug()<<"Lista nodos: ";
-    listaNodos->mostrarLista();
-
-
-    qDebug()<<"Raiz: ";
-    raizPrincipal->persona->imprimirPruebas();
-
-    qDebug()<<"Lista primer mitad: ";
-    primerMitad->mostrarLista();
-
-    qDebug()<<"Lista segunda mitad: ";
-    segundaMitad->mostrarLista();*/
 
     llenarArbol(listaNodos);
 
 }
 
 void Arbol::llenarArbol(ListaHumano *lista){
-    //qDebug()<<"agrega: ";
-    //lista->centroLista()->persona->imprimirPruebas();
 
     insertar(lista->centroLista());
     if (lista->largo > 1){
@@ -79,11 +70,16 @@ QString Arbol::print2DUtil(QString resultado, NodoArbol *root, int space)  {
     // Print current node after space
     // count
 
-    qDebug()<<Qt::endl;
     resultado += "\n";
-    for (int i = COUNT; i < space; i++)
+    for (int i = COUNT; i < space; i++){
         resultado += "   ";
+    }
     resultado += QString::number(root->humano->persona->ID)+"\n";
+
+    for (int i = COUNT; i < space; i++){
+        resultado += "   ";
+    }
+    resultado += "Index: "+QString::number(root->humano->persona->index);
 
     // Process left child
     resultado = print2DUtil(resultado, root->izquierdo, space);

@@ -10,8 +10,13 @@ struct ListaHumano listaBlack;
 struct ListaHumano listaNebula;
 
 struct ListaHumano listaThor;
+struct ListaHumano listaIronMan;
 
 struct Temporal temporal;
 struct Hashmap HashmapGlobal[101];
 
+//PARA THOR
 struct ListaHumano nivelXArbol;
+
+//PARA IRON MAN
+struct ListaHumano arbolPreOrden;

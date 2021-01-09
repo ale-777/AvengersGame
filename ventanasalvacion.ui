@@ -112,6 +112,19 @@
     <string>Lo que está pasando...</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_ironMan">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>120</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IRONMAN</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
