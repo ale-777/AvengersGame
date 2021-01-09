@@ -25,7 +25,7 @@ struct TeamAniquileishon{
     QString Midnight ();
     QString Black (int rutina, QString deporte);
     QString Nebula (int id);
-    QString Thanos (bool opcion,int parametro);
+    QString Thanos (int,int,int);
 
 };
 

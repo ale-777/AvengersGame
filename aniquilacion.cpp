@@ -151,11 +151,10 @@ QString matarPorNivel(int pNivel){
     QString info = "";
     for(int i = 0; i<=100;i++){
          info += HashmapGlobal[i].nivel[pNivel].matarThanos(pNivel,"nivel");
-
     }
     return info;
 }
-QString TeamAniquileishon::Thanos(bool opcion,int parametro){
+QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
   QString info = "Algoritmo Thanos!\n";
   NodoHumano * tmp = poblacionMundial.primerNodo;
   qDebug()<<"Llega";
@@ -166,9 +165,11 @@ QString TeamAniquileishon::Thanos(bool opcion,int parametro){
       //qDebug()<<2020-tmp->persona->anno;
       tmp = tmp->siguiente;
   }while(tmp!=poblacionMundial.primerNodo);
-  if(opcion)
-      info += matarPorNivel(parametro);
+  if(opcion == 0)
+      info += matarPorNivel(nivel);
+  else if (opcion == 1)
+      info += matarPorAnno(anno);
   else
-      info += matarPorAnno(parametro);
+      //do
   return info;
 }

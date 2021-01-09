@@ -44,6 +44,13 @@ void ventanaAniquilacion::on_btn_nebula_clicked()
 }
 void ventanaAniquilacion::on_pushButton_clicked()
 {
-
+   int nivel = ui->spinNivel->value();
+   ui->textBrowser->setText(aniquiladores.Thanos(0,nivel,0));
 }
 
+
+void ventanaAniquilacion::on_pushButton_2_clicked()
+{
+    int anno = ui->spinAnno->value();
+    ui->textBrowser->setText(aniquiladores.Thanos(1,0,anno));
+}
