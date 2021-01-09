@@ -170,6 +170,7 @@ QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
   else if (opcion == 1)
       info += matarPorAnno(anno);
   else
-      //do
+      qDebug()<<"else";
+  generarArchivo();
   return info;
 }
