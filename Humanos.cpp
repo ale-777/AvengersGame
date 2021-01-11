@@ -1027,3 +1027,5 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
         }while(tmp!=hijos->primerNodo);
     }
  }
+
+

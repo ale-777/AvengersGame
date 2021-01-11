@@ -10,6 +10,8 @@ using namespace std;
 struct NodoHumano;
 struct ListaHumano;
 struct NodoArbol{
+   int cantFero = 0;
+   int FeroRama = 0;
    NodoHumano * humano;
    NodoArbol * izquierdo;
    NodoArbol * derecho;
@@ -37,6 +39,10 @@ struct Arbol{
    void returnNivel (NodoArbol * arbol, int nivel);
 
    void preOrden(NodoArbol* nodo);
+   void limpiarHormigas(NodoArbol*);
+   void recorrerArbol(NodoArbol*);
+   NodoArbol * obtenerMayor(NodoArbol*,int,int);
+   int contarFeromonas(NodoArbol *);
 
 };
 #endif // ARBOL_H

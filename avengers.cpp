@@ -46,3 +46,20 @@ QString Avengers::IronMan (){
     generarArchivo();
     return info;
 }
+void Avengers::algoritmoAntMan(int cantidad){
+    avengers.rutaHormiga = "";
+    arbolMundial.limpiarHormigas(arbolMundial.raiz);
+    for (int i = 0; i<cantidad;i++){
+        avengers.rutaHormiga += "Hormiga #"+QString::number(i)+":\n";
+        arbolMundial.recorrerArbol(arbolMundial.raiz);
+    }
+    qDebug()<<"Hormigas ponidas";
+    NodoArbol * primerMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,0);
+    NodoArbol * segundoMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,primerMayor->FeroRama);
+    qDebug()<<"Primera Persona: "<<primerMayor->FeroRama<<primerMayor->humano->persona->ID;
+    qDebug()<<"Segundo Persona: "<<segundoMayor->FeroRama<<segundoMayor->humano->persona->ID;
+    ofstream file;
+    file.open("archivosHormigas/hormigasNoPutas.txt");
+    file << avengers.rutaHormiga.toStdString();
+    file.close();
+}
