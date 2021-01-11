@@ -151,33 +151,44 @@ void Arbol::recorrerArbol(NodoArbol * raiz){
             recorrerArbol(raiz->derecho);
         }
     }
+    else{
+        raiz->cantFero++;
+    }
 }
 int Arbol::contarFeromonas(NodoArbol * raiz){
     if (raiz!=NULL){
+        //qDebug()<< raiz->cantFero + contarFeromonas(raiz->izquierdo) + contarFeromonas(raiz->derecho);
         return raiz->cantFero + contarFeromonas(raiz->izquierdo) + contarFeromonas(raiz->derecho);
+
     }
     else
         return 0;
 }
 NodoArbol *Arbol::obtenerMayor(NodoArbol * raiz, int cont, int primerMayor){
+    qDebug()<<"contador "<<cont<<" Mayor "<<primerMayor;
     if(raiz->izquierdo != NULL && raiz->derecho != NULL){
-        if(contarFeromonas(raiz->izquierdo)> contarFeromonas(raiz->derecho)){
+        if(contarFeromonas(raiz->izquierdo) > contarFeromonas(raiz->derecho)){
             if (primerMayor != 0){
-                if (cont+raiz->cantFero+raiz->izquierdo->cantFero <= primerMayor){
+                if (cont+raiz->cantFero+raiz->izquierdo->cantFero < primerMayor){
+                    qDebug()<<"izquierdo";
                     return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
                 }
                 else{
+                    qDebug()<<"derecho";
                    return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
                 }
             }
+
             return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
         }
         else if(contarFeromonas(raiz->izquierdo)< contarFeromonas(raiz->derecho)){
             if (primerMayor != 0){
-                if (cont+raiz->cantFero+raiz->derecho->cantFero <= primerMayor){
+                if (cont+raiz->cantFero+raiz->derecho->cantFero < primerMayor){
+                    qDebug()<<"izquierdo";
                     return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
                 }
                 else {
+                    qDebug()<<"derecho";
                     return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
                     }
              }
@@ -196,5 +207,7 @@ NodoArbol *Arbol::obtenerMayor(NodoArbol * raiz, int cont, int primerMayor){
        }
     }
     raiz->FeroRama = cont + raiz->cantFero;
+
+    qDebug()<<raiz->FeroRama;
     return raiz;
 }

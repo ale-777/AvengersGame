@@ -1,6 +1,9 @@
 #include "Globals.h"
 #include <iomanip>
 #include <cmath>
+
+
+
 void Humano::generarFecha(){
     std::uniform_int_distribution<int> dist(1920, 2020);
     anno = dist(* QRandomGenerator::global());
