@@ -249,23 +249,21 @@ QString TeamAniquileishon::consultaThanos(){
 
 QString TeamAniquileishon::EbonyMaw(int id){
     if (planeta.consultaID(id) != NULL){
-        if (arbolMundial.buscar(planeta.consultaID(id)->index, arbolMundial.raiz) != NULL){
+
             if (planeta.consultaID(id)->vivo){
                 QString info = " Aniquilando a la familia de :"+QString::number(planeta.consultaID(id)->ID)+" "+planeta.consultaID(id)->nombre+" "+planeta.consultaID(id)->apellido+"\n";
                 arbolMundial.buscar(planeta.consultaID(id)->index, arbolMundial.raiz)->humano->persona->matarFamilia();
                 generarArchivo();
                 return "Algoritmo Ebony Maw!\nEl total de elminados fue: " +QString::number(contTemporalEbonyMaw)+ info + infoTemporalEbonyMaw;
-
             }
+
             else{
                 return "El humano seleccionado esta muerto";
             }
 
         }
-        else {
-            return "El ID seleccionado no pertenece al arbol";
-        }
-    }
+
+
     return "El ID no existe";
 
 

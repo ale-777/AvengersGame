@@ -24,6 +24,8 @@ extern struct ListaHumano listaNebula;
 extern struct ListaHumano listaThanos;
 extern struct ListaHumano listaSpiderman;
 extern struct ListaHumano listaEbonyMaw;
+
+extern struct ListaHumano listaAntMan;
 extern struct Temporal temporal;
 
 //PARA THOR

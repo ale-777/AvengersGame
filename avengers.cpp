@@ -148,6 +148,7 @@ void salvarPorRango(NodoArbol * inicio, NodoArbol * final){
             avengers.bitacora += tmp->persona->formato("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
             tmp->persona->sucesos.agregarSucesos("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
             tmp->persona->vivo = true;
+            listaAntMan.agregarHumano(tmp->persona);
             avengers.bitacoraAntMan += tmp->persona->formato("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
         }
         tmp = tmp->siguiente;

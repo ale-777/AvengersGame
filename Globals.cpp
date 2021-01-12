@@ -15,6 +15,8 @@ struct ListaHumano listaThanos;
 struct ListaHumano listaSpiderman;
 struct ListaHumano listaEbonyMaw;
 
+struct ListaHumano listaAntMan;
+
 struct Temporal temporal;
 struct Hashmap HashmapGlobal[101];
 
