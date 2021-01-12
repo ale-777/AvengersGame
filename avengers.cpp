@@ -1,5 +1,29 @@
 #include "Globals.h"
+void Avengers::generarArchivoPJ (QString info){
+    QDate algo = QDate::currentDate();
+    int dias = algo.day();
+    int mes = algo.month();
+    int anno = algo.year();
+    QString fecha = QString::number(anno)+"_"+QString::number(mes)+"_"+QString::number(dias);
+    QStringList date= fecha.split(QLatin1Char('_'), Qt::SkipEmptyParts);
+    QString fechaBuena = date[0]+date[1]+date[2];
 
+    QDateTime tiempo = QDateTime::currentDateTime();
+    QTime hora = tiempo.time();
+    QString hora2 = hora.toString();
+
+    QStringList time= hora2.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    QString horaBuena =  time[0]+time[1]+time[2];
+
+    QString nombre = fechaBuena+"_"+horaBuena;
+    QString ruta = "archivosSalvacion/"+nombre+".txt";
+    std::string nombreArchivo = ruta.toStdString();
+
+    ofstream file;
+    file.open(nombreArchivo);
+    file << info.toStdString();
+    file.close();
+}
 void Avengers::generarArchivo (){
 
     QDate algo = QDate::currentDate();
@@ -33,7 +57,7 @@ QString Avengers::Thor(int nivel){
     nivelXArbol.init();
     arbolMundial.returnNivel(arbolMundial.raiz, nivel);
     info += nivelXArbol.salvarAmigosDeFamilia(nivel);
-    generarArchivo();
+    generarArchivoPJ(avengers.bitacoraThor);
     return info;
 }
 
@@ -46,7 +70,7 @@ QString Avengers::IronMan (){
     arbolMundial.preOrden(arbolMundial.raiz); //llena de nuevo la lista preorden
     info += arbolPreOrden.detonarBombas();
     info += "Cant de salvados: "+QString::number(avengers.contTemporalIronMan)+"\n";
-    generarArchivo();
+    generarArchivoPJ(avengers.bitacoraIronman);
     return info;
 }
 
@@ -61,7 +85,7 @@ QString Avengers::Spiderman(){
     ListaHumano * telarana = arbolAListaParaSpiderman.colocarTelarana();
     info += telarana->recorrerTelarana();
     info += "Salvados: "+QString::number(avengers.contTemporalSpiderman);
-    generarArchivo();
+    generarArchivoPJ(avengers.bitacoraSpiderman);
     return info;
 }
 
@@ -167,5 +191,7 @@ void Avengers::algoritmoAntMan(int cantidad){
     qDebug()<<"Primera Persona: "<<primerMayor->FeroRama<<primerMayor->humano->persona->ID;
     qDebug()<<"Segundo Persona: "<<segundoMayor->FeroRama<<segundoMayor->humano->persona->ID;
     generarArchivoHormigas();
+
     salvarPorRango(primerMayor,segundoMayor);
+    generarArchivoPJ(avengers.bitacoraAntMan);
 }

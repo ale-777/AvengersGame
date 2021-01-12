@@ -40,6 +40,7 @@ struct Avengers{
     }
 
     void generarArchivo ();
+    void generarArchivoPJ (QString info);
 
     QString Thor (int nivel);
     QString IronMan ();
