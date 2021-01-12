@@ -11,6 +11,7 @@ struct Avengers{
 
     QString bitacoraIronman;
     QString bitacoraThor;
+    QString bitacoraAntMan;
 
     //Spiderman
     QString bitacoraSpiderman;
@@ -32,6 +33,7 @@ struct Avengers{
         bitacoraIronman = "";
         bitacoraThor = "";
         bitacoraSpiderman = "";
+        bitacoraAntMan = "";
         infoTemporalSpiderman = "";
         contTemporalSpiderman = 0;
 
@@ -47,6 +49,7 @@ struct Avengers{
     QString Spiderman();
 
     void consultaAvengers();
+    void generarArchivoHormigas ();
 };
 
 #endif // AVENGERS_H

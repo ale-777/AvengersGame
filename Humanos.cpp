@@ -139,6 +139,7 @@ void Humano::generarExperiencias(){
         }
     }
 }
+
 QString Humano::imprimirPareja(){
     if (Pareja != NULL){
         return "Pareja: "+QString::number(Pareja->ID)+" "+Pareja->nombre+"\n";}
@@ -147,7 +148,7 @@ QString Humano::imprimirPareja(){
 
 QString Humano::imprimirHumano(){
     QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +"\nNombre: " + nombre +" "+ apellido +
-            "\nGenero: " + genero + "\nPais de Origen: " + paisOrigen  + "\nGrupo Etario: " + grupoEtario + "\nAnno de Nacimiento: "+ QString::number(anno)+"\n";
+            "\nGenero: " + genero + "\nPais de Origen: " + paisOrigen  +"\nProfesion: "+profesion+"\nCreencia: "+creencia+ "\nGrupo Etario: " + grupoEtario + "\nAnno de Nacimiento: "+ QString::number(anno)+"\n";
     //QString pareja= "\n"+imprimirPareja();
     //**********************************FAMILIA*****************************************************************************
     QString familia = "\n"+imprimirFamiliaConsultaID();
@@ -236,8 +237,85 @@ bool Humano::alreadyIn(NodoHumano * padre,NodoHumano * hijo){
     }
     return true;
 }
+
+
+
+
+void Humano::generarEstadoMarital(){
+    std::uniform_int_distribution<int> dist(0, 100);
+    int status = dist(* QRandomGenerator::global());
+    if (edad >= 20){
+        if (status<10){
+            estadoMarital = "Soltero";
+        }
+        else if (status<80){
+            estadoMarital = "Casado";
+        }
+        else{
+            estadoMarital = "Divorciado";
+        }
+    }
+    else{
+        estadoMarital = "Soltero";
+    }
+}
+/*
+
+void Humano::generarPareja(NodoHumano * nodoHumano){
+
+    if ((nodoHumano->persona->estadoMarital == "Casado" || nodoHumano->persona->estadoMarital == "Divorciado") && nodoHumano->persona->Pareja == NULL){
+       QString estado = nodoHumano->persona->estadoMarital;
+
+       NodoHumano * tmp = nodoHumano->siguiente;
+       do{
+           if(tmp->persona->estadoMarital == estado && tmp->persona->Pareja == NULL){
+                if(alreadyIn(nodoHumano,tmp) && tmp->persona->Madre != nodoHumano->persona
+                        && tmp->persona->Padre != nodoHumano->persona){
+                    nodoHumano->persona->Pareja = tmp->persona;
+                    tmp->persona->Pareja = nodoHumano->persona;
+
+                    return;
+                }
+            }
+            tmp = tmp->siguiente;
+             }while(tmp != nodoHumano);
+       }
+}*/
+void Humano::generarPareja(NodoHumano * nodoHumano){
+    QString EMActual = nodoHumano->persona->estadoMarital;
+    QString EMTmp;
+    if (EMActual == "Casado" || EMActual == "Divorciado"){
+       NodoHumano * tmp = nodoHumano->siguiente;
+       do{
+           EMTmp = tmp->persona->estadoMarital;
+           if(((EMActual == "Casado" && EMActual == "Casado") || (EMActual == "Divorciado" && EMActual == "Divorciado"))
+                   && tmp->persona->Pareja == NULL){
+                if(alreadyIn(nodoHumano,tmp) && tmp->persona->Madre != nodoHumano->persona
+                        && tmp->persona->Padre != nodoHumano->persona){
+                    nodoHumano->persona->Pareja = tmp->persona;
+                    tmp->persona->Pareja = nodoHumano->persona;
+                    return;
+                }
+            }
+            tmp = tmp->siguiente;
+             }while(tmp != nodoHumano);
+       }
+}
+bool Humano::alreadyAmigo(NodoHumano * evaluar){
+    if (amigos.primerNodo != NULL){
+        NodoHumano * tmp = amigos.primerNodo;
+        do{
+            if (tmp->persona == evaluar->persona){
+                return true;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=amigos.primerNodo);
+    }
+    return false;
+}
+
 bool Humano::encontrarParentesco(NodoHumano * padre,NodoHumano * hijo){
-   QString generoPadre = hijo->persona->genero;
+   QString generoPadre = padre->persona->genero;
    QString generoHijo = hijo->persona->genero;
    if (generoPadre == "Mujer" && hijo->persona->Madre == NULL){
            if(alreadyIn(padre,hijo)){
@@ -290,74 +368,26 @@ bool Humano::posiblePadre(NodoHumano * nodoHumano, NodoHumano * hijo){
     return false;
 }
 void Humano::crearHijos(NodoHumano * nodoHumano){
-    if (nodoHumano->persona->edad >= 24){
+    if (nodoHumano->persona->edad >= 20){
         if (nodoHumano->persona->hijos->largo < nodoHumano->persona->cantHijos){
             NodoHumano * tmp = nodoHumano->siguiente;
             do{
                 if(nodoHumano->persona->paisOrigen == tmp->persona->paisOrigen){
-                    //if (posiblePadre(nodoHumano, tmp))
+                    if (posiblePadre(nodoHumano, tmp))
                         crearHijosAux(nodoHumano, tmp);
                }
                 else if(tmp->persona->Padre != NULL && tmp->persona->paisOrigen == tmp->persona->Padre->paisOrigen ){
-                    //if (posiblePadre(nodoHumano, tmp))
+                    if (posiblePadre(nodoHumano, tmp))
                         crearHijosAux(nodoHumano, tmp);
                 }
                 else if(tmp->persona->Madre != NULL && tmp->persona->paisOrigen == tmp->persona->Madre->paisOrigen ){
-                      //if (posiblePadre(nodoHumano, tmp))
+                      if (posiblePadre(nodoHumano, tmp))
                         crearHijosAux(nodoHumano, tmp);
                 }
                 tmp = tmp->siguiente;
               }while(tmp != nodoHumano && nodoHumano->persona->hijos->largo < nodoHumano->persona->cantHijos);
         }
     }
-}
-
-void Humano::generarEstadoMarital(){
-    std::uniform_int_distribution<int> dist(0, 100);
-    int status = dist(* QRandomGenerator::global());
-    if (edad >= 24){
-        if (status<10){
-            estadoMarital = "Soltero";
-        }
-        else if (status<80){
-            estadoMarital = "Casado";
-        }
-        else{
-            estadoMarital = "Divorciado";
-        }
-    }
-    else{
-        estadoMarital = "Soltero";
-    }
-}
-
-void Humano::generarPareja(NodoHumano * nodoHumano){
-    if (nodoHumano->persona->estadoMarital == "Casado"){
-       NodoHumano * tmp = nodoHumano->siguiente;
-       do{
-           if(tmp->persona->estadoMarital == "Casado" && tmp->persona->Pareja == NULL){
-                if(alreadyIn(nodoHumano,tmp) && tmp->persona->Madre != nodoHumano->persona
-                        && tmp->persona->Padre != nodoHumano->persona){
-                    nodoHumano->persona->Pareja = tmp->persona;
-                    tmp->persona->Pareja = nodoHumano->persona;
-                    return;
-                }
-            }
-            tmp = tmp->siguiente;
-             }while(tmp != nodoHumano);
-       }
-}
-bool Humano::alreadyAmigo(NodoHumano * evaluar){
-    if (amigos.primerNodo != NULL){
-        NodoHumano * tmp = amigos.primerNodo;
-        do{
-            if (tmp->persona == evaluar->persona){
-                return true;
-            }
-            tmp = tmp->siguiente;
-        }while(tmp!=amigos.primerNodo);
-    }
-    return false;
 }
 
 bool Humano::encontrarAmigosComun(NodoHumano * nodoHumano,NodoHumano * tmpHumano){
@@ -514,7 +544,7 @@ QString Humano::imprimirFamiliaConsultaID(){
 }
 
 void Humano::generarCantHijos(){
-    if (edad >= 24){
+    if (edad >= 20){
         std::uniform_int_distribution<int> dist(0, 4);
         cantHijos= dist(* QRandomGenerator::global());
     }
@@ -657,23 +687,28 @@ int Humano::cantBuenasAcciones(){
 //PARA MIDNIGHT Y CORVUS******************************************************************************************************
 QString ListaHumano::matarCincoHp(QString villano){
     int cant = largo*0.05;
-    QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n";
+    QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n\n";
     NodoHumano *tmp = primerNodo;
     for (int i=1; i<=cant; i++){
         tmp->persona->vivo = false;
         tmp->persona->salvado = false;
         tmp->persona->aniquilado = true;
         if (villano == "Corvus"){
-            info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantPecados())+ " pecados.\n";
+            info += "Humano de ID "+QString::number(tmp->persona->ID) +" "+ tmp->persona->nombre +  " " + tmp->persona->apellido + " Por "+QString::number(tmp->persona->cantPecados())+ " pecados.\n";
+            info += "Pecados: [Lujuria: " + QString::number(tmp->persona->pecados[0])  + ",Gula: " + QString::number(tmp->persona->pecados[1])  + ",Avaricia: "+ QString::number(tmp->persona->pecados[2])+",Pereza: " + QString::number(tmp->persona->pecados[3])+",Ira: "+QString::number(tmp->persona->pecados[4])+",Envidia: "+QString::number(tmp->persona->pecados[5])+",Soberbia: "+QString::number(tmp->persona->pecados[6])+"]\n\n";
             listaCorvus.agregarHumano(tmp->persona);
+            tmp->persona->sucesos.agregarSucesos("Eliminado por Corvus por "+QString::number(tmp->persona->cantPecados())+ " pecados.");
+            aniquiladores.bitacora += tmp->persona->formato("Eliminado por Corvus por "+QString::number(tmp->persona->cantPecados())+ " pecados.");
         }
         else if (villano == "Midnight"){
-            info += "Humano de ID "+QString::number(tmp->persona->ID) + " Por "+QString::number(tmp->persona->cantBuenasAcciones())+ " buenas Acciones.\n";
+            info += "Humano de ID "+QString::number(tmp->persona->ID) +" "+ tmp->persona->nombre +  " " + tmp->persona->apellido + " Por "+QString::number(tmp->persona->cantBuenasAcciones())+ " buenas Acciones.\n";
+            info += "Buenas Acciones: [Castidad: " + QString::number(tmp->persona->buenasAcciones[0]) + ",Ayuno: "+ QString::number(tmp->persona->buenasAcciones[1])+",Donacion: "+ QString::number(tmp->persona->buenasAcciones[2])+",Diligencia: "+QString::number(tmp->persona->buenasAcciones[3])+",Calma: "+QString::number(tmp->persona->buenasAcciones[4])+",Solidaridad: "+QString::number(tmp->persona->buenasAcciones[5])+",Humildad: "+QString::number(tmp->persona->buenasAcciones[6])+"]\n\n";
             listaMidnight.agregarHumano(tmp->persona);
+            tmp->persona->sucesos.agregarSucesos("Eliminado por Midnight Por "+QString::number(tmp->persona->cantBuenasAcciones())+ " buenas Acciones.");
+            aniquiladores.bitacora += tmp->persona->formato("Eliminado por Midnight Por "+QString::number(tmp->persona->cantBuenasAcciones())+ " buenas Acciones.");
         }
 
-        tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
-        aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
+
         tmp = tmp->siguiente;
 
     }
@@ -692,15 +727,14 @@ QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
         tmp->persona->aniquilado = true;
 
         if (villano == "Black"){
-            info += "Humano de ID "+QString::number(tmp->persona->ID) + " Practica el deporte: "+QString::number(tmp->persona->cantDeporte)+ " veces\n";
+            info += "Humano de ID "+QString::number(tmp->persona->ID) +" ["+tmp->persona->nombre+" "+tmp->persona->apellido+ "] Practica el deporte: "+QString::number(tmp->persona->cantDeporte)+ " veces\n";
             listaBlack.agregarHumano(tmp->persona);
+            tmp->persona->sucesos.agregarSucesos("Eliminado por Black por practicar "+deporte +" "+QString::number(tmp->persona->cantDeporte)+ " veces");
+            aniquiladores.bitacora += tmp->persona->formato("Eliminado por Black por practicar "+deporte +" "+QString::number(tmp->persona->cantDeporte)+ " veces");
         }
 
 
-        if (villano == "Black"){
-            tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano+" Por practicar "+deporte +QString::number(tmp->persona->cantDeporte)+ " veces");
-            aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano+" Por practicar "+deporte +QString::number(tmp->persona->cantDeporte)+ " veces");
-        }
+
         else{
             tmp->persona->sucesos.agregarSucesos("Eliminado por "+villano);
             aniquiladores.bitacora += tmp->persona->formato("Eliminado por "+villano);
@@ -715,8 +749,8 @@ QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
 
 QString Humano::formato (QString informacion){
     QString fecha = planeta.horaFecha();
-    QString info = "Humano "+QString::number(ID) + "\t" +nombre+" "+apellido+"\t"+paisOrigen+"\t"+imprimirAmigosOtro()+"\t"+imprimirFamiliaParaArchivo()+imprimirExperienciasParaArchivo()+"\t"+informacion;
-    return fecha + "\t"+"El dia "+fecha+" " +info+"\n";
+    QString info = "Humano "+QString::number(ID) + "\t" +nombre+" "+apellido+"\t"+paisOrigen+"\t"+imprimirAmigosOtro()+"\t"+imprimirFamiliaParaArchivo()+imprimirExperienciasParaArchivo()+"\t"+"El dia "+fecha+" "+informacion;
+    return fecha + "\t" +info+"\n";
 }
 
 QString Humano::imprimirExperienciasParaArchivo(){
@@ -769,9 +803,9 @@ void Humano::killAmigos(){
 
         do{
             if (tmp->persona->vivo){
-                aniquiladores.infoTemporalNebula += "Eliminado por Nebula " + QString::number(tmp->persona->ID) + " por ser amigo de " + QString::number(ID) + "\n";
+                aniquiladores.infoTemporalNebula +=  QString::number(tmp->persona->ID) +" ["+tmp->persona->nombre+" "+tmp->persona->apellido+ "] Eliminado por Nebula por ser amigo de " + QString::number(ID) +" [" +nombre + " "+apellido+"]\n";
                 tmp->persona->sucesos.agregarSucesos("Eliminado por Nebula por ser amigo de " + QString::number(ID));
-                aniquiladores.bitacora += tmp->persona->formato("Eliminado por Nebula por ser amigo de "+  QString::number(ID));
+                aniquiladores.bitacora += tmp->persona->formato("Eliminado por Nebula por ser amigo de "+  QString::number(ID)+" [" +nombre + " "+apellido+"]");
                 tmp->persona->vivo = false;
                 tmp->persona->salvado = false;
                 tmp->persona->aniquilado = true;
@@ -1071,7 +1105,7 @@ QString ListaHumano::detonarBombas(){
 }
 
 void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
-    qDebug()<<ID;
+
     if (Padre != NULL){
         if (!Padre->vivo){
             avengers.contTemporalIronMan ++;
@@ -1079,11 +1113,11 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
             Padre->salvado = true;
             Padre->aniquilado = false;
             Padre->salvarFamilia(inicial, Padre);
-            Padre->sucesos.agregarSucesos("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
-            avengers.infoTemporalIronMan += QString::number(Padre->ID)+" Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+            Padre->sucesos.agregarSucesos("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.infoTemporalIronMan += QString::number(Padre->ID)+" ["+Padre->nombre+" "+Padre->apellido + "]"+" Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "]"+ " en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]\n";
             listaIronMan.agregarHumano(Padre);
-            avengers.bitacora += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
-            avengers.bitacoraIronman += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacora += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.bitacoraIronman += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
         }
     }
     if (Madre != NULL){
@@ -1093,11 +1127,11 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
             Madre->salvado = true;
             Madre->aniquilado = false;
             Madre->salvarFamilia(inicial, Madre);
-            Madre->sucesos.agregarSucesos("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
-            avengers.infoTemporalIronMan += QString::number(Madre->ID)+" Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+            Madre->sucesos.agregarSucesos("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.infoTemporalIronMan += QString::number(Madre->ID)+" ["+Madre->nombre+" "+Madre->apellido + "]"+"Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]\n";
             listaIronMan.agregarHumano(Madre);
-            avengers.bitacora += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
-            avengers.bitacoraIronman += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacora += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.bitacoraIronman += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
         }
     }
     if (Pareja != NULL){
@@ -1106,12 +1140,12 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
             Pareja->vivo = true;
             Pareja->salvado = true;
             Pareja->aniquilado = false;
-            //Pareja->salvarFamilia(inicial, Pareja);
-            Pareja->sucesos.agregarSucesos("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
-            avengers.infoTemporalIronMan += QString::number(Pareja->ID)+" Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+            Pareja->salvarFamiliaAux(inicial, Pareja);
+            Pareja->sucesos.agregarSucesos("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.infoTemporalIronMan += QString::number(Pareja->ID)+" ["+Pareja->nombre+" "+Pareja->apellido + "]"+" Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]\n";
             listaIronMan.agregarHumano(Pareja);
-            avengers.bitacora += Pareja->formato("Salvado por IronMan al ser Pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
-            avengers.bitacoraIronman += Pareja->formato("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacora += Pareja->formato("Salvado por IronMan al ser Pareja de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.bitacoraIronman += Pareja->formato("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
 
         }
     }
@@ -1125,11 +1159,11 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
                 tmp->persona->salvado = true;
                 tmp->persona->aniquilado = false;
                 tmp->persona->salvarFamilia(inicial, tmp->persona);
-                tmp->persona->sucesos.agregarSucesos("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
-                avengers.infoTemporalIronMan += QString::number(tmp->persona->ID)+" Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+                tmp->persona->sucesos.agregarSucesos("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+                avengers.infoTemporalIronMan += QString::number(tmp->persona->ID)+" ["+tmp->persona->nombre+" "+tmp->persona->apellido + "]"+" Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]\n";
                 listaIronMan.agregarHumano(tmp->persona);
-                avengers.bitacora += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
-                avengers.bitacoraIronman += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+                avengers.bitacora += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+                avengers.bitacoraIronman += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
 
             }
 
@@ -1139,6 +1173,60 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
     }
  }
 
+void Humano::salvarFamiliaAux(Humano * inicial, Humano * relacion){
+    qDebug()<<ID;
+    if (Padre != NULL){
+        if (!Padre->vivo){
+            avengers.contTemporalIronMan ++;
+            Padre->vivo = true;
+            Padre->salvado = true;
+            Padre->aniquilado = false;
+            Padre->salvarFamilia(inicial, Padre);
+            Padre->sucesos.agregarSucesos("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.infoTemporalIronMan += QString::number(Padre->ID)+" ["+Padre->nombre+" "+Padre->apellido + "]"+" Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "]"+ " en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]\n";
+            listaIronMan.agregarHumano(Padre);
+            avengers.bitacora += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.bitacoraIronman += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+        }
+    }
+    if (Madre != NULL){
+        if (!Madre->vivo){
+            avengers.contTemporalIronMan ++;
+            Madre->vivo = true;
+            Madre->salvado = true;
+            Madre->aniquilado = false;
+            Madre->salvarFamilia(inicial, Madre);
+            Madre->sucesos.agregarSucesos("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.infoTemporalIronMan += QString::number(Madre->ID)+" ["+Madre->nombre+" "+Madre->apellido + "]"+"Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]\n";
+            listaIronMan.agregarHumano(Madre);
+            avengers.bitacora += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+            avengers.bitacoraIronman += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+        }
+    }
+/*
+    if (hijos->primerNodo != NULL){
+        NodoHumano * tmp = hijos->primerNodo;
+
+        do{
+            if (!tmp->persona->vivo){
+                avengers.contTemporalIronMan ++;
+                tmp->persona->vivo = true;
+                tmp->persona->salvado = true;
+                tmp->persona->aniquilado = false;
+                tmp->persona->salvarFamilia(inicial, tmp->persona);
+                tmp->persona->sucesos.agregarSucesos("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+                avengers.infoTemporalIronMan += QString::number(tmp->persona->ID)+" Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
+                listaIronMan.agregarHumano(tmp->persona);
+                avengers.bitacora += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+                avengers.bitacoraIronman += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
+
+            }
+
+            tmp = tmp->siguiente;
+
+        }while(tmp!=hijos->primerNodo);
+    }*/
+}
 //*********************SPIDERMAN*************************************************************************
 ListaHumano * ListaHumano::colocarTelarana(){
     qDebug()<<"largo de preorden "<<largo;
@@ -1178,7 +1266,7 @@ QString ListaHumano::recorrerTelarana(){
             if (arbolMundial.esHoja(tmp->persona->index)){
                 info += "\nLa primer hoja encontrada al recorrer la telerana es "+QString::number(tmp->persona->ID)+"\n";
                 info += "Se evaluaran  "+QString::number(largo)+" humanos para ver si hay que salvarlos\n";
-                info += poblacionMundial.salvarNodos(tmp, largo);
+                info += poblacionMundial.salvarNodos(planeta.buscarID(tmp->persona->ID), largo);
                 break;
             }
             tmp = tmp->siguiente;
@@ -1340,4 +1428,59 @@ QString Humano::imprimirListaDeportes(){
         tmp = tmp->siguiente;
     }
     return info+"]";
+}
+
+void Humano::matarHijosAux(){
+    if (hijos->primerNodo != NULL){
+        NodoHumano * tmp = hijos->primerNodo;
+        do{
+            if (tmp->persona->vivo){
+                aniquiladores.infoTemporalEbonyMaw += "Eliminado por Ebony Maw " + QString::number(tmp->persona->ID) + " por ser familia de " + QString::number(ID) + "\n";
+                tmp->persona->sucesos.agregarSucesos("Eliminado por Ebony Maw  por ser amigo de " + QString::number(ID));
+                aniquiladores.bitacora += tmp->persona->formato("Eliminado por Ebony Maw por ser amigo de "+  QString::number(ID));
+                tmp->persona->vivo = false;
+                aniquiladores.contTemporalEbonyMaw ++;
+                listaEbonyMaw.agregarHumano(tmp->persona);
+            }
+
+            tmp = tmp->siguiente;
+
+        }while(tmp!=hijos->primerNodo);
+    }
+}
+void Humano::matarGeneracionAnterior(){
+    if (Madre != NULL || Padre != NULL){
+        if (Madre != NULL){
+            Madre->matarHijosAux();
+            Madre->matarGeneracionAnterior();
+        }
+        if (Padre != NULL){
+            Padre->matarHijosAux();
+            Padre->matarGeneracionAnterior();
+        }
+    }
+ }
+void Humano::matarSiguienteGeneracion(){
+    if (hijos->primerNodo != NULL){
+
+        NodoHumano * tmp = hijos->primerNodo;
+        do{
+            if (tmp->persona->vivo){
+                aniquiladores.infoTemporalEbonyMaw += "Eliminado por Ebony Maw " + QString::number(tmp->persona->ID) + " por ser familia de " + QString::number(ID) + "\n";
+                tmp->persona->sucesos.agregarSucesos("Eliminado por Ebony Maw  por ser amigo de " + QString::number(ID));
+                aniquiladores.bitacora += tmp->persona->formato("Eliminado por Ebony Maw por ser amigo de "+  QString::number(ID));
+                tmp->persona->vivo = false;
+                aniquiladores.contTemporalEbonyMaw ++;
+                listaEbonyMaw.agregarHumano(tmp->persona);
+                tmp->persona->matarSiguienteGeneracion();
+            }
+
+            tmp = tmp->siguiente;
+
+        }while(tmp!=hijos->primerNodo);
+    }
+ }
+void Humano::matarFamilia(){
+    matarSiguienteGeneracion();
+    matarGeneracionAnterior();
 }

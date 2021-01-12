@@ -14,12 +14,19 @@ struct TeamAniquileishon{
     QString infoTemporalNebula;
     int contTemporalNebula;
     int contThanos;
+    QString infoTemporalEbonyMaw;
+    int contTemporalEbonyMaw;
+
+
+
 
     TeamAniquileishon(){
         bitacora=" ";
         infoTemporalNebula = "";
         contTemporalNebula = 0;
         contThanos = 0;
+        infoTemporalEbonyMaw = "";
+        contTemporalEbonyMaw = 0;
     }
 
     void generarArchivo ();
@@ -30,6 +37,8 @@ struct TeamAniquileishon{
     QString Thanos (int,int,int);
 
     QString consultaThanos();
+
+    QString EbonyMaw(int id);
 
 };
 

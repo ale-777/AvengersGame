@@ -61,3 +61,9 @@ void ventanaAniquilacion::on_pushButton_3_clicked()
     int nivel = ui->spinNivel->value();
     ui->textBrowser->setText(aniquiladores.Thanos(2,nivel,anno));
 }
+
+void ventanaAniquilacion::on_btn_ebony_clicked()
+{
+    int id = ui->spinEbony->value();
+    ui->textBrowser->setText(aniquiladores.EbonyMaw(id));
+}

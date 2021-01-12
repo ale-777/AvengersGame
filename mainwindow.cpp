@@ -6,6 +6,7 @@
 #include "verarbol.h"
 #include "ventanaaniquilacion.h"
 #include "ventanasalvacion.h"
+#include "ventanaganador.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -78,4 +79,10 @@ void MainWindow::on_btn_consultaThanos_clicked()
 void MainWindow::on_btn_consultaAvengers_clicked()
 {
     avengers.consultaAvengers();
+}
+
+void MainWindow::on_btn_ganador_clicked()
+{
+    ventanaGanador *ventana = new ventanaGanador();
+    ventana->show();
 }

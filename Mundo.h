@@ -36,7 +36,9 @@ struct Mundo{
     int redondearArbol(float);
     int cantNiveles(float cant);
     Humano* consultaID(int id);
+    NodoHumano* buscarID (int);
     QString horaFecha ();
+    QString ganador(int, int);
 };
 
 #endif // MUNDO_H

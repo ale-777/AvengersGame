@@ -38,6 +38,8 @@ private slots:
 
     void on_btn_consultaAvengers_clicked();
 
+    void on_btn_ganador_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

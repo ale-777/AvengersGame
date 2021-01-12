@@ -39,6 +39,8 @@ QString Avengers::Thor(int nivel){
 
 //IRON MAN
 QString Avengers::IronMan (){
+    contTemporalIronMan = 0;
+    infoTemporalIronMan = "";
     QString info = "Algoritmo Ironman\n";
     arbolPreOrden.init(); //reinicia la lista
     arbolMundial.preOrden(arbolMundial.raiz); //llena de nuevo la lista preorden
@@ -47,23 +49,7 @@ QString Avengers::IronMan (){
     generarArchivo();
     return info;
 }
-void Avengers::algoritmoAntMan(int cantidad){
-    avengers.rutaHormiga = "";
-    arbolMundial.limpiarHormigas(arbolMundial.raiz);
-    for (int i = 0; i<cantidad;i++){
-        avengers.rutaHormiga += "Hormiga #"+QString::number(i)+":\n";
-        arbolMundial.recorrerArbol(arbolMundial.raiz);
-    }
-    qDebug()<<"Hormigas ponidas";
-    NodoArbol * primerMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,0);
-    NodoArbol * segundoMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,primerMayor->FeroRama);
-    qDebug()<<"Primera Persona: "<<primerMayor->FeroRama<<primerMayor->humano->persona->ID;
-    qDebug()<<"Segundo Persona: "<<segundoMayor->FeroRama<<segundoMayor->humano->persona->ID;
-    ofstream file;
-    file.open("archivosHormigas/hormigasNoPutas.txt");
-    file << avengers.rutaHormiga.toStdString();
-    file.close();
-}
+
 
 //SPIDERMAN****************************************************************
 QString Avengers::Spiderman(){
@@ -128,4 +114,57 @@ void Avengers::consultaAvengers(){
     file.open(nombreArchivo);
     file << info.toStdString();
     file.close();
+}
+void Avengers::generarArchivoHormigas (){
+
+    QDate algo = QDate::currentDate();
+    int dias = algo.day();
+    int mes = algo.month();
+    int anno = algo.year();
+    QString fecha = QString::number(anno)+"_"+QString::number(mes)+"_"+QString::number(dias);
+    QStringList date= fecha.split(QLatin1Char('_'), Qt::SkipEmptyParts);
+    QString fechaBuena = date[0]+date[1]+date[2];
+
+    QDateTime tiempo = QDateTime::currentDateTime();
+    QTime hora = tiempo.time();
+    QString hora2 = hora.toString();
+
+    QStringList time= hora2.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    QString horaBuena =  time[0]+time[1]+time[2];
+
+    QString nombre = fechaBuena+"_"+horaBuena;
+    QString ruta = "archivosHormigas/"+nombre+".txt";
+    std::string nombreArchivo = ruta.toStdString();
+
+    ofstream file;
+    file.open(nombreArchivo);
+    file << avengers.rutaHormiga.toStdString();
+    file.close();
+}
+void salvarPorRango(NodoArbol * inicio, NodoArbol * final){
+    NodoHumano * tmp = inicio->humano;
+    while(tmp != final->humano){
+        if (!tmp->persona->vivo){
+            avengers.bitacora += tmp->persona->formato("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
+            tmp->persona->sucesos.agregarSucesos("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
+            tmp->persona->vivo = true;
+            avengers.bitacoraAntMan += tmp->persona->formato("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
+        }
+        tmp = tmp->siguiente;
+    }
+}
+void Avengers::algoritmoAntMan(int cantidad){
+    avengers.rutaHormiga = "";
+    arbolMundial.limpiarHormigas(arbolMundial.raiz);
+    for (int i = 0; i<cantidad;i++){
+        avengers.rutaHormiga += "Hormiga #"+QString::number(i)+":\n";
+        arbolMundial.recorrerArbol(arbolMundial.raiz);
+    }
+    qDebug()<<"Hormigas ponidas";
+    NodoArbol * primerMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,0);
+    NodoArbol * segundoMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,primerMayor->FeroRama);
+    qDebug()<<"Primera Persona: "<<primerMayor->FeroRama<<primerMayor->humano->persona->ID;
+    qDebug()<<"Segundo Persona: "<<segundoMayor->FeroRama<<segundoMayor->humano->persona->ID;
+    generarArchivoHormigas();
+    salvarPorRango(primerMayor,segundoMayor);
 }

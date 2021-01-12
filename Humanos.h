@@ -403,6 +403,7 @@ struct Humano{
     //iron man
     QString informacionParaIronMan();
     void salvarFamilia(Humano * inicial,Humano * relacion);
+    void salvarFamiliaAux(Humano * inicial,Humano * relacion);
 
     //spiderman
     QString informacionParaSpiderman(int, Humano *);
@@ -417,6 +418,12 @@ struct Humano{
 
     QString formatoAuxiliar();
     QString imprimirListaDeportes();
+
+    //ebony
+    void matarSiguienteGeneracion();
+    void matarHijosAux();
+    void matarGeneracionAnterior();
+    void matarFamilia();
 };
 struct Temporal{
     QString info;

@@ -22,6 +22,8 @@ private slots:
 
     void on_btn_spiderman_clicked();
 
+    void on_btn_antman_clicked();
+
 private:
     Ui::ventanaSalvacion *ui;
 };

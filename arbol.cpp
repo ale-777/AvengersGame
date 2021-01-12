@@ -3,7 +3,7 @@
 #include <cmath>
 //:)
 NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
-    //qDebug()<<nuevo->persona->ID;
+    //qDebug()<<nuevo->persona->index<<"siguiente"<<nuevo->siguiente->persona->index;
      if (nodo == NULL){
          //nodo = new NodoArbol(nuevo);
          return new NodoArbol(nuevo);
@@ -18,7 +18,7 @@ NodoArbol* Arbol::agregarNodo(NodoArbol * nodo, NodoHumano * nuevo){
 }
 
 void Arbol::insertar(NodoHumano * dato){
-    raiz = agregarNodo (raiz , dato);
+    raiz = agregarNodo (raiz , planeta.buscarID(dato->persona->ID));
 }
 
 
@@ -141,88 +141,10 @@ void Arbol::returnNivel(NodoArbol *arbol, int nivel){
     }
 
 }
-void Arbol::limpiarHormigas(NodoArbol * raiz){
-    if (raiz != NULL){
-        raiz->FeroRama = 0;
-        raiz->cantFero = 0;
-        limpiarHormigas(raiz->izquierdo);
-        limpiarHormigas(raiz->derecho);
-    }
-}
-void Arbol::recorrerArbol(NodoArbol * raiz){
-    std::uniform_int_distribution<int> dist(0, 1);
-    int dir = dist(* QRandomGenerator::global());
-    if(raiz->derecho != NULL){
-        raiz->cantFero++;
-        if (dir == 0){
-            avengers.rutaHormiga += "Izquierda a nodo: \n";//+QString::number(raiz->izquierdo->humano->persona->ID)+"\nTotal de feromonas: "+raiz->cantFero+"\n\n";
-            recorrerArbol(raiz->izquierdo);
-        }
-        else{
-            avengers.rutaHormiga += "Derecha a nodo: \n";//+QString::number(raiz->derecho->humano->persona->ID)+"\nTotal de feromonas: "+raiz->cantFero+"\n\n";
-            recorrerArbol(raiz->derecho);
-        }
-    }
-    else{
-        raiz->cantFero++;
-    }
-}
-int Arbol::contarFeromonas(NodoArbol * raiz){
-    if (raiz!=NULL){
-        //qDebug()<< raiz->cantFero + contarFeromonas(raiz->izquierdo) + contarFeromonas(raiz->derecho);
-        return raiz->cantFero + contarFeromonas(raiz->izquierdo) + contarFeromonas(raiz->derecho);
 
-    }
-    else
-        return 0;
-}
-NodoArbol *Arbol::obtenerMayor(NodoArbol * raiz, int cont, int primerMayor){
-    qDebug()<<"contador "<<cont<<" Mayor "<<primerMayor;
-    if(raiz->izquierdo != NULL && raiz->derecho != NULL){
-        if(contarFeromonas(raiz->izquierdo) > contarFeromonas(raiz->derecho)){
-            if (primerMayor != 0){
-                if (cont+raiz->cantFero+raiz->izquierdo->cantFero < primerMayor){
-                    qDebug()<<"izquierdo";
-                    return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
-                }
-                else{
-                    qDebug()<<"derecho";
-                   return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
-                }
-            }
 
-            return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
-        }
-        else if(contarFeromonas(raiz->izquierdo)< contarFeromonas(raiz->derecho)){
-            if (primerMayor != 0){
-                if (cont+raiz->cantFero+raiz->derecho->cantFero < primerMayor){
-                    qDebug()<<"izquierdo";
-                    return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
-                }
-                else {
-                    qDebug()<<"derecho";
-                    return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
-                    }
-             }
-              return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
-        }
-        else{
-            NodoArbol * mayorIzquierdo = obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
-            NodoArbol * mayorDerecho = obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
-            if (contarFeromonas(mayorDerecho) > contarFeromonas(mayorIzquierdo)){
-                return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
-            }
-            else{
-                return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
-            }
 
-       }
-    }
-    raiz->FeroRama = cont + raiz->cantFero;
 
-    qDebug()<<raiz->FeroRama;
-    return raiz;
-}
 
 void Arbol::preOrden(NodoArbol* nodo)
 {
@@ -257,4 +179,88 @@ bool Arbol::esHoja(int index){
 }
 
 
+void Arbol::limpiarHormigas(NodoArbol * raiz){
+    if (raiz != NULL){
+        raiz->FeroRama = 0;
+        raiz->cantFero = 0;
+        limpiarHormigas(raiz->izquierdo);
+        limpiarHormigas(raiz->derecho);
+    }
+}
+void Arbol::recorrerArbol(NodoArbol * raiz){
+    std::uniform_int_distribution<int> dist(0, 1);
+    int dir = dist(* QRandomGenerator::global());
+    if(raiz->derecho != NULL){
+        raiz->cantFero++;
+        if (dir == 0){
+            avengers.rutaHormiga += "Izquierda a nodo: "+QString::number(raiz->izquierdo->humano->persona->ID)+"\nTotal de feromonas: "+QString::number(raiz->cantFero)+"\n\n";
+            recorrerArbol(raiz->izquierdo);
+        }
+        else{
+            avengers.rutaHormiga += "Derecha a nodo: "+QString::number(raiz->derecho->humano->persona->ID)+"\nTotal de feromonas: "+QString::number(raiz->cantFero)+"\n\n";
+            recorrerArbol(raiz->derecho);
+        }
+    }
+    else{
+        raiz->cantFero++;
+    }
+}
+int Arbol::contarFeromonas(NodoArbol * raiz){
+    if (raiz!=NULL){
+        //qDebug()<< raiz->cantFero + contarFeromonas(raiz->izquierdo) + contarFeromonas(raiz->derecho);
+        return raiz->cantFero + contarFeromonas(raiz->izquierdo) + contarFeromonas(raiz->derecho);
+
+    }
+    else
+        return 0;
+}
+NodoArbol *Arbol::obtenerMayor(NodoArbol * raiz, int cont, int primerMayor){
+    qDebug()<<"contador "<<cont<<" Mayor "<<primerMayor;
+    qDebug()<<"Actual: "<<raiz->humano->persona->ID<<" index: "<<raiz->humano->persona->index;
+    qDebug()<<"Siguiente: "<<raiz->humano->siguiente->persona->ID<<" index: "<<raiz->humano->siguiente->persona->index;
+    if(raiz->izquierdo != NULL && raiz->derecho != NULL){
+        if(contarFeromonas(raiz->izquierdo) > contarFeromonas(raiz->derecho)){
+            if (primerMayor != 0){
+                if (cont+raiz->cantFero+raiz->izquierdo->cantFero < primerMayor){
+                    qDebug()<<"izquierdo";
+                    return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
+                }
+                else{
+                    qDebug()<<"derecho";
+                   return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
+                }
+            }
+
+            return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
+        }
+        else if(contarFeromonas(raiz->izquierdo)< contarFeromonas(raiz->derecho)){
+            if (primerMayor != 0){
+                if (cont+raiz->cantFero+raiz->derecho->cantFero < primerMayor){
+                    qDebug()<<"derecho";
+                    return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
+                }
+                else {
+                    qDebug()<<"izquierdo";
+                    return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
+                    }
+             }
+              return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
+        }
+        else{
+            NodoArbol * mayorIzquierdo = obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
+            NodoArbol * mayorDerecho = obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
+            if (contarFeromonas(mayorDerecho) > contarFeromonas(mayorIzquierdo)){
+                return obtenerMayor(raiz->izquierdo,cont+raiz->cantFero,primerMayor);
+            }
+            else{
+                return obtenerMayor(raiz->derecho,cont+raiz->cantFero,primerMayor);
+            }
+
+       }
+    }
+    raiz->FeroRama = cont + raiz->cantFero;
+
+    qDebug()<<raiz->FeroRama;
+    return raiz;
+}
 //*****************************************************************************************************

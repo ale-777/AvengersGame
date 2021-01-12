@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>877</width>
+    <width>935</width>
     <height>431</height>
    </rect>
   </property>
@@ -55,8 +55,8 @@
   <widget class="QPushButton" name="btn_ebony">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>170</y>
+     <x>170</x>
+     <y>180</y>
      <width>81</width>
      <height>23</height>
     </rect>
@@ -101,9 +101,9 @@
   <widget class="QTextBrowser" name="textBrowser">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>370</x>
      <y>20</y>
-     <width>461</width>
+     <width>561</width>
      <height>381</height>
     </rect>
    </property>
@@ -386,6 +386,19 @@
    </property>
    <property name="text">
     <string>Thanos </string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinEbony">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>111</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
    </property>
   </widget>
  </widget>

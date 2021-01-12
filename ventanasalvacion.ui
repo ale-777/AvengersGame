@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1042</width>
+    <width>1142</width>
     <height>459</height>
    </rect>
   </property>
@@ -87,7 +87,7 @@
     <rect>
      <x>340</x>
      <y>40</y>
-     <width>691</width>
+     <width>791</width>
      <height>401</height>
     </rect>
    </property>
@@ -136,6 +136,42 @@
    </property>
    <property name="text">
     <string>SPIDERMAN</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_antman">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>210</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Antman</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="spinHormigas">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>210</y>
+     <width>81</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>190</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cant Hormigas</string>
    </property>
   </widget>
  </widget>

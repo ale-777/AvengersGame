@@ -29,3 +29,11 @@ void ventanaSalvacion::on_btn_spiderman_clicked()
 {
     ui->textBrowser->setText(avengers.Spiderman());
 }
+
+void ventanaSalvacion::on_btn_antman_clicked()
+{
+
+    int hormigas = ui->spinHormigas->value();
+    avengers.algoritmoAntMan(hormigas);
+    ui->textBrowser->setText(avengers.bitacoraAntMan);
+}

@@ -139,8 +139,8 @@ void Mundo::crearLazos(){
     if (poblacionMundial.primerNodo != NULL){
         NodoHumano * tmp = poblacionMundial.primerNodo;
         do{
-            if (tmp->persona->amigos.largo == 0)
-                tmp->persona->crearAmigos(tmp);
+            if (tmp->persona->amigos.largo == 0){
+                tmp->persona->crearAmigos(tmp);}
             tmp->persona->crearHijos(tmp);
             tmp->persona->generarPareja(tmp);
             tmp = tmp->siguiente;
@@ -153,6 +153,19 @@ Humano* Mundo::consultaID(int id){
         do{
             if (tmp->persona->ID == id){
                 return tmp->persona;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=poblacionMundial.primerNodo);
+    }
+    return NULL;
+}
+
+NodoHumano* Mundo::buscarID(int id){
+    if (poblacionMundial.primerNodo != NULL){
+        NodoHumano * tmp = poblacionMundial.primerNodo;
+        do{
+            if (tmp->persona->ID == id){
+                return tmp;
             }
             tmp = tmp->siguiente;
         }while(tmp!=poblacionMundial.primerNodo);
@@ -176,4 +189,14 @@ QString Mundo::horaFecha(){
 
     QString nombre = fecha+" "+hora2;
     return nombre;
+}
+
+QString Mundo::ganador(int aniquiladores, int avengers){
+    if (aniquiladores > avengers){
+        return "Aniquiladores";
+    }
+    if (aniquiladores == avengers){
+        return "Empate";
+    }
+    return "Avengers";
 }

@@ -20,6 +20,7 @@ SOURCES += \
     mainwindow.cpp \
     ventanaaniquilacion.cpp \
     ventanaconsultas.cpp \
+    ventanaganador.cpp \
     ventanasalvacion.cpp \
     verarbol.cpp
 
@@ -34,6 +35,7 @@ HEADERS += \
     mainwindow.h \
     ventanaaniquilacion.h \
     ventanaconsultas.h \
+    ventanaganador.h \
     ventanasalvacion.h \
     verarbol.h
 
@@ -42,6 +44,7 @@ FORMS += \
     mainwindow.ui \
     ventanaaniquilacion.ui \
     ventanaconsultas.ui \
+    ventanaganador.ui \
     ventanasalvacion.ui \
     verarbol.ui
 
