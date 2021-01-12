@@ -69,3 +69,13 @@ void MainWindow::on_btn_salvacion_clicked()
     ventanaSalvacion *ventana = new ventanaSalvacion();
     ventana->show();
 }
+
+void MainWindow::on_btn_consultaThanos_clicked()
+{
+    aniquiladores.consultaThanos();
+}
+
+void MainWindow::on_btn_consultaAvengers_clicked()
+{
+    avengers.consultaAvengers();
+}

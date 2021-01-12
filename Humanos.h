@@ -136,6 +136,20 @@ struct ListaHumano{
     ListaHumano * seleccionarAleatoriamente(int cant);
     QString detonarBombas();
 
+    //para Spiderman
+    ListaHumano* colocarTelarana();
+    QString recorrerTelarana();
+    QString salvarNodos (NodoHumano *, int);
+
+    //CONSULTA
+    int cantVivos();
+    int cantMuertos();
+    int cantSalvados();
+    int cantSinSucesos();
+    QString consultaCantidades();
+
+    QString formatoParaConsultasTxt();
+
 
 };
 struct NodoPais{
@@ -223,7 +237,7 @@ struct ListaDeportes{
         NodoDeporte * tmp = primerNodo;
         QString deportes = "";
         while(tmp != NULL){
-            deportes += tmp->deporte + "\n";
+            deportes += "\t"+tmp->deporte + "\n";
             tmp = tmp->siguiente;
         }
         return deportes;
@@ -336,6 +350,7 @@ struct Humano{
         generarDeportes();
         salvado = false;
         aniquilado = false;
+        generarEstadoMarital();
 
 
     }
@@ -389,6 +404,19 @@ struct Humano{
     QString informacionParaIronMan();
     void salvarFamilia(Humano * inicial,Humano * relacion);
 
+    //spiderman
+    QString informacionParaSpiderman(int, Humano *);
+
+
+    //
+    int cantFamiliares();
+    QString imprimirFamiliaParaArchivo();
+    QString imprimirExperienciasParaArchivo();
+    QString imprimirFamiliaConsultaID();
+    QString imprimirExperienciasConsultaID();
+
+    QString formatoAuxiliar();
+    QString imprimirListaDeportes();
 };
 struct Temporal{
     QString info;

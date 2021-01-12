@@ -34,6 +34,10 @@ private slots:
 
     void on_btn_salvacion_clicked();
 
+    void on_btn_consultaThanos_clicked();
+
+    void on_btn_consultaAvengers_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

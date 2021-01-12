@@ -1,9 +1,6 @@
 #include "Globals.h"
 #include <iomanip>
 #include <cmath>
-
-
-
 void Humano::generarFecha(){
     std::uniform_int_distribution<int> dist(1920, 2020);
     anno = dist(* QRandomGenerator::global());
@@ -22,6 +19,8 @@ void Humano::generarFecha(){
     dia = dist3(* QRandomGenerator::global());
     edad = 2021-anno;
 }
+
+
 QString Humano::generarGenero(){
     std::uniform_int_distribution<int> dist(0, 1);
     int rand = dist(* QRandomGenerator::global());
@@ -143,24 +142,28 @@ void Humano::generarExperiencias(){
 QString Humano::imprimirPareja(){
     if (Pareja != NULL){
         return "Pareja: "+QString::number(Pareja->ID)+" "+Pareja->nombre+"\n";}
-    return "Pareja no tiene";
+    return "Pareja: NT";
 }
 
 QString Humano::imprimirHumano(){
-    QString humano = "\nindex" + QString::number(index) +" CantHijos" + QString::number(cantHijos) + "\n" + "ID: "+QString::number(ID) +" Nombre: " + nombre +" "+ apellido +
-            " Genero: " + genero + "pais: " + paisOrigen  + "Grupo Etario: " + grupoEtario + "Anno: "+ QString::number(anno)+"\n";
-    QString pareja= imprimirPareja();
-    QString amigos = "Amigos: \n" + imprimirAmigos();
-    QString deporte = "Deporte por semana: "+QString::number(cantDeporte)+"\n" + deportes.imprimirDeporte();
-    QString pecado = "Pecados: \n Lujuria: " + QString::number(pecados[0])  + " Gula: " + QString::number(pecados[1])  + " Avaricia: "+ QString::number(pecados[2])+" Pereza: " + QString::number(pecados[3])+" Ira: "+QString::number(pecados[4])+" Envidia: "+QString::number(pecados[5])+" Soberbia: "+QString::number(pecados[6])+"\n";
-    QString acciones = "Buenas Acciones: \n Castidad: " + QString::number(buenasAcciones[0]) + " Ayuno: "+ QString::number(buenasAcciones[1])+" Donacion: "+ QString::number(buenasAcciones[2])+" Diligencia: "+QString::number(buenasAcciones[3])+" Calma: "+QString::number(buenasAcciones[4])+" Solidaridad: "+QString::number(buenasAcciones[5])+" Humildad: "+QString::number(buenasAcciones[6])+"\n";
-    QString vida = "Vivo: "+QString::number(vivo)+"\n";
-    QString listaSucesos = sucesos.mostrarLista();
+    QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +"\nNombre: " + nombre +" "+ apellido +
+            "\nGenero: " + genero + "\nPais de Origen: " + paisOrigen  + "\nGrupo Etario: " + grupoEtario + "\nAnno de Nacimiento: "+ QString::number(anno)+"\n";
+    //QString pareja= "\n"+imprimirPareja();
+    //**********************************FAMILIA*****************************************************************************
+    QString familia = "\n"+imprimirFamiliaConsultaID();
+
+    QString amigos = "\nAmigos: \n" + imprimirAmigos();
+    QString deporte = "\nDeporte por semana: "+QString::number(cantDeporte)+"\n" + deportes.imprimirDeporte();
+    QString pecado = "\nPecados: \n\tLujuria: " + QString::number(pecados[0])  + "\n\tGula: " + QString::number(pecados[1])  + "\n\tAvaricia: "+ QString::number(pecados[2])+"\n\tPereza: " + QString::number(pecados[3])+"\n\tIra: "+QString::number(pecados[4])+"\n\tEnvidia: "+QString::number(pecados[5])+"\n\tSoberbia: "+QString::number(pecados[6])+"\n";
+    QString acciones = "\nBuenas Acciones: \n\tCastidad: " + QString::number(buenasAcciones[0]) + "\n\tAyuno: "+ QString::number(buenasAcciones[1])+"\n\tDonacion: "+ QString::number(buenasAcciones[2])+"\n\tDiligencia: "+QString::number(buenasAcciones[3])+"\n\tCalma: "+QString::number(buenasAcciones[4])+"\n\tSolidaridad: "+QString::number(buenasAcciones[5])+"\n\tHumildad: "+QString::number(buenasAcciones[6])+"\n";
+    QString vida = "\nVivo: "+QString::number(vivo)+"\n";
+    QString listaSucesos = "\n"+sucesos.mostrarLista();
     /*qDebug() <<"ID"<<ID<<" Nombre: "<<nombre <<apellido << "Genero: "<<genero<<"pais: "<<paisOrigen  << "Grupo Etario: "<<grupoEtario<< "Anno: "<<anno<<Qt::endl;
     qDebug() <<"Pecados: "<<"Lujuria: "<<pecados[0]<<"Gula: "<<pecados[1]<<"Avaricia: "<<pecados[2]<<"Pereza: "<<pecados[3]<<"Ira: "<<pecados[4]<<"Envidia: "<<pecados[5]<<"Soberbia: "<<pecados[6]<<Qt::endl;
     qDebug() <<"Buenas Acciones: "<<"Castidad: "<<buenasAcciones[0]<<"Ayuno: "<<buenasAcciones[1]<<"Donacion: "<<buenasAcciones[2]<<"Diligencia: "<<buenasAcciones[3]<<"Calma: "<<buenasAcciones[4]<<"Solidaridad: "<<buenasAcciones[5]<<"Humildad: "<<buenasAcciones[6]<<Qt::endl;
 */
-    return humano +pareja+vida + amigos + deporte + pecado + acciones + listaSucesos;
+    QString exp = imprimirExperienciasConsultaID()+"\n";
+    return humano +vida +familia + amigos + deporte + exp + pecado + acciones + listaSucesos;
 }
 
 void Humano::imprimirPruebas(){
@@ -412,7 +415,7 @@ QString Humano::imprimirAmigos(){
     if (amigos.primerNodo != NULL){
         NodoHumano * tmp = amigos.primerNodo;
         do{
-            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido+"\n";
+            info += QString::number(tmp->persona->ID)+ "\t"+tmp->persona->nombre+ " "+ tmp->persona->apellido+"\tVivo: "+QString::number(tmp->persona->vivo)+"\n";
             tmp = tmp->siguiente;
         }while(tmp!=amigos.primerNodo);
     }
@@ -420,18 +423,95 @@ QString Humano::imprimirAmigos(){
 }
 
 QString Humano::imprimirAmigosOtro(){
-    QString info = " Amigos [";
+    QString info = "Amigos [";
 
     if (amigos.primerNodo != NULL){
         NodoHumano * tmp = amigos.primerNodo;
         do{
-            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido+",";
+            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido;
+            if (tmp->siguiente != amigos.primerNodo){
+                info +=",";
+            }
             tmp = tmp->siguiente;
         }while(tmp!=amigos.primerNodo);
     }
     return info+"]";
 }
 
+QString Humano::imprimirFamiliaParaArchivo(){
+    QString info = "Pareja: ";
+    if (Pareja != NULL){
+        info += QString::number(Pareja->ID)+" "+Pareja->nombre+" "+Pareja->apellido;
+    }
+    else{
+        info += "NT";
+    }
+    info += "\tFamilia [";
+    if (Padre != NULL){
+        info += "Padre: "+QString::number(Padre->ID)+" "+Padre->nombre+" "+Padre->apellido+",";
+    }
+    else{
+        info += "Padre: NT,";
+    }
+    if (Madre != NULL){
+        info += " Madre: "+QString::number(Madre->ID)+" "+Madre->nombre+" "+Madre->apellido+",";
+    }
+    else{
+        info += " Madre: NT,";
+    }
+    info += " Hijos: [";
+    if (hijos->primerNodo != NULL){
+        NodoHumano * tmp = hijos->primerNodo;
+        do{
+            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido;
+            if (tmp->siguiente != hijos->primerNodo){
+                info +=",";
+            }
+            tmp = tmp->siguiente;
+
+        }while(tmp != hijos->primerNodo);
+    }
+    return info +"]]";
+}
+
+QString Humano::imprimirFamiliaConsultaID(){
+    QString info = "Pareja: ";
+    if (Pareja != NULL){
+        info += QString::number(Pareja->ID)+" "+Pareja->nombre+" "+Pareja->apellido;
+    }
+    else{
+        info += "NT";
+    }
+    info += "\nFamilia \n";
+    if (Padre != NULL){
+        info += "Padre: "+QString::number(Padre->ID)+" "+Padre->nombre+" "+Padre->apellido+"\n";
+    }
+    else{
+        info += "Padre: NT\n";
+    }
+    if (Madre != NULL){
+        info += "Madre: "+QString::number(Madre->ID)+" "+Madre->nombre+" "+Madre->apellido+"\n";
+    }
+    else{
+        info += "Madre: NT\n";
+    }
+    info += "Hijos: ";
+    if (hijos->primerNodo != NULL){
+        NodoHumano * tmp = hijos->primerNodo;
+        do{
+            info += QString::number(tmp->persona->ID)+ " "+tmp->persona->nombre+ " "+" "+ tmp->persona->apellido;
+            if (tmp->siguiente != hijos->primerNodo){
+                info +="\n";
+            }
+            tmp = tmp->siguiente;
+
+        }while(tmp != hijos->primerNodo);
+    }
+    else{
+        info += "NT";
+    }
+    return info +"\n";
+}
 
 void Humano::generarCantHijos(){
     if (edad >= 24){
@@ -573,6 +653,8 @@ int Humano::cantBuenasAcciones(){
     return cant;
 }
 
+
+//PARA MIDNIGHT Y CORVUS******************************************************************************************************
 QString ListaHumano::matarCincoHp(QString villano){
     int cant = largo*0.05;
     QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n";
@@ -598,6 +680,7 @@ QString ListaHumano::matarCincoHp(QString villano){
     return info;
 }
 
+//********************************************************************************************************
 QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
     int cant = largo*0.5;
     QString info = "La cantidad de humanos elminados son: "+QString::number(cant)+"\n";
@@ -610,7 +693,7 @@ QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
 
         if (villano == "Black"){
             info += "Humano de ID "+QString::number(tmp->persona->ID) + " Practica el deporte: "+QString::number(tmp->persona->cantDeporte)+ " veces\n";
-            listaCorvus.agregarHumano(tmp->persona);
+            listaBlack.agregarHumano(tmp->persona);
         }
 
 
@@ -632,10 +715,35 @@ QString ListaHumano::killCincuentaPorciento(QString villano, QString deporte){
 
 QString Humano::formato (QString informacion){
     QString fecha = planeta.horaFecha();
-    QString info = "Humano "+QString::number(ID) + " "+nombre+" "+apellido+" "+paisOrigen+imprimirAmigosOtro()+informacion;
-    return fecha + "  "+info+"\n";
+    QString info = "Humano "+QString::number(ID) + "\t" +nombre+" "+apellido+"\t"+paisOrigen+"\t"+imprimirAmigosOtro()+"\t"+imprimirFamiliaParaArchivo()+imprimirExperienciasParaArchivo()+"\t"+informacion;
+    return fecha + "\t"+"El dia "+fecha+" " +info+"\n";
 }
 
+QString Humano::imprimirExperienciasParaArchivo(){
+    QString info = "\tExperiencias [";
+    NodoPais * tmp = paisesVisitados.primerNodo;
+    while(tmp != NULL){
+       info += tmp->pais;
+       if (tmp->siguiente != NULL){
+           info+= ",";
+       }
+       tmp = tmp->siguiente;
+    }
+    return info+"]";
+}
+
+QString Humano::imprimirExperienciasConsultaID(){
+    QString info = "\nExperiencias\n\t";
+    NodoPais * tmp = paisesVisitados.primerNodo;
+    while(tmp != NULL){
+       info += tmp->pais;
+       if (tmp->siguiente != NULL){
+           info+= "\n\t";
+       }
+       tmp = tmp->siguiente;
+    }
+    return info;
+}
 
 //todos los amigos de una persona estan muertos
 bool Humano::allFriendsDead(){
@@ -654,7 +762,7 @@ bool Humano::allFriendsDead(){
 
 //MATA A LOS AMIGOS DE LOS AMIGOS RECURSIVAMENTE (NEBULA)-------------------------------------------------------------------------------
 void Humano::killAmigos(){
-    qDebug()<<ID;
+    //qDebug()<<ID;
     if (amigos.primerNodo != NULL){
 
         NodoHumano * tmp = amigos.primerNodo;
@@ -717,7 +825,7 @@ void Humano::cadenaAmigos(ListaHumano * evaluados){
         do{
 
             if (!evaluados->esta(tmp->persona)){
-                temporal.info += QString::number(tmp->persona->ID) + " amigo de: "+ QString::number(ID) +"\n";
+                temporal.info += QString::number(tmp->persona->ID) +"\t"+tmp->persona->nombre +" "+tmp->persona->apellido+ "\tamigo de:\t"+ QString::number(ID) +"\t"+nombre+" "+apellido+"\n";
                 tmp->persona->cadenaAmigos(evaluados);
             }
 
@@ -742,7 +850,7 @@ bool ListaHumano::esta(Humano * humano){
 
         do{
             if (tmp->persona == humano){
-                qDebug() << "entra"<<humano->ID;
+                //qDebug() << "entra"<<humano->ID;
                 return true;
             }
             tmp = tmp->siguiente;
@@ -949,7 +1057,7 @@ QString ListaHumano::detonarBombas(){
         }while(tmp!=seleccionados->primerNodo);
     }
     info += "---------------------------------------------------------------------------------------------\n";
-    info += "Salvados: "+QString::number(avengers.contTemporalIronMan)+"\n";
+
     if (seleccionados->primerNodo != NULL){
         NodoHumano * tmp = seleccionados->primerNodo;
         do{
@@ -971,10 +1079,10 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
             Padre->salvado = true;
             Padre->aniquilado = false;
             Padre->salvarFamilia(inicial, Padre);
-            Padre->sucesos.agregarSucesos("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            Padre->sucesos.agregarSucesos("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
             avengers.infoTemporalIronMan += QString::number(Padre->ID)+" Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
             listaIronMan.agregarHumano(Padre);
-            avengers.bitacora += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            avengers.bitacora += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
             avengers.bitacoraIronman += Padre->formato("Salvado por IronMan al ser padre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
         }
     }
@@ -985,7 +1093,7 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
             Madre->salvado = true;
             Madre->aniquilado = false;
             Madre->salvarFamilia(inicial, Madre);
-            Madre->sucesos.agregarSucesos("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            Madre->sucesos.agregarSucesos("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
             avengers.infoTemporalIronMan += QString::number(Madre->ID)+" Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
             listaIronMan.agregarHumano(Madre);
             avengers.bitacora += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
@@ -998,8 +1106,8 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
             Pareja->vivo = true;
             Pareja->salvado = true;
             Pareja->aniquilado = false;
-            Pareja->salvarFamilia(inicial, Pareja);
-            Pareja->sucesos.agregarSucesos("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+            //Pareja->salvarFamilia(inicial, Pareja);
+            Pareja->sucesos.agregarSucesos("Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
             avengers.infoTemporalIronMan += QString::number(Pareja->ID)+" Salvado por IronMan al ser pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
             listaIronMan.agregarHumano(Pareja);
             avengers.bitacora += Pareja->formato("Salvado por IronMan al ser Pareja de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
@@ -1017,7 +1125,7 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
                 tmp->persona->salvado = true;
                 tmp->persona->aniquilado = false;
                 tmp->persona->salvarFamilia(inicial, tmp->persona);
-                tmp->persona->sucesos.agregarSucesos("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
+                tmp->persona->sucesos.agregarSucesos("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID));
                 avengers.infoTemporalIronMan += QString::number(tmp->persona->ID)+" Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n";
                 listaIronMan.agregarHumano(tmp->persona);
                 avengers.bitacora += tmp->persona->formato("Salvado por IronMan al ser hijo de: "+QString::number(relacion->ID)+" en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+"\n");
@@ -1031,4 +1139,205 @@ void Humano::salvarFamilia(Humano * inicial, Humano * relacion){
     }
  }
 
+//*********************SPIDERMAN*************************************************************************
+ListaHumano * ListaHumano::colocarTelarana(){
+    qDebug()<<"largo de preorden "<<largo;
+    ListaHumano *telarana = new ListaHumano();
+    std::uniform_int_distribution<int> dist(0, 1);
 
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            int rand = dist(* QRandomGenerator::global());
+            if (rand != 0){ //coloca telarana
+                telarana->agregarHumano(tmp->persona);
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    qDebug()<<"largo de telarana "<<telarana->largo;
+    return telarana;
+}
+
+QString ListaHumano::recorrerTelarana(){
+    QString info = "Spiderman coloca telarana en "+QString::number(largo)+" nodos\n";
+    info += "Nodos:\n";
+
+    ///////////////////////////////////////////////////
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            info += "Nodo que contiene al humano: "+QString::number(tmp->persona->ID)+"\n";
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    ////////////////////////////////////////////////////
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            if (arbolMundial.esHoja(tmp->persona->index)){
+                info += "\nLa primer hoja encontrada al recorrer la telerana es "+QString::number(tmp->persona->ID)+"\n";
+                info += "Se evaluaran  "+QString::number(largo)+" humanos para ver si hay que salvarlos\n";
+                info += poblacionMundial.salvarNodos(tmp, largo);
+                break;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return info;
+}
+
+
+QString ListaHumano::salvarNodos(NodoHumano *inicio, int cant){
+    QString info = "Humanos Salvados: \n";
+    int cont = 0;
+    NodoHumano * tmp = inicio;
+        do{
+            if (!tmp->persona->vivo){
+
+                info += tmp->persona->informacionParaSpiderman(cont, inicio->persona);
+                avengers.contTemporalSpiderman ++;
+                tmp->persona->vivo = true;
+                tmp->persona->salvado = true;
+                tmp->persona->aniquilado = false;
+
+                tmp->persona->sucesos.agregarSucesos("Salvado por Spiderman por estar "+QString::number(cont)+" posiciones depues de la hoja de la telarana: "+QString::number(inicio->persona->ID)+" index "+QString::number(inicio->persona->index));
+                //avengers.infoTemporalSpiderman += QString::number(tmp->persona->ID)+" Salvado por Spiderman\n";
+                listaSpiderman.agregarHumano(tmp->persona);
+                avengers.bitacora += tmp->persona->formato("Salvado por Spiderman por estar "+QString::number(cont)+" posiciones depues de la hoja de la telarana: "+QString::number(inicio->persona->ID)+" index "+QString::number(inicio->persona->index));
+                avengers.bitacoraSpiderman += tmp->persona->formato("Salvado por Spiderman por estar "+QString::number(cont)+" posiciones depues de la hoja de la telarana: "+QString::number(inicio->persona->ID)+" index "+QString::number(inicio->persona->index));
+            }
+            tmp = tmp->siguiente;
+            cont ++;
+        }while(tmp!=inicio && cont < cant);
+    return info;
+}
+
+QString Humano::informacionParaSpiderman(int num, Humano * hoja){
+    QString info = "ID "+QString::number(ID)+" Nombre: "+ nombre + " " + apellido+" Por estar "+QString::number(num)+" posiciones depues de la hoja de la telarana: "+QString::number(hoja->ID)+" index "+QString::number(hoja->index)+"\n";
+    return info;
+}
+
+int Humano::cantFamiliares(){
+    int cant = 0;
+    if (Padre != NULL){
+        cant ++;
+    }
+    if (Madre != NULL){
+        cant ++;
+    }
+    if (Pareja != NULL){
+        cant ++;
+    }
+    cant += hijos->largo;
+    return cant;
+}
+//********************************************************************************
+int ListaHumano::cantVivos(){
+    int cant = 0;
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            if (tmp->persona->vivo){
+                cant ++;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return cant;
+}
+
+int ListaHumano::cantMuertos(){
+    int cant = 0;
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            if (!tmp->persona->vivo){
+                cant ++;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return cant;
+}
+int ListaHumano::cantSalvados(){
+    int cant = 0;
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            if (tmp->persona->salvado){
+                cant ++;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return cant;
+}
+int ListaHumano::cantSinSucesos(){
+    int cant = 0;
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            if (tmp->persona->sucesos.largo == 0){
+                cant ++;
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return cant;
+}
+
+QString ListaHumano::consultaCantidades(){
+    QString info = "ESTADISTICAS!\n\n";
+    info += "Cant de Humanos:\t"+QString::number(largo)+"\n";
+    info += "Humanos vivos:\t"+QString::number(cantVivos())+"\n";
+    info += "Humanos muertos/aniquilados:\t"+QString::number(cantMuertos())+"\n";
+    info += "Humanos salvados:\t"+QString::number(cantSalvados())+"\n";
+    info += "Humanos sin afectaciones:\t"+QString::number(cantSinSucesos())+"\n";
+    return info;
+}
+
+QString Humano::formatoAuxiliar(){
+    QString infoSucesos = "[";
+    if (sucesos.primerNodo != NULL){
+        NodoSuceso * tmp = sucesos.primerNodo;
+        do{
+            infoSucesos += tmp->suceso;
+            if (tmp->siguiente != NULL){
+                infoSucesos += ";";
+            }
+            tmp = tmp->siguiente;
+        }while(tmp!=NULL);
+
+    }
+    infoSucesos += "]";
+    QString pecado = "Pecados: [Lujuria: " + QString::number(pecados[0])  + ",Gula: " + QString::number(pecados[1])  + ",Avaricia: "+ QString::number(pecados[2])+",Pereza: " + QString::number(pecados[3])+",Ira: "+QString::number(pecados[4])+",Envidia: "+QString::number(pecados[5])+",Soberbia: "+QString::number(pecados[6])+"]";
+    QString acciones = "Buenas Acciones: [Castidad: " + QString::number(buenasAcciones[0]) + "Ayuno: "+ QString::number(buenasAcciones[1])+"Donacion: "+ QString::number(buenasAcciones[2])+"Diligencia: "+QString::number(buenasAcciones[3])+"Calma: "+QString::number(buenasAcciones[4])+"Solidaridad: "+QString::number(buenasAcciones[5])+"Humildad: "+QString::number(buenasAcciones[6])+"]";
+    QString info = "Humano "+QString::number(ID) + "\t" +nombre+" "+apellido+"\t"+paisOrigen+"\tVivo: "+QString::number(vivo)+"\tAnno Nacimiento: "+QString::number(anno)+"\tEstado: "+estadoMarital+"\tGrupo Etario: "+grupoEtario+"\t"+imprimirListaDeportes()+"\t"+imprimirAmigosOtro()+"\t"+imprimirFamiliaParaArchivo()+imprimirExperienciasParaArchivo()+"\t"+pecado+"\t"+acciones+"\t"+infoSucesos;
+    return  info;
+}
+
+QString ListaHumano::formatoParaConsultasTxt(){
+    QString info = "";
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            info += tmp->persona->formatoAuxiliar()+"\n";
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return info;
+}
+
+QString Humano::imprimirListaDeportes(){
+    QString info = "Deporte por semana: "+QString::number(cantDeporte)+" [";
+    NodoDeporte * tmp = deportes.primerNodo;
+    while(tmp != NULL){
+        info += tmp->deporte;
+        if (tmp->siguiente != NULL){
+            info += ",";
+        }
+        tmp = tmp->siguiente;
+    }
+    return info+"]";
+}

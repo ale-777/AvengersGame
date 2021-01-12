@@ -12,6 +12,8 @@ struct ListaHumano listaNebula;
 struct ListaHumano listaThor;
 struct ListaHumano listaIronMan;
 struct ListaHumano listaThanos;
+struct ListaHumano listaSpiderman;
+
 struct Temporal temporal;
 struct Hashmap HashmapGlobal[101];
 
@@ -20,3 +22,6 @@ struct ListaHumano nivelXArbol;
 
 //PARA IRON MAN
 struct ListaHumano arbolPreOrden;
+
+//PARA SPIDERMAN
+struct ListaHumano arbolAListaParaSpiderman;

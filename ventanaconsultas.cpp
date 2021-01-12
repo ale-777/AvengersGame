@@ -73,3 +73,8 @@ void ventanaConsultas::on_btnConsultaFam_clicked()
     }
 
 }
+
+void ventanaConsultas::on_btn_cantHumanos_clicked()
+{
+    ui->tect_info->setText(poblacionMundial.consultaCantidades());
+}

@@ -10,7 +10,9 @@ int main(int argc, char *argv[])
 {
     planeta.iniciarMundo();
     planeta.agregarPoblacion(10000);
-    avengers.algoritmoAntMan(100);
+   // avengers.algoritmoAntMan(100);
+
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

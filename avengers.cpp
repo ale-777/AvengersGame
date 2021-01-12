@@ -43,6 +43,7 @@ QString Avengers::IronMan (){
     arbolPreOrden.init(); //reinicia la lista
     arbolMundial.preOrden(arbolMundial.raiz); //llena de nuevo la lista preorden
     info += arbolPreOrden.detonarBombas();
+    info += "Cant de salvados: "+QString::number(avengers.contTemporalIronMan)+"\n";
     generarArchivo();
     return info;
 }
@@ -61,5 +62,70 @@ void Avengers::algoritmoAntMan(int cantidad){
     ofstream file;
     file.open("archivosHormigas/hormigasNoPutas.txt");
     file << avengers.rutaHormiga.toStdString();
+    file.close();
+}
+
+//SPIDERMAN****************************************************************
+QString Avengers::Spiderman(){
+    arbolAListaParaSpiderman.init();
+    QString info = "Algoritmo Spiderman\n";
+
+    arbolMundial.preOrdenSpiderman(arbolMundial.raiz);
+
+    ListaHumano * telarana = arbolAListaParaSpiderman.colocarTelarana();
+    info += telarana->recorrerTelarana();
+    info += "Salvados: "+QString::number(avengers.contTemporalSpiderman);
+    generarArchivo();
+    return info;
+}
+
+void Avengers::consultaAvengers(){
+    QString info = "Consulta-Resumen Avengers\n";
+    info += "Total de Salvados acumulados: "+QString::number(listaIronMan.largo+listaThor.largo+listaSpiderman.largo)+"\n\n";
+    info += "1- AntMan\n";
+    /*
+    info += "Total de salvados: "+QString::number(listaIronMan.largo)+"\n";
+    info += "Descripcion de los humanos salvados:\n";
+    info += listaIronMan.formatoParaConsultasTxt()+"\n\n";*/
+
+    info += "2- Ironman\n";
+    info += "Total de salvados: "+QString::number(listaIronMan.largo)+"\n";
+    info += "Descripcion de los humanos salvados:\n";
+    info += listaIronMan.formatoParaConsultasTxt()+"\n\n";
+
+    info += "3- Thor\n";
+    info += "Total de aniquilados: "+QString::number(listaThor.largo)+"\n";
+    info += "Descripcion de los humanos salvados:\n";
+    info += listaThor.formatoParaConsultasTxt()+"\n\n";
+
+    info += "4- Spiderman\n";
+    info += "Total de salvados: "+QString::number(listaSpiderman.largo)+"\n";
+    info += "Descripcion de los humanos salvados:\n";
+    info += listaSpiderman.formatoParaConsultasTxt()+"\n\n";
+
+
+
+    QDate algo = QDate::currentDate();
+    int dias = algo.day();
+    int mes = algo.month();
+    int anno = algo.year();
+    QString fecha = QString::number(anno)+"_"+QString::number(mes)+"_"+QString::number(dias);
+    QStringList date= fecha.split(QLatin1Char('_'), Qt::SkipEmptyParts);
+    QString fechaBuena = date[0]+date[1]+date[2];
+
+    QDateTime tiempo = QDateTime::currentDateTime();
+    QTime hora = tiempo.time();
+    QString hora2 = hora.toString();
+
+    QStringList time= hora2.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    QString horaBuena =  time[0]+time[1]+time[2];
+
+    QString nombre = fechaBuena+"_"+horaBuena;
+    QString ruta = "consultaAvengers/"+nombre+".txt";
+    std::string nombreArchivo = ruta.toStdString();
+
+    ofstream file;
+    file.open(nombreArchivo);
+    file << info.toStdString();
     file.close();
 }

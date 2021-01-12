@@ -20,6 +20,8 @@ private slots:
 
     void on_btn_ironMan_clicked();
 
+    void on_btn_spiderman_clicked();
+
 private:
     Ui::ventanaSalvacion *ui;
 };

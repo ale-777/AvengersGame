@@ -7,6 +7,8 @@
 #include <QtCore>
 using namespace std;
 struct ListaHumano;
+
+
 struct TeamAniquileishon{
     QString bitacora;
     QString infoTemporalNebula;
@@ -26,6 +28,8 @@ struct TeamAniquileishon{
     QString Black (int rutina, QString deporte);
     QString Nebula (int id);
     QString Thanos (int,int,int);
+
+    QString consultaThanos();
 
 };
 

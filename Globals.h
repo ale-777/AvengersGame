@@ -22,6 +22,7 @@ extern struct ListaHumano listaMidnight;
 extern struct ListaHumano listaBlack;
 extern struct ListaHumano listaNebula;
 extern struct ListaHumano listaThanos;
+extern struct ListaHumano listaSpiderman;
 extern struct Temporal temporal;
 
 //PARA THOR
@@ -32,4 +33,6 @@ extern struct ListaHumano nivelXArbol;
 extern struct ListaHumano arbolPreOrden;
 extern struct ListaHumano listaIronMan;
 
+//PARA SPIDERMAN
+extern struct ListaHumano arbolAListaParaSpiderman;
 #endif // GLOBALS_H

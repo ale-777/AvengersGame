@@ -24,6 +24,8 @@ private slots:
 
     void on_btnConsultaFam_clicked();
 
+    void on_btn_cantHumanos_clicked();
+
 private:
     Ui::ventanaConsultas *ui;
 };

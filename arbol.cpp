@@ -21,15 +21,7 @@ void Arbol::insertar(NodoHumano * dato){
     raiz = agregarNodo (raiz , dato);
 }
 
-void Arbol::preOrden(NodoArbol* nodo)
-{
-   if (nodo != NULL)
-   {
-     arbolPreOrden.agregarHumano(nodo->humano->persona); //convierte el arbol a una lista de humanos
-     preOrden(nodo->izquierdo);
-     preOrden(nodo->derecho);
-   }
-}
+
 
 
 void Arbol::crearArbol(){
@@ -72,14 +64,34 @@ QString Arbol::print2DUtil(QString resultado, NodoArbol *root, int space)  {
 
     resultado += "\n";
     for (int i = COUNT; i < space; i++){
-        resultado += "   ";
+        resultado += "    ";
     }
     resultado += QString::number(root->humano->persona->ID)+"\n";
 
     for (int i = COUNT; i < space; i++){
-        resultado += "   ";
+        resultado += "    ";
     }
-    resultado += "Index: "+QString::number(root->humano->persona->index);
+    resultado += "Index: "+QString::number(root->humano->persona->index)+"\n";
+
+    for (int i = COUNT; i < space; i++){
+        resultado += "    ";
+    }
+    resultado += root->humano->persona->nombre + " "+ root->humano->persona->apellido+"\n";
+
+    for (int i = COUNT; i < space; i++){
+        resultado += "    ";
+    }
+    resultado += "Vivo: "+QString::number(root->humano->persona->vivo)+"\n";
+
+    for (int i = COUNT; i < space; i++){
+        resultado += "    ";
+    }
+    resultado += "Amigos: "+QString::number(root->humano->persona->amigos.largo)+"\n";
+
+    for (int i = COUNT; i < space; i++){
+        resultado += "    ";
+    }
+    resultado += "Familiares: "+QString::number(root->humano->persona->cantFamiliares());
 
     // Process left child
     resultado = print2DUtil(resultado, root->izquierdo, space);
@@ -211,3 +223,38 @@ NodoArbol *Arbol::obtenerMayor(NodoArbol * raiz, int cont, int primerMayor){
     qDebug()<<raiz->FeroRama;
     return raiz;
 }
+
+void Arbol::preOrden(NodoArbol* nodo)
+{
+   if (nodo != NULL)
+   {
+     arbolPreOrden.agregarHumano(nodo->humano->persona); //convierte el arbol a una lista de humanos
+     preOrden(nodo->izquierdo);
+     preOrden(nodo->derecho);
+   }
+}
+
+//****************************SPIDERMAN***************************************************************
+void Arbol::preOrdenSpiderman (NodoArbol* nodo)
+{
+   if (nodo != NULL)
+   {
+     arbolAListaParaSpiderman.agregarHumano(nodo->humano->persona); //convierte el arbol a una lista de humanos
+     preOrdenSpiderman(nodo->izquierdo);
+     preOrdenSpiderman(nodo->derecho);
+   }
+
+}
+
+bool Arbol::esHoja(int index){
+    if (buscar(index, raiz)!=NULL){
+        if (buscar(index, raiz)->izquierdo == NULL){
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+
+//*****************************************************************************************************

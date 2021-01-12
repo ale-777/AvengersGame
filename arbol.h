@@ -44,5 +44,9 @@ struct Arbol{
    NodoArbol * obtenerMayor(NodoArbol*,int,int);
    int contarFeromonas(NodoArbol *);
 
+   //spiderman
+   void preOrdenSpiderman (NodoArbol* nodo);
+   bool esHoja(int);
+
 };
 #endif // ARBOL_H

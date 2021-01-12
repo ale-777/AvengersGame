@@ -24,3 +24,8 @@ void ventanaSalvacion::on_btn_ironMan_clicked()
 {
     ui->textBrowser->setText(avengers.IronMan());
 }
+
+void ventanaSalvacion::on_btn_spiderman_clicked()
+{
+    ui->textBrowser->setText(avengers.Spiderman());
+}

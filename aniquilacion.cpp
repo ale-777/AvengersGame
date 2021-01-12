@@ -44,14 +44,14 @@ QString TeamAniquileishon::Corvus (){
         }while(tmp!=poblacionMundial.primerNodo);
     }
     info += "Se esta evaluando la cantidad de pecados de: "+QString::number(heapPecados->largo) + " personas (Todos los humanos vivos)\n";
-    qDebug()<<"antes:";
-    heapPecados->mostrarLista();
-    qDebug()<<heapPecados->largo;
+    //qDebug()<<"antes:";
+    //heapPecados->mostrarLista();
+    //qDebug()<<heapPecados->largo;
 
     info += heapPecados->matarCincoHp("Corvus");
 
-    qDebug()<<"despues:";
-    qDebug()<<heapPecados->largo;
+    //qDebug()<<"despues:";
+    //qDebug()<<heapPecados->largo;
     generarArchivo();
 
     return info;
@@ -72,9 +72,9 @@ QString TeamAniquileishon::Midnight(){
         }while(tmp!=poblacionMundial.primerNodo);
     }
     info += "Se esta evaluando la cantidad de buenas Acciones de: "+QString::number(heapBuenasAcciones->largo) + " personas (Todos los humanos vivos)\n";
-    qDebug()<<"antes:";
-    heapBuenasAcciones->mostrarLista();
-    qDebug()<<heapBuenasAcciones->largo;
+    //qDebug()<<"antes:";
+    //heapBuenasAcciones->mostrarLista();
+    //qDebug()<<heapBuenasAcciones->largo;
 
     info += heapBuenasAcciones->matarCincoHp("Midnight");
     generarArchivo();
@@ -104,8 +104,8 @@ QString TeamAniquileishon::Black(int rutina, QString deporte){
         }
 
     info += "Se estan evaluando: "+QString::number(personas->largo) + " personas (Todos los humanos vivos que practican "+deporte+ " mas de "+QString::number(rutina) +" veces)\n";
-    personas->mostrarLista();
-    qDebug()<<personas->largo;
+    //personas->mostrarLista();
+    //qDebug()<<personas->largo;
 
     info += personas->killCincuentaPorciento("Black", deporte);
 
@@ -183,4 +183,66 @@ QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
   generarArchivo();
   info += "Total de eliminados: "+QString::number(aniquiladores.contThanos);
   return info;
+}
+
+QString TeamAniquileishon::consultaThanos(){
+    QString info = "Consulta-Resumen Aniquiladores\n";
+    info += "Total de Aniquilados acumulados: "+QString::number(listaCorvus.largo+listaMidnight.largo+listaNebula.largo+listaBlack.largo+listaThanos.largo)+"\n\n";
+    info += "1- Corvus Glaive\n";
+    info += "Total de aniquilados: "+QString::number(listaCorvus.largo)+"\n";
+    info += "Descripcion de los humanos aniquilados:\n";
+    info += listaCorvus.formatoParaConsultasTxt()+"\n\n";
+
+    info += "2- Midnight\n";
+    info += "Total de aniquilados: "+QString::number(listaMidnight.largo)+"\n";
+    info += "Descripcion de los humanos aniquilados:\n";
+    info += listaMidnight.formatoParaConsultasTxt()+"\n\n";
+
+    info += "3- Nebula\n";
+    info += "Total de aniquilados: "+QString::number(listaNebula.largo)+"\n";
+    info += "Descripcion de los humanos aniquilados:\n";
+    info += listaNebula.formatoParaConsultasTxt()+"\n\n";
+
+    info += "4- Ebony\n";
+    /*
+    info += "Total de aniquilados: "+QString::number(listaNebula.largo)+"\n";
+    info += "Descripcion de los humanos aniquilados:\n";
+    info += listaNebula.formatoParaConsultasTxt()+"\n\n";*/
+
+    info += "5- Black Dwarf\n";
+    info += "Total de aniquilados: "+QString::number(listaBlack.largo)+"\n";
+    info += "Descripcion de los humanos aniquilados:\n";
+    info += listaBlack.formatoParaConsultasTxt()+"\n\n";
+
+    info += "6- Thanos\n";
+    info += "Total de aniquilados: "+QString::number(listaThanos.largo)+"\n";
+    info += "Descripcion de los humanos aniquilados:\n";
+    info += listaThanos.formatoParaConsultasTxt()+"\n\n";
+
+
+    QDate algo = QDate::currentDate();
+    int dias = algo.day();
+    int mes = algo.month();
+    int anno = algo.year();
+    QString fecha = QString::number(anno)+"_"+QString::number(mes)+"_"+QString::number(dias);
+    QStringList date= fecha.split(QLatin1Char('_'), Qt::SkipEmptyParts);
+    QString fechaBuena = date[0]+date[1]+date[2];
+
+    QDateTime tiempo = QDateTime::currentDateTime();
+    QTime hora = tiempo.time();
+    QString hora2 = hora.toString();
+
+    QStringList time= hora2.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    QString horaBuena =  time[0]+time[1]+time[2];
+
+    QString nombre = fechaBuena+"_"+horaBuena;
+    QString ruta = "consultaThanos/"+nombre+".txt";
+    std::string nombreArchivo = ruta.toStdString();
+
+    ofstream file;
+    file.open(nombreArchivo);
+    file << info.toStdString();
+    file.close();
+
+    return "listo";
 }

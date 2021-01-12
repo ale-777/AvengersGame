@@ -12,9 +12,18 @@ struct Avengers{
     QString bitacoraIronman;
     QString bitacoraThor;
 
+    //Spiderman
+    QString bitacoraSpiderman;
+    QString infoTemporalSpiderman;
+    int contTemporalSpiderman;
+
     QString infoTemporalIronMan;
     int contTemporalIronMan;
+
+
     QString rutaHormiga;
+
+
 
     Avengers(){
         bitacora = " ";
@@ -22,6 +31,9 @@ struct Avengers{
         contTemporalIronMan = 0;
         bitacoraIronman = "";
         bitacoraThor = "";
+        bitacoraSpiderman = "";
+        infoTemporalSpiderman = "";
+        contTemporalSpiderman = 0;
 
     }
 
@@ -31,6 +43,10 @@ struct Avengers{
     QString IronMan ();
 
     void algoritmoAntMan(int);
+
+    QString Spiderman();
+
+    void consultaAvengers();
 };
 
 #endif // AVENGERS_H
