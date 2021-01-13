@@ -204,10 +204,9 @@ QString TeamAniquileishon::consultaThanos(){
     info += listaNebula.formatoParaConsultasTxt()+"\n\n";
 
     info += "4- Ebony\n";
-    /*
-    info += "Total de aniquilados: "+QString::number(listaNebula.largo)+"\n";
+    info += "Total de aniquilados: "+QString::number(listaEbonyMaw.largo)+"\n";
     info += "Descripcion de los humanos aniquilados:\n";
-    info += listaNebula.formatoParaConsultasTxt()+"\n\n";*/
+    info += listaEbonyMaw.formatoParaConsultasTxt()+"\n\n";
 
     info += "5- Black Dwarf\n";
     info += "Total de aniquilados: "+QString::number(listaBlack.largo)+"\n";

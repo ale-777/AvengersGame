@@ -259,7 +259,7 @@ void Humano::generarEstadoMarital(){
         estadoMarital = "Soltero";
     }
 }
-/*
+
 
 void Humano::generarPareja(NodoHumano * nodoHumano){
 
@@ -280,7 +280,8 @@ void Humano::generarPareja(NodoHumano * nodoHumano){
             tmp = tmp->siguiente;
              }while(tmp != nodoHumano);
        }
-}*/
+}
+/*
 void Humano::generarPareja(NodoHumano * nodoHumano){
     QString EMActual = nodoHumano->persona->estadoMarital;
     QString EMTmp;
@@ -300,7 +301,7 @@ void Humano::generarPareja(NodoHumano * nodoHumano){
             tmp = tmp->siguiente;
              }while(tmp != nodoHumano);
        }
-}
+}*/
 bool Humano::alreadyAmigo(NodoHumano * evaluar){
     if (amigos.primerNodo != NULL){
         NodoHumano * tmp = amigos.primerNodo;
@@ -850,6 +851,18 @@ QString ListaHumano::imprimirLista(){
     return info;
 }
 
+QString ListaHumano::imprimirNodos(){
+    QString info = "";
+    if (primerNodo != NULL){
+        NodoHumano * tmp = primerNodo;
+        do{
+            info += "ID" + QString::number(tmp->persona->ID) + " Nombre: " + tmp->persona->nombre + " "+ tmp->persona->apellido + "\n"+tmp->persona->imprimirFamiliaConsultaID()+"\n";
+            tmp = tmp->siguiente;
+        }while(tmp!=primerNodo);
+    }
+    return info;
+}
+
 void Humano::cadenaAmigos(ListaHumano * evaluados){
     evaluados->agregarHumano(this);
     if (amigos.primerNodo != NULL){
@@ -967,20 +980,23 @@ QString ListaHumano::matarThanos(int nivel,QString param){
 
 //ALGORITMOS PARA THOR--------------------------
 QString Humano::salvarAmigosDirectos(Humano *familiar, int nivel){
-    QString info = " ";
+    QString info = "";
     if (amigos.primerNodo != NULL){
         NodoHumano * tmp = amigos.primerNodo;
         do{
             if (!tmp->persona->vivo){
+                avengers.contTemporalThor ++;
                 tmp->persona->vivo = true;
                 tmp->persona->salvado = true;
                 tmp->persona->aniquilado = false;
-                tmp->persona->sucesos.agregarSucesos("Salvado por Thor por ser amigo de: "+QString::number(ID)+" que es familiar de "
-                                                     +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel));
-                avengers.bitacora += tmp->persona->formato("Salvado por Thor por ser amigo de: "+QString::number(ID)+" que es familiar de "
-                                                           +QString::number(familiar->ID)+" al seleccionar el nivel: "+QString::number(nivel));
-                info += "ID: "+ QString::number(tmp->persona->ID)+ "Salvado por por ser amigo de: "+QString::number(ID)+" que es familiar de "
-                        +QString::number(familiar->ID)+"\n";
+                tmp->persona->sucesos.agregarSucesos("Salvado por Thor ser amigo de: "+QString::number(ID)+" ["+nombre+ " "+apellido +"] que es familiar de "
+                                                     +QString::number(familiar->ID)+ " ["+familiar->nombre+ " "+familiar->apellido+"] al seleccionar el nivel: "+QString::number(nivel));
+                avengers.bitacora += tmp->persona->formato("Salvado por Thor ser amigo de: "+QString::number(ID)+" ["+nombre+ " "+apellido +"] que es familiar de "
+                                                           +QString::number(familiar->ID)+ " ["+familiar->nombre+ " "+familiar->apellido+"] al seleccionar el nivel: "+QString::number(nivel));
+                avengers.bitacoraThor += tmp->persona->formato("Salvado por Thor ser amigo de: "+QString::number(ID)+" ["+nombre+ " "+apellido +"] que es familiar de "
+                                                               +QString::number(familiar->ID)+ " ["+familiar->nombre+ " "+familiar->apellido+"] al seleccionar el nivel: "+QString::number(nivel));
+                info += "ID: "+ QString::number(tmp->persona->ID)+" ["+tmp->persona->nombre+ " "+tmp->persona->apellido +"] Salvado por por ser amigo de: "+QString::number(ID)+" ["+nombre+ " "+apellido +"] que es familiar de "
+                        +QString::number(familiar->ID)+ " ["+familiar->nombre+ " "+familiar->apellido +"]\n";
                 listaThor.agregarHumano(tmp->persona);
             }
             tmp = tmp->siguiente;
@@ -1255,7 +1271,7 @@ QString ListaHumano::recorrerTelarana(){
     if (primerNodo != NULL){
         NodoHumano * tmp = primerNodo;
         do{
-            info += "Nodo que contiene al humano: "+QString::number(tmp->persona->ID)+"\n";
+            info += "Nodo que contiene al humano: "+QString::number(tmp->persona->ID)+" ["+tmp->persona->nombre+" "+tmp->persona->apellido+"]\tIndex: "+QString::number(tmp->persona->index)+"\n";
             tmp = tmp->siguiente;
         }while(tmp!=primerNodo);
     }
@@ -1302,7 +1318,7 @@ QString ListaHumano::salvarNodos(NodoHumano *inicio, int cant){
 }
 
 QString Humano::informacionParaSpiderman(int num, Humano * hoja){
-    QString info = "ID "+QString::number(ID)+" Nombre: "+ nombre + " " + apellido+" Por estar "+QString::number(num)+" posiciones depues de la hoja de la telarana: "+QString::number(hoja->ID)+" index "+QString::number(hoja->index)+"\n";
+    QString info = "ID "+QString::number(ID)+" Nombre: "+ nombre + " " + apellido+" Index "+QString::number(index)+" Por estar "+QString::number(num)+" posiciones depues de la hoja de la telarana: "+QString::number(hoja->ID)+" index "+QString::number(hoja->index)+"\n";
     return info;
 }
 

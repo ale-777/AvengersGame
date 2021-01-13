@@ -150,6 +150,8 @@ struct ListaHumano{
 
     QString formatoParaConsultasTxt();
 
+    //para thor
+    QString imprimirNodos();
 
 };
 struct NodoPais{

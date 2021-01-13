@@ -53,11 +53,24 @@ void Avengers::generarArchivo (){
 
 //THOR
 QString Avengers::Thor(int nivel){
+    contTemporalThor = 0;
     QString info = "Algoritmo Thor\n";
+    info += "Se selecciona el nivel "+QString::number(nivel)+"\n";
     nivelXArbol.init();
     arbolMundial.returnNivel(arbolMundial.raiz, nivel);
-    info += nivelXArbol.salvarAmigosDeFamilia(nivel);
-    generarArchivoPJ(avengers.bitacoraThor);
+    if (nivelXArbol.largo > 0){
+        info += "----------------------------------------------------------------------------------------\nLos humanos en este nivel son: \n\n";
+        info += nivelXArbol.imprimirNodos();
+        info += "----------------------------------------------------------------------------------------\n";
+        info += nivelXArbol.salvarAmigosDeFamilia(nivel);
+
+        generarArchivoPJ(avengers.bitacoraThor);
+
+    }
+    else{
+        info += "El nivel no existe\n";
+    }
+    info+="El total de Salvados fue: "+QString::number(contTemporalThor);
     return info;
 }
 
@@ -77,6 +90,7 @@ QString Avengers::IronMan (){
 
 //SPIDERMAN****************************************************************
 QString Avengers::Spiderman(){
+    contTemporalSpiderman = 0;
     arbolAListaParaSpiderman.init();
     QString info = "Algoritmo Spiderman\n";
 
@@ -93,10 +107,9 @@ void Avengers::consultaAvengers(){
     QString info = "Consulta-Resumen Avengers\n";
     info += "Total de Salvados acumulados: "+QString::number(listaIronMan.largo+listaThor.largo+listaSpiderman.largo)+"\n\n";
     info += "1- AntMan\n";
-    /*
-    info += "Total de salvados: "+QString::number(listaIronMan.largo)+"\n";
+    info += "Total de salvados: "+QString::number(listaAntMan.largo)+"\n";
     info += "Descripcion de los humanos salvados:\n";
-    info += listaIronMan.formatoParaConsultasTxt()+"\n\n";*/
+    info += listaAntMan.formatoParaConsultasTxt()+"\n\n";
 
     info += "2- Ironman\n";
     info += "Total de salvados: "+QString::number(listaIronMan.largo)+"\n";
