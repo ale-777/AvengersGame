@@ -392,7 +392,7 @@ struct Humano{
     void cadenaAmigosAux();
     QString imprimirPareja();
 
-    void imprimirFamilia(QString array[]);
+    QString imprimirFamilia();
     void generarEstadoMarital();
     void generarPareja(NodoHumano *);
     QString formatoThanos(int, QString);
@@ -426,6 +426,7 @@ struct Humano{
     void matarHijosAux();
     void matarGeneracionAnterior();
     void matarFamilia();
+    void matarEbonyMaw(Humano*);
 };
 struct Temporal{
     QString info;

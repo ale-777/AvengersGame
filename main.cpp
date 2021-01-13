@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
     planeta.iniciarMundo();
-    planeta.agregarPoblacion(10000);
+    planeta.agregarPoblacion(1000);
    // avengers.algoritmoAntMan(100);
 
 
