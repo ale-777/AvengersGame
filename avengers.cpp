@@ -178,20 +178,28 @@ void Avengers::generarArchivoHormigas (){
     file << avengers.rutaHormiga.toStdString();
     file.close();
 }
-void salvarPorRango(NodoArbol * inicio, NodoArbol * final){
+QString salvarPorRango(NodoArbol * inicio, NodoArbol * final){
+    QString info;
     NodoHumano * tmp = inicio->humano;
     while(tmp != final->humano){
         if (!tmp->persona->vivo){
             avengers.bitacora += tmp->persona->formato("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
             tmp->persona->sucesos.agregarSucesos("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
             tmp->persona->vivo = true;
+            tmp->persona->aniquilado = false;
+            tmp->persona->salvado = true;
+            avengers.contTemporalAntman++;
             listaAntMan.agregarHumano(tmp->persona);
             avengers.bitacoraAntMan += tmp->persona->formato("Salvado por Ant-Man por estar en el rango entre: "+QString::number(inicio->humano->persona->index)+" y "+QString::number(final->humano->persona->index));
+            info += tmp->persona->nombre +" "+tmp->persona->apellido+"\t"+QString::number(tmp->persona->ID)+"\nSalvado por Ant-Man por tener indice: "+QString::number(tmp->persona->index)+"\n\n";
         }
         tmp = tmp->siguiente;
     }
+    return info;
 }
-void Avengers::algoritmoAntMan(int cantidad){
+QString Avengers::algoritmoAntMan(int cantidad){
+    contTemporalAntman = 0;
+    QString info = "Algoritmo Ant-Man: \n";
     avengers.rutaHormiga = "";
     arbolMundial.limpiarHormigas(arbolMundial.raiz);
     for (int i = 0; i<cantidad;i++){
@@ -203,8 +211,9 @@ void Avengers::algoritmoAntMan(int cantidad){
     NodoArbol * segundoMayor = arbolMundial.obtenerMayor(arbolMundial.raiz,0,primerMayor->FeroRama);
     qDebug()<<"Primera Persona: "<<primerMayor->FeroRama<<primerMayor->humano->persona->ID;
     qDebug()<<"Segundo Persona: "<<segundoMayor->FeroRama<<segundoMayor->humano->persona->ID;
+    info += "Salvados desde: "+QString::number(primerMayor->humano->persona->index)+" Por feromonas: "+QString::number(primerMayor->FeroRama)+"\thasta "+QString::number(segundoMayor->humano->persona->index)+" Por feromonas: "+QString::number(segundoMayor->FeroRama)+"\n";
     generarArchivoHormigas();
-
-    salvarPorRango(primerMayor,segundoMayor);
-    generarArchivoPJ(avengers.bitacoraAntMan);
+    info += salvarPorRango(primerMayor,segundoMayor);
+    info += "\n\nCantidad de Salvados: "+QString::number(contTemporalAntman);
+    return info;
 }

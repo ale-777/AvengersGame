@@ -22,6 +22,7 @@ struct Mundo{
     QString profresiones[50];
     QString deportes[38];
     QString files[7]={"nombresHombres","nombresMujeres","apellidos","creencias","profesiones","paises","deportes"};
+    QString continentes[5] = {"America","Asia","Africa","Oceania","Europa"};
     int cantidadArbol = 0;
     Mundo(){}
     void iniciarMundo();
@@ -39,6 +40,7 @@ struct Mundo{
     NodoHumano* buscarID (int);
     QString horaFecha ();
     QString ganador(int, int);
+
 };
 
 #endif // MUNDO_H

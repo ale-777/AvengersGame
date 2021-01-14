@@ -19,7 +19,11 @@ void Humano::generarFecha(){
     dia = dist3(* QRandomGenerator::global());
     edad = 2021-anno;
 }
-
+QString Humano::generarContinente(){
+    std::uniform_int_distribution<int> dist(0, 4);
+    int rand = dist(* QRandomGenerator::global());
+    return planeta.continentes[rand];
+}
 
 QString Humano::generarGenero(){
     std::uniform_int_distribution<int> dist(0, 1);
@@ -148,7 +152,7 @@ QString Humano::imprimirPareja(){
 
 QString Humano::imprimirHumano(){
     QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +"\nNombre: " + nombre +" "+ apellido +
-            "\nGenero: " + genero + "\nPais de Origen: " + paisOrigen  +"\nProfesion: "+profesion+"\nCreencia: "+creencia+ "\nGrupo Etario: " + grupoEtario + "\nAnno de Nacimiento: "+ QString::number(anno)+"\n";
+            "\nGenero: " + genero + "\nEstado Marital: "+estadoMarital+"\nPais de Origen: " + paisOrigen +"\nContinente "+continente +"\nProfesion: "+profesion+"\nCreencia: "+creencia+ "\nGrupo Etario: " + grupoEtario + "\nAnno de Nacimiento: "+ QString::number(anno)+"\n";
     //QString pareja= "\n"+imprimirPareja();
     //**********************************FAMILIA*****************************************************************************
     QString familia = "\n"+imprimirFamiliaConsultaID();
@@ -1216,7 +1220,7 @@ void Humano::salvarFamiliaAux(Humano * inicial, Humano * relacion){
             avengers.bitacoraIronman += Madre->formato("Salvado por IronMan al ser madre de: "+QString::number(relacion->ID)+" ["+relacion->nombre+" "+relacion->apellido + "] en cadena al explotar la bomba del nodo: "+QString::number(inicial->ID)+" ["+inicial->nombre+" "+inicial->apellido + "]");
         }
     }
-/*
+
     if (hijos->primerNodo != NULL){
         NodoHumano * tmp = hijos->primerNodo;
 
@@ -1238,7 +1242,7 @@ void Humano::salvarFamiliaAux(Humano * inicial, Humano * relacion){
             tmp = tmp->siguiente;
 
         }while(tmp!=hijos->primerNodo);
-    }*/
+    }
 }
 //*********************SPIDERMAN*************************************************************************
 ListaHumano * ListaHumano::colocarTelarana(){
@@ -1279,6 +1283,7 @@ QString ListaHumano::recorrerTelarana(){
             if (arbolMundial.esHoja(tmp->persona->index)){
                 info += "\nLa primer hoja encontrada al recorrer la telerana es "+QString::number(tmp->persona->ID)+"\n";
                 info += "Se evaluaran  "+QString::number(largo)+" humanos para ver si hay que salvarlos\n";
+                //
                 info += poblacionMundial.salvarNodos(planeta.buscarID(tmp->persona->ID), largo);
                 break;
             }
@@ -1290,8 +1295,16 @@ QString ListaHumano::recorrerTelarana(){
 
 
 QString ListaHumano::salvarNodos(NodoHumano *inicio, int cant){
-    QString info = "Humanos Salvados: \n";
+    QString info = "Humanos candidatos\n\n";
     int cont = 0;
+    NodoHumano * tmp2 = inicio;
+        do{
+            info += "Humano: "+QString::number(tmp2->persona->ID)+"[ "+tmp2->persona->nombre+" "+tmp2->persona->nombre+"] Index: "+QString::number(tmp2->persona->index)+" Vivo: "+QString::number(tmp2->persona->vivo)+"\n";
+            tmp2 = tmp2->siguiente;
+            cont ++;
+        }while(tmp2!=inicio && cont < cant);
+    info += "\n\nHumanos Salvados: \n";
+    cont = 0;
     NodoHumano * tmp = inicio;
         do{
             if (!tmp->persona->vivo){
@@ -1448,6 +1461,8 @@ void Humano::matarEbonyMaw(Humano * tmp){
     tmp->sucesos.agregarSucesos("Eliminado por Ebony Maw  por ser familia de " +nombre+apellido+"-"+ QString::number(ID));
     aniquiladores.bitacora += tmp->formato("Eliminado por Ebony Maw por ser familia de "+nombre+apellido+"-"+ QString::number(ID));
     tmp->vivo = false;
+    tmp->salvado = false;
+    tmp->aniquilado = true;
     aniquiladores.contTemporalEbonyMaw ++;
     listaEbonyMaw.agregarHumano(tmp);
 }
@@ -1468,17 +1483,20 @@ void Humano::matarHijosAux(){
 }
 void Humano::matarGeneracionAnterior(){
     if (Madre != NULL || Padre != NULL){
-        if (Madre != NULL){
-            Madre->matarHijosAux();
+        if (Madre != NULL && Madre->vivo){
+            matarEbonyMaw(Madre);
+            Madre->matarSiguienteGeneracion();
             Madre->matarGeneracionAnterior();
         }
-        if (Padre != NULL){
-            Padre->matarHijosAux();
+        if (Padre != NULL && Padre->vivo){
+            matarEbonyMaw(Padre);
+            Padre->matarSiguienteGeneracion();
             Padre->matarGeneracionAnterior();
         }
     }
-    else if (Pareja != NULL && Pareja->vivo)
+    if (Pareja != NULL && Pareja->vivo){
         matarEbonyMaw(Pareja);
+        Pareja->matarGeneracionAnterior();}
  }
 void Humano::matarSiguienteGeneracion(){
     if (hijos->primerNodo != NULL){
@@ -1486,9 +1504,11 @@ void Humano::matarSiguienteGeneracion(){
         do{
             if (tmp->persona->vivo){
                 matarEbonyMaw(tmp->persona);
+                /*
                 if (tmp->persona->Pareja != NULL && tmp->persona->Pareja->vivo)
-                    matarEbonyMaw(tmp->persona->Pareja);
+                    matarEbonyMaw(tmp->persona->Pareja);*/
                 tmp->persona->matarSiguienteGeneracion();
+                tmp->persona->matarGeneracionAnterior();
             }
 
             tmp = tmp->siguiente;

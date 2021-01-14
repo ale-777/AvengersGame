@@ -263,4 +263,3 @@ NodoArbol *Arbol::obtenerMayor(NodoArbol * raiz, int cont, int primerMayor){
     qDebug()<<raiz->FeroRama;
     return raiz;
 }
-//*****************************************************************************************************

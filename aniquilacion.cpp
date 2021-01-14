@@ -182,6 +182,14 @@ QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
       info += matarPorAmbos(nivel,anno);
   generarArchivo();
   info += "Total de eliminados: "+QString::number(aniquiladores.contThanos);
+
+  info += "\n\nResumen del Hashmap:\n\n";
+  for (int i=0; i<=100; i++){
+        info += "Año: " + QString::number(2020-i)+":\n";
+        for (int j=0; j<10; j++){
+            info += "\tNivel: "+QString::number(j+1)+": "+QString::number(HashmapGlobal[i].nivel[j].largo)+"\n";
+        }
+  }
   return info;
 }
 

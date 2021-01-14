@@ -353,6 +353,7 @@ struct Humano{
         salvado = false;
         aniquilado = false;
         generarEstadoMarital();
+        continente = generarContinente();
 
 
     }
@@ -427,6 +428,8 @@ struct Humano{
     void matarGeneracionAnterior();
     void matarFamilia();
     void matarEbonyMaw(Humano*);
+    QString generarContinente();
+
 };
 struct Temporal{
     QString info;

@@ -24,6 +24,7 @@ struct Avengers{
     int contTemporalThor;
     QString rutaHormiga;
 
+    int contTemporalAntman;
 
 
     Avengers(){
@@ -37,6 +38,7 @@ struct Avengers{
         bitacoraAntMan = "";
         infoTemporalSpiderman = "";
         contTemporalSpiderman = 0;
+        contTemporalAntman = 0;
 
     }
 
@@ -46,7 +48,7 @@ struct Avengers{
     QString Thor (int nivel);
     QString IronMan ();
 
-    void algoritmoAntMan(int);
+    QString algoritmoAntMan(int);
 
     QString Spiderman();
 

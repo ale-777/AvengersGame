@@ -34,6 +34,6 @@ void ventanaSalvacion::on_btn_antman_clicked()
 {
 
     int hormigas = ui->spinHormigas->value();
-    avengers.algoritmoAntMan(hormigas);
-    ui->textBrowser->setText(avengers.bitacoraAntMan);
+
+    ui->textBrowser->setText(avengers.algoritmoAntMan(hormigas));
 }
