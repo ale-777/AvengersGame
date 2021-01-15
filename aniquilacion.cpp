@@ -1,6 +1,6 @@
 #include "aniquilacion.h"
 #include "Globals.h"
-void TeamAniquileishon::generarArchivo (){
+QString TeamAniquileishon::generarArchivo (){
 
     QDate algo = QDate::currentDate();
     int dias = algo.day();
@@ -21,15 +21,21 @@ void TeamAniquileishon::generarArchivo (){
     QString ruta = "archivosAniquilacion/"+nombre+".txt";
     std::string nombreArchivo = ruta.toStdString();
 
+
+
+
     ofstream file;
     file.open(nombreArchivo);
     file << bitacora.toStdString();
     file.close();
+
+    return "/"+ruta;
 }
 
 
 
 QString TeamAniquileishon::Corvus (){
+    aniquiladores.bitacora = "";
     QString info = "Algoritmo Corvus!\n";
     ListaHumano *heapPecados = new ListaHumano();
 
@@ -52,12 +58,14 @@ QString TeamAniquileishon::Corvus (){
 
     //qDebug()<<"despues:";
     //qDebug()<<heapPecados->largo;
-    generarArchivo();
+    QString archivo = generarArchivo();
+    enviarCorreoThanos("Se_ejecuta_Corvus!_Adjunto_bitcora ", archivo);
 
     return info;
 }
 
 QString TeamAniquileishon::Midnight(){
+    aniquiladores.bitacora = "";
     QString info = "Algoritmo Midnight!\n";
     ListaHumano *heapBuenasAcciones = new ListaHumano();
 
@@ -77,11 +85,14 @@ QString TeamAniquileishon::Midnight(){
     //qDebug()<<heapBuenasAcciones->largo;
 
     info += heapBuenasAcciones->matarCincoHp("Midnight");
-    generarArchivo();
+
+    QString archivo = generarArchivo();
+    enviarCorreoThanos("Se_ejecuta_Midnigth!_Adjunto_bitcora ", archivo);
 
     return info;
 }
 QString TeamAniquileishon::Black(int rutina, QString deporte){
+    aniquiladores.bitacora = "";
     QString info = "Algoritmo Black Dwarf!\n";
     ListaHumano *personas = new ListaHumano();
 
@@ -109,11 +120,13 @@ QString TeamAniquileishon::Black(int rutina, QString deporte){
 
     info += personas->killCincuentaPorciento("Black", deporte);
 
-    generarArchivo();
+    QString archivo = generarArchivo();
+    enviarCorreoThanos("Se_ejecuta_Black!_Adjunto_bitcora ", archivo);
 
     return info;
 }
 QString TeamAniquileishon::Nebula(int id){
+    aniquiladores.bitacora = "";
     infoTemporalNebula = " ";
     contTemporalNebula = 0;
     if (planeta.consultaID(id) != NULL){
@@ -122,7 +135,8 @@ QString TeamAniquileishon::Nebula(int id){
             if (planeta.consultaID(id)->vivo){
                 QString info = "Aniquilando a los amigos recursivamente de :"+QString::number(planeta.consultaID(id)->ID)+" "+planeta.consultaID(id)->nombre+" "+planeta.consultaID(id)->apellido+"\n";
                 arbolMundial.buscar(planeta.consultaID(id)->index, arbolMundial.raiz)->humano->persona->killAmigos();
-                generarArchivo();
+                QString archivo = generarArchivo();
+                enviarCorreoThanos("Se_ejecuta_Nebula!_Adjunto_bitcora ", archivo);
                 return "Algoritmo Nebula!\n"+info+"\nEl total de elminados fue: " +QString::number(contTemporalNebula) +"\n"+ infoTemporalNebula;
 
             }
@@ -160,6 +174,7 @@ QString matarPorNivel(int pNivel){
     return info;
 }
 QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
+  aniquiladores.bitacora = "";
   aniquiladores.contThanos = 0;
   QString info = "Algoritmo Thanos!\n";
   NodoHumano * tmp = poblacionMundial.primerNodo;
@@ -180,7 +195,7 @@ QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
       info += matarPorAnno(anno);
   else
       info += matarPorAmbos(nivel,anno);
-  generarArchivo();
+
   info += "Total de eliminados: "+QString::number(aniquiladores.contThanos);
 
   info += "\n\nResumen del Hashmap:\n\n";
@@ -190,6 +205,8 @@ QString TeamAniquileishon::Thanos(int opcion,int nivel, int anno){
             info += "\tNivel: "+QString::number(j+1)+": "+QString::number(HashmapGlobal[i].nivel[j].largo)+"\n";
         }
   }
+  QString archivo = generarArchivo();
+  enviarCorreoThanos("Se_ejecuta_Thanos!_Adjunto_bitcora ", archivo);
   return info;
 }
 
@@ -255,13 +272,15 @@ QString TeamAniquileishon::consultaThanos(){
 }
 
 QString TeamAniquileishon::EbonyMaw(int id){
+    aniquiladores.bitacora = "";
     infoTemporalEbonyMaw = "";
      contTemporalEbonyMaw = 0;
     if (planeta.consultaID(id) != NULL){
             if (planeta.consultaID(id)->vivo){
                 QString info = " Aniquilando a la familia de :"+QString::number(planeta.consultaID(id)->ID)+" "+planeta.consultaID(id)->nombre+" "+planeta.consultaID(id)->apellido+"\n";
                planeta.consultaID(id)->matarFamilia();
-                generarArchivo();
+               QString archivo = generarArchivo();
+               enviarCorreoThanos("Se_ejecuta_Ebony!_Adjunto_bitcora ", archivo);
                 return "Algoritmo Ebony Maw!\nEl total de elminados fue: " +QString::number(contTemporalEbonyMaw)+ info + infoTemporalEbonyMaw;
             }
 
@@ -275,4 +294,15 @@ QString TeamAniquileishon::EbonyMaw(int id){
     return "El ID no existe";
 
 
+}
+
+void TeamAniquileishon::enviarCorreoThanos(string asunto, QString archivo){
+    QString algo = QDir::currentPath()+archivo;
+    string algo2 = algo.toStdString();
+    string comando = "java -jar sendMail.jar thanosed02@gmail.com "+asunto+algo2;
+    const char *c = comando.c_str();
+
+    qDebug()<<c;
+
+    system(c);
 }

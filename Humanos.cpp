@@ -848,7 +848,7 @@ QString ListaHumano::imprimirLista(){
     if (primerNodo != NULL){
         NodoHumano * tmp = primerNodo;
         do{
-            info += "ID" + QString::number(tmp->persona->ID) + " Nombre: " + tmp->persona->nombre + " "+ tmp->persona->apellido + "\n" + tmp->persona->deportes.imprimirDeporte() + "\n";
+            info += "ID" + QString::number(tmp->persona->ID) + " Nombre: " + tmp->persona->nombre + " "+ tmp->persona->apellido + "\n" +"Deporte por semana: "+QString::number(tmp->persona->cantDeporte)+"\n"+ tmp->persona->deportes.imprimirDeporte() + "\n";
             tmp = tmp->siguiente;
         }while(tmp!=primerNodo);
     }
@@ -1496,7 +1496,8 @@ void Humano::matarGeneracionAnterior(){
     }
     if (Pareja != NULL && Pareja->vivo){
         matarEbonyMaw(Pareja);
-        Pareja->matarGeneracionAnterior();}
+        Pareja->matarGeneracionAnterior();
+        Pareja->matarSiguienteGeneracion();}
  }
 void Humano::matarSiguienteGeneracion(){
     if (hijos->primerNodo != NULL){

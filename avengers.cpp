@@ -1,5 +1,5 @@
 #include "Globals.h"
-void Avengers::generarArchivoPJ (QString info){
+QString Avengers::generarArchivoPJ (QString info){
     QDate algo = QDate::currentDate();
     int dias = algo.day();
     int mes = algo.month();
@@ -23,8 +23,10 @@ void Avengers::generarArchivoPJ (QString info){
     file.open(nombreArchivo);
     file << info.toStdString();
     file.close();
+
+    return "/"+ruta;
 }
-void Avengers::generarArchivo (){
+QString Avengers::generarArchivo (){
 
     QDate algo = QDate::currentDate();
     int dias = algo.day();
@@ -49,10 +51,13 @@ void Avengers::generarArchivo (){
     file.open(nombreArchivo);
     file << bitacora.toStdString();
     file.close();
+
+    return "/"+ruta;
 }
 
 //THOR
 QString Avengers::Thor(int nivel){
+    avengers.bitacoraThor = "";
     contTemporalThor = 0;
     QString info = "Algoritmo Thor\n";
     info += "Se selecciona el nivel "+QString::number(nivel)+"\n";
@@ -64,18 +69,23 @@ QString Avengers::Thor(int nivel){
         info += "----------------------------------------------------------------------------------------\n";
         info += nivelXArbol.salvarAmigosDeFamilia(nivel);
 
-        generarArchivoPJ(avengers.bitacoraThor);
 
     }
     else{
         info += "El nivel no existe\n";
+
     }
     info+="El total de Salvados fue: "+QString::number(contTemporalThor);
+    QString archivo = generarArchivoPJ(avengers.bitacoraThor);
+    enviarCorreoAvengers("Thor_envia_su_reporte ",  archivo);
+
     return info;
+
 }
 
 //IRON MAN
 QString Avengers::IronMan (){
+    avengers.bitacoraIronman = "";
     contTemporalIronMan = 0;
     infoTemporalIronMan = "";
     QString info = "Algoritmo Ironman\n";
@@ -83,13 +93,16 @@ QString Avengers::IronMan (){
     arbolMundial.preOrden(arbolMundial.raiz); //llena de nuevo la lista preorden
     info += arbolPreOrden.detonarBombas();
     info += "Cant de salvados: "+QString::number(avengers.contTemporalIronMan)+"\n";
-    generarArchivoPJ(avengers.bitacoraIronman);
+    QString archivo = generarArchivoPJ(avengers.bitacoraIronman);
+    enviarCorreoAvengers("Ironman_envia_su_reporte ",  archivo);
+
     return info;
 }
 
 
 //SPIDERMAN****************************************************************
 QString Avengers::Spiderman(){
+    avengers.bitacoraSpiderman = "";
     contTemporalSpiderman = 0;
     arbolAListaParaSpiderman.init();
     QString info = "Algoritmo Spiderman\n";
@@ -99,7 +112,9 @@ QString Avengers::Spiderman(){
     ListaHumano * telarana = arbolAListaParaSpiderman.colocarTelarana();
     info += telarana->recorrerTelarana();
     info += "Salvados: "+QString::number(avengers.contTemporalSpiderman);
-    generarArchivoPJ(avengers.bitacoraSpiderman);
+    QString archivo = generarArchivoPJ(avengers.bitacoraSpiderman);
+    enviarCorreoAvengers("Spiderman_envia_su_reporte ",  archivo);
+
     return info;
 }
 
@@ -198,6 +213,7 @@ QString salvarPorRango(NodoArbol * inicio, NodoArbol * final){
     return info;
 }
 QString Avengers::algoritmoAntMan(int cantidad){
+    avengers.bitacoraAntMan = "";
     contTemporalAntman = 0;
     QString info = "Algoritmo Ant-Man: \n";
     avengers.rutaHormiga = "";
@@ -215,5 +231,19 @@ QString Avengers::algoritmoAntMan(int cantidad){
     generarArchivoHormigas();
     info += salvarPorRango(primerMayor,segundoMayor);
     info += "\n\nCantidad de Salvados: "+QString::number(contTemporalAntman);
+    QString archivo = generarArchivoPJ(avengers.bitacoraAntMan);
+    enviarCorreoAvengers("Antman_envia_su_reporte ",  archivo);
+
     return info;
+}
+
+void Avengers::enviarCorreoAvengers(string asunto, QString archivo){
+    QString algo = QDir::currentPath()+archivo;
+    string algo2 = algo.toStdString();
+    string comando = "java -jar sendMail.jar thanosed02@gmail.com "+asunto+algo2;
+    const char *c = comando.c_str();
+
+    qDebug()<<c;
+
+    system(c);
 }

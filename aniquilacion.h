@@ -29,7 +29,7 @@ struct TeamAniquileishon{
         contTemporalEbonyMaw = 0;
     }
 
-    void generarArchivo ();
+    QString generarArchivo ();
     QString Corvus ();
     QString Midnight ();
     QString Black (int rutina, QString deporte);
@@ -39,6 +39,7 @@ struct TeamAniquileishon{
     QString consultaThanos();
 
     QString EbonyMaw(int id);
+    void enviarCorreoThanos(string asunto, QString archivo);
 
 };
 
