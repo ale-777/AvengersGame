@@ -26,6 +26,34 @@ QString Avengers::generarArchivoPJ (QString info){
 
     return "/"+ruta;
 }
+
+
+void generarArchivoAntman (QString info){
+    QDate algo = QDate::currentDate();
+    int dias = algo.day();
+    int mes = algo.month();
+    int anno = algo.year();
+    QString fecha = QString::number(anno)+"_"+QString::number(mes)+"_"+QString::number(dias);
+    QStringList date= fecha.split(QLatin1Char('_'), Qt::SkipEmptyParts);
+    QString fechaBuena = date[0]+date[1]+date[2];
+
+    QDateTime tiempo = QDateTime::currentDateTime();
+    QTime hora = tiempo.time();
+    QString hora2 = hora.toString();
+
+    QStringList time= hora2.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    QString horaBuena =  time[0]+time[1]+time[2];
+
+    QString nombre = fechaBuena+"_"+horaBuena;
+    QString ruta = "posiblesSalvadosAntman/"+nombre+".txt";
+    std::string nombreArchivo = ruta.toStdString();
+
+    ofstream file;
+    file.open(nombreArchivo);
+    file << info.toStdString();
+    file.close();
+}
+
 QString Avengers::generarArchivo (){
 
     QDate algo = QDate::currentDate();
@@ -193,8 +221,19 @@ void Avengers::generarArchivoHormigas (){
     file << avengers.rutaHormiga.toStdString();
     file.close();
 }
+QString infoAuxAntman (NodoArbol * inicio, NodoArbol * final){
+    QString info = "\nPersonas en el rango:\n";
+    NodoHumano * tmp = inicio->humano;
+    while(tmp != final->humano){
+        info += tmp->persona->nombre +"\t"+tmp->persona->apellido+"\t"+"ID"+QString::number(tmp->persona->ID)+"\tIndex "+QString::number(tmp->persona->index)+"\tVivo: "+QString::number(tmp->persona->vivo)+"\n";
+        tmp = tmp->siguiente;
+    }
+    return info+"\n";
+}
+
 QString salvarPorRango(NodoArbol * inicio, NodoArbol * final){
     QString info;
+    generarArchivoAntman(infoAuxAntman (inicio, final));
     NodoHumano * tmp = inicio->humano;
     while(tmp != final->humano){
         if (!tmp->persona->vivo){
@@ -212,6 +251,9 @@ QString salvarPorRango(NodoArbol * inicio, NodoArbol * final){
     }
     return info;
 }
+
+
+
 QString Avengers::algoritmoAntMan(int cantidad){
     avengers.bitacoraAntMan = "";
     contTemporalAntman = 0;

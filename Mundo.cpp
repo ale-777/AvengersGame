@@ -107,7 +107,7 @@ QString Mundo::imprimirPoblacion(){
     if (poblacionMundial.primerNodo != NULL){
         NodoHumano * tmp = poblacionMundial.primerNodo;
         do{
-            info += tmp->persona->imprimirHumano();
+            info += QString::number(tmp->persona->ID)+"\t"+tmp->persona->nombre+" "+tmp->persona->apellido+"\tIndex "+QString::number(tmp->persona->index)+"\n";
             tmp = tmp->siguiente;
         }while(tmp!=poblacionMundial.primerNodo);
     }
