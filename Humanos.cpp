@@ -152,7 +152,7 @@ QString Humano::imprimirPareja(){
 
 QString Humano::imprimirHumano(){
     QString humano = "\nindex" + QString::number(index) + "\n" + "ID: "+QString::number(ID) +"\nNombre: " + nombre +" "+ apellido +
-            "\nGenero: " + genero + "\nEstado Marital: "+estadoMarital+"\nPais de Origen: " + paisOrigen +"\nContinente "+continente +"\nProfesion: "+profesion+"\nCreencia: "+creencia+ "\nGrupo Etario: " + grupoEtario + "\nAnno de Nacimiento: "+ QString::number(anno)+"\n";
+            "\nGenero: " + genero + "\nEstado Marital: "+estadoMarital+"\nPais de Origen: " + paisOrigen +"\nContinente "+continente +"\nProfesion: "+profesion+"\nCreencia: "+creencia+ "\nGrupo Etario: " + grupoEtario + "\nFecha: "+QString::number(dia)+"-"+QString::number(mes)+ " Anno de Nacimiento: "+ QString::number(anno)+"\n";
     //QString pareja= "\n"+imprimirPareja();
     //**********************************FAMILIA*****************************************************************************
     QString familia = "\n"+imprimirFamiliaConsultaID();
